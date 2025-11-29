@@ -3,7 +3,7 @@ Copyright (c) 2025-present Regenerative Assets LLC (AGPL modifications)
 
 This software is licensed under the GNU Affero General Public License v3.0 (AGPLv3).
 
-NOTICE: This is a modified fork of Papermark. All commercial-licensed code from the
+NOTICE: This is Supermark, an AGPL-licensed document sharing platform based on Papermark. All commercial-licensed code from the
 original /ee directory has been removed and replaced with AGPL-licensed implementations.
 
 - All third party components incorporated into this Software are licensed under the

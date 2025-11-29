@@ -1,137 +1,191 @@
 <div align="center">
-  <h1 align="center">Papermark</h1>
-  <h3>The open-source DocSend alternative.</h3>
-
-<a target="_blank" href="https://www.producthunt.com/posts/papermark-3?utm_source=badge-top-post-badge&amp;utm_medium=badge&amp;utm_souce=badge-papermark"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=411605&amp;theme=light&amp;period=daily" alt="Papermark - The open-source DocSend alternative | Product Hunt" style="width:250px;height:40px"></a>
-
-</div>
-
-<div align="center">
-  <a href="https://www.papermark.com">papermark.com</a>
+  <h1 align="center">Supermark</h1>
+  <h3>Open-source document sharing platform for teams</h3>
+  <p>AGPL-licensed • Self-hosted • Unlimited features</p>
 </div>
 
 <br/>
 
 <div align="center">
-  <a href="https://github.com/mfts/papermark/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/mfts/papermark"></a>
-  <a href="https://twitter.com/papermarkio"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/papermarkio"></a>
-  <a href="https://github.com/mfts/papermark/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-AGPLv3-purple"></a>
+  <a href="https://github.com/regenassets/supermark/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-AGPLv3-purple"></a>
+  <a href="https://github.com/regenassets/supermark"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/regenassets/supermark"></a>
 </div>
 
-<br/>
+---
 
-Papermark is the open-source document-sharing alternative to DocSend, featuring built-in analytics and custom domains.
+## What is Supermark?
 
-## Features
+Supermark is a fully open-source, AGPL-licensed document sharing and data room platform. It's a clean-room reimplementation based on Papermark, with all commercial-licensed code removed and replaced with AGPL implementations.
 
-- **Shareable Links:** Share your documents securely by sending a custom link.
-- **Custom Branding:** Add a custom domain and your own branding.
-- **Analytics:** Gain insights through document tracking and soon page-by-page analytics.
-- **Self-hosted, Open-source:** Host it yourself and customize it as needed.
+**Perfect for:**
+- Teams who need document sharing without subscription fees
+- Organizations requiring full control over their data
+- Self-hosted deployments with unlimited users and documents
+- Custom integrations and modifications
 
-## Demo
+## Key Features
 
-![Papermark Welcome GIF](.github/images/papermark-welcome.gif)
+✅ **Document Sharing** - Share PDFs, presentations, spreadsheets, and more  
+✅ **Data Rooms** - Organize documents in virtual data rooms  
+✅ **Analytics** - Track views, downloads, and engagement  
+✅ **Team Management** - Multiple users with role-based permissions  
+✅ **Custom Domains** - Use your own domain for sharing links  
+✅ **Security** - Email verification, OTP, password protection, watermarks  
+✅ **Storage** - MinIO S3-compatible storage included  
+✅ **Unlimited Everything** - No user, document, or link limits
 
-## Tech Stack
+## What's Different from Papermark?
 
-- [Next.js](https://nextjs.org/) – Framework
-- [TypeScript](https://www.typescriptlang.org/) – Language
-- [Tailwind](https://tailwindcss.com/) – CSS
-- [shadcn/ui](https://ui.shadcn.com) - UI Components
-- [Prisma](https://prisma.io) - ORM [![Made with Prisma](https://made-with.prisma.io/dark.svg)](https://prisma.io)
-- [PostgreSQL](https://www.postgresql.org/) - Database
-- [NextAuth.js](https://next-auth.js.org/) – Authentication
-- [Tinybird](https://tinybird.co) – Analytics
-- [Resend](https://resend.com) – Email
-- [Stripe](https://stripe.com) – Payments
-- [Vercel](https://vercel.com/) – Hosting
+Supermark is **100% AGPL-licensed** with:
+- ❌ No Stripe billing/payments (not needed for self-hosted)
+- ❌ No commercial license restrictions
+- ❌ No subscription fees
+- ✅ All features unlimited
+- ✅ Full source code access
+- ✅ Freedom to modify and redistribute
 
-## Getting Started
+See [AGPL-MIGRATION.md](AGPL-MIGRATION.md) for complete details.
 
-### Prerequisites
+## Quick Start
 
-Here's what you need to run Papermark:
+### Docker Deployment (Recommended)
 
-- Node.js (version >= 18.17.0)
-- PostgreSQL Database
-- Blob storage (currently [AWS S3](https://aws.amazon.com/s3/) or [Vercel Blob](https://vercel.com/storage/blob))
-- [Resend](https://resend.com) (for sending emails)
+```bash
+# Clone the repository
+git clone https://github.com/regenassets/supermark.git
+cd supermark
 
-### 1. Clone the repository
-
-```shell
-git clone https://github.com/mfts/papermark.git
-cd papermark
-```
-
-### 2. Install npm dependencies
-
-```shell
-npm install
-```
-
-### 3. Copy the environment variables to `.env` and change the values
-
-```shell
+# Copy environment file
 cp .env.example .env
+
+# Edit .env with your settings
+nano .env
+
+# Start with Docker Compose
+docker-compose up -d
 ```
 
-### 4. Initialize the database
+Services included:
+- **Supermark** - Main application (port 3000)
+- **PostgreSQL** - Database
+- **MinIO** - S3-compatible storage
+- **Nginx** - Optional reverse proxy
 
-```shell
-npm run dev:prisma
-```
+### Manual Installation
 
-### 5. Run the dev server
+```bash
+# Install dependencies
+npm install
 
-```shell
+# Set up database
+npx prisma migrate deploy
+npx prisma generate
+
+# Run development server
 npm run dev
+
+# Or build for production
+npm run build
+npm start
 ```
 
-### 6. Open the app in your browser
+## Configuration
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser.
+### Required Environment Variables
 
-## Tinybird Instructions
+```bash
+# Database
+POSTGRES_PRISMA_URL=postgresql://user:password@localhost:5432/supermark
 
-To prepare the Tinybird database, follow these steps:
+# Authentication
+NEXTAUTH_SECRET=your-secret-here
+NEXTAUTH_URL=https://your-domain.com
 
-0. We use `pipenv` to manage our Python dependencies. If you don't have it installed, you can install it using the following command:
-   ```sh
-   pkgx pipenv
-   ```
-1. Download the Tinybird CLI from [here](https://www.tinybird.co/docs/cli.html) and install it on your system.
-2. After authenticating with the Tinybird CLI, navigate to the `lib/tinybird` directory:
-   ```sh
-   cd lib/tinybird
-   ```
-3. Push the necessary data sources using the following command:
-   ```sh
-   tb push datasources/*
-   tb push endpoints/get_*
-   ```
-4. Don't forget to set the `TINYBIRD_TOKEN` with the appropriate rights in your `.env` file.
-
-#### Updating Tinybird
-
-```sh
-pipenv shell
-## start: pkgx-specific
-cd ..
-cd papermark
-## end: pkgx-specific
-pipenv update tinybird-cli
+# Storage (MinIO)
+NEXT_PUBLIC_UPLOAD_TRANSPORT=s3
+NEXT_PRIVATE_UPLOAD_ENDPOINT=http://minio:9000
+NEXT_PRIVATE_UPLOAD_BUCKET=supermark-documents
+NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID=your-key
+NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY=your-secret
 ```
+
+### Optional Services
+
+- **Email** - Resend API for notifications
+- **OAuth** - Google Sign-In
+- **Analytics** - Tinybird integration
+
+See [.env.example](.env.example) for all options.
+
+## Documentation
+
+- **[AGPL Migration Guide](AGPL-MIGRATION.md)** - What changed from Papermark
+- **[Self-Hosting Guide](SELF_HOSTING.md)** - Deployment instructions
+- **[Phase 1 Summary](PHASE1-REMOVAL-SUMMARY.md)** - Technical details
+
+## Architecture
+
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, Prisma ORM
+- **Database**: PostgreSQL
+- **Storage**: MinIO (S3-compatible)
+- **Auth**: NextAuth.js
+- **Email**: Resend
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run Prisma migrations
+npm run dev:prisma
+
+# Start development server
+npm run dev
+
+# Run linting
+npm run lint
+
+# Format code
+npm run format
+```
+
+## License
+
+Supermark is licensed under [AGPLv3](LICENSE).
+
+**Copyright:**
+- Original Papermark: Copyright (c) 2023-present Papermark, Inc.
+- AGPL Modifications: Copyright (c) 2025-present Regenerative Assets LLC
+
+This means you can:
+- ✅ Use commercially
+- ✅ Modify freely
+- ✅ Distribute
+- ✅ Use privately
+- ⚠️ Must disclose source
+- ⚠️ Must use same license
+- ⚠️ Must state changes
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/regenassets/supermark/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/regenassets/supermark/discussions)
 
 ## Contributing
 
-Papermark is an open-source project, and we welcome contributions from the community.
+Contributions are welcome! This is a fully open-source project.
 
-If you'd like to contribute, please fork the repository and make any changes you'd like. Pull requests are warmly welcome.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-### Our Contributors ✨
+## Acknowledgments
 
-<a href="https://github.com/mfts/papermark/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mfts/papermark" />
-</a>
+Supermark is based on [Papermark](https://github.com/mfts/papermark), created by Papermark, Inc. We're grateful for their work on the original open-source components.
+
+---
+
+**Built with ❤️ by Regenerative Assets**
