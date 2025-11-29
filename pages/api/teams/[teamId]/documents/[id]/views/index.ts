@@ -298,9 +298,8 @@ export default async function handle(
         },
       });
 
-      // filter the last 20 views
-      const limitedViews =
-        team.plan === "free" && offset >= LIMITS.views ? [] : views;
+      // AGPL: No view limits - all users get full view history
+      const limitedViews = views;
 
       let viewsWithDuration;
       if (document.type === "video") {

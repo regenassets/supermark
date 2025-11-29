@@ -22,31 +22,14 @@ export default function General() {
   const analytics = useAnalytics();
   const teamInfo = useTeam();
   const teamId = teamInfo?.currentTeam?.id;
-  const { isFree, isPro, isTrial, isStarter } = usePlan();
-  const [selectedPlan, setSelectedPlan] = useState<PlanEnum>(PlanEnum.Pro);
-  const [planModalTrigger, setPlanModalTrigger] = useState<string>("");
-  const [planModalOpen, setPlanModalOpen] = useState<boolean>(false);
 
   // Fetch fresh team settings with proper revalidation
   const { settings: teamSettings } = useTeamSettings(teamId);
 
-  const showUpgradeModal = (plan: PlanEnum, trigger: string) => {
-    setSelectedPlan(plan);
-    setPlanModalTrigger(trigger);
-    setPlanModalOpen(true);
-  };
-
+  // AGPL: Excel advanced mode available to all users - no plan restrictions
   const handleExcelAdvancedModeChange = async (data: {
     enableExcelAdvancedMode: string;
   }) => {
-    if (
-      (isFree || isPro || isStarter) &&
-      !isTrial &&
-      data.enableExcelAdvancedMode === "true"
-    ) {
-      showUpgradeModal(PlanEnum.Business, "advanced-excel-mode");
-      return;
-    }
 
     analytics.capture("Toggle Excel Advanced Mode", {
       teamId,

@@ -24,8 +24,6 @@ export default function Presets() {
   const router = useRouter();
   const teamInfo = useTeam();
 
-  const { isBusiness, isDatarooms, isDataroomsPlus, isTrial } = usePlan();
-
   const {
     data: presets,
     error,
@@ -37,7 +35,7 @@ export default function Presets() {
     fetcher,
   );
 
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  // AGPL: Link presets available to all users - no plan restrictions
 
   return (
     <AppLayout>
@@ -56,17 +54,10 @@ export default function Presets() {
                 </BadgeTooltip>
               </p>
             </div>
-            {isTrial || isBusiness || isDatarooms || isDataroomsPlus ? (
-              <Button onClick={() => router.push("/settings/presets/new")}>
-                <PlusIcon className="mr-1.5 h-4 w-4" />
-                Create Preset
-              </Button>
-            ) : (
-              <Button onClick={() => setShowUpgradeModal(true)}>
-                <CrownIcon className="mr-1.5 h-4 w-4" />
-                Upgrade to create presets
-              </Button>
-            )}
+            <Button onClick={() => router.push("/settings/presets/new")}>
+              <PlusIcon className="mr-1.5 h-4 w-4" />
+              Create Preset
+            </Button>
           </div>
 
           {/* Presets List */}
@@ -86,21 +77,12 @@ export default function Presets() {
                   when creating links.
                 </p>
               </div>
-              {isTrial || isBusiness || isDatarooms || isDataroomsPlus ? (
-                <Button
-                  variant="outline"
-                  onClick={() => router.push("/settings/presets/new")}
-                >
-                  Create your first preset
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  onClick={() => setShowUpgradeModal(true)}
-                >
-                  Upgrade to create presets
-                </Button>
-              )}
+              <Button
+                variant="outline"
+                onClick={() => router.push("/settings/presets/new")}
+              >
+                Create your first preset
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-3">
@@ -131,12 +113,6 @@ export default function Presets() {
           )}
         </div>
       </main>
-      <UpgradePlanModal
-        clickedPlan={PlanEnum.Business}
-        trigger="presets_page"
-        open={showUpgradeModal}
-        setOpen={setShowUpgradeModal}
-      />
     </AppLayout>
   );
 }

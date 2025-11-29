@@ -19,7 +19,6 @@ import DataroomVisitorsTable from "@/components/visitors/dataroom-visitors-table
 
 export default function DataroomAnalyticsPage() {
   const { dataroom } = useDataroom();
-  const { isDatarooms, isDataroomsPlus, isTrial } = usePlan();
 
   // State for the selected document
   const [selectedDocument, setSelectedDocument] = useState<{
@@ -27,11 +26,9 @@ export default function DataroomAnalyticsPage() {
     name: string;
   } | null>(null);
 
-  // Determine default tab based on plan
-  const defaultTab =
-    isTrial || isDatarooms || isDataroomsPlus ? "analytics" : "audit-log";
-  // Check if user has access to analytics features
-  const hasAnalyticsAccess = isDatarooms || isDataroomsPlus || isTrial;
+  // AGPL: Analytics available to all users - no plan restrictions
+  const defaultTab = "analytics";
+  const hasAnalyticsAccess = true;
 
   if (!dataroom) {
     return <div>Loading...</div>;

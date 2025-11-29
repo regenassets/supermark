@@ -165,8 +165,7 @@ export function NavUser() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => {
-                    navigator.clipboard.writeText("support@papermark.com");
-                    toast.success("support@papermark.com copied to clipboard");
+                    window.open("https://github.com/regenassets/supermark/issues", "_blank");
                   }}
                 >
                   <MailIcon />
