@@ -1,6 +1,6 @@
 # AGPL Migration Guide
 
-This document explains the changes made to create a fully AGPL-licensed fork of Papermark.
+This document explains the changes made to create a fully AGPL-licensed fork of Supermark.
 
 ## Summary of Changes
 
@@ -106,22 +106,22 @@ New clean-room AGPL implementations:
 ## Deployment
 
 ### Environment Variables
-The same environment variables from the original Papermark work:
+The same environment variables from the original Supermark work:
 
 ```bash
 # Required
 NEXTAUTH_SECRET=your-secret-here
 NEXTAUTH_URL=https://your-domain.com
 POSTGRES_PASSWORD=your-db-password
-MINIO_ROOT_USER=papermark
+MINIO_ROOT_USER=supermark
 MINIO_ROOT_PASSWORD=your-minio-password
 
 # Storage (MinIO)
 NEXT_PUBLIC_UPLOAD_TRANSPORT=s3
 NEXT_PRIVATE_UPLOAD_ENDPOINT=http://minio:9000
 NEXT_PRIVATE_UPLOAD_REGION=us-east-1
-NEXT_PRIVATE_UPLOAD_BUCKET=papermark-documents
-NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID=papermark
+NEXT_PRIVATE_UPLOAD_BUCKET=supermark-documents
+NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID=supermark
 NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY=your-minio-password
 NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE=true
 
@@ -141,12 +141,12 @@ docker-compose up -d
 Services:
 - PostgreSQL (database)
 - MinIO (S3-compatible storage)
-- Papermark (Next.js app)
+- Supermark (Next.js app)
 - Nginx (optional, for SSL)
 
-## Migration from Original Papermark
+## Migration from Original Supermark
 
-If migrating from original Papermark:
+If migrating from original Supermark:
 
 1. **Database**: Compatible, no schema changes needed
 2. **Storage**: Files in MinIO/S3 work unchanged
@@ -195,11 +195,11 @@ Ensure MinIO is running and environment variables are correctly set:
 
 This fork is licensed under AGPLv3. See LICENSE file for details.
 
-**Original Papermark**: Copyright (c) 2023-present Papermark, Inc.
+**Original Supermark**: Copyright (c) 2023-present Supermark, Inc.
 **AGPL Modifications**: Copyright (c) 2025-present Regenerative Assets LLC
 
 ## Support
 
 For issues specific to this AGPL fork, please file issues in the Regenerative Assets repository.
 
-For general Papermark questions, see the original Papermark documentation.
+For general Supermark questions, see the original Supermark documentation.

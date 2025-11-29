@@ -4,7 +4,7 @@
 
 ### 1. Removed Commercial License Code
 - **Deleted**: `/ee` directory (83 files, 808KB)
-- **Reason**: All code in `/ee` was under Papermark Commercial License
+- **Reason**: All code in `/ee` was under Supermark Commercial License
 - **Impact**: Removed billing, conversations, templates, advanced permissions
 
 ### 2. Created AGPL Replacements
