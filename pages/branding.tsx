@@ -707,23 +707,15 @@ export default function Branding() {
 
               {/* Action Buttons - Always Visible */}
               <div className="flex items-center gap-4 border-t bg-background pt-4">
-                {plan === "free" && !isTrial ? (
-                  <UpgradeButton
-                    text="Save changes"
-                    clickedPlan={PlanEnum.Pro}
-                    trigger="branding_page"
-                    highlightItem={["custom-branding"]}
-                  />
-                ) : (
-                  <Button
-                    onClick={saveBranding}
-                    loading={isLoading}
-                    disabled={!!welcomeMessageError}
-                    className="bg-black text-white hover:bg-gray-800"
-                  >
-                    Save changes
-                  </Button>
-                )}
+                {/* AGPL: All users can save branding changes */}
+                <Button
+                  onClick={saveBranding}
+                  loading={isLoading}
+                  disabled={!!welcomeMessageError}
+                  className="bg-black text-white hover:bg-gray-800"
+                >
+                  Save changes
+                </Button>
                 <Button
                   variant="ghost"
                   onClick={handleDelete}
