@@ -16,6 +16,27 @@ export const ratelimit = {
   },
 };
 
+// Rate limiter stubs for NextAuth compatibility
+export const checkRateLimit = async (limiter: any, identifier: string) => {
+  // Stub - always allow for development
+  return { success: true };
+};
+
+export const rateLimiters = {
+  auth: {
+    check: async (identifier: string) => ({ success: true }),
+  },
+  login: {
+    check: async (identifier: string) => ({ success: true }),
+  },
+  signup: {
+    check: async (identifier: string) => ({ success: true }),
+  },
+  billing: {
+    check: async (identifier: string) => ({ success: true }),
+  },
+};
+
 // Fraud prevention stub
 export const fraudPrevention = {
   checkEmail: async (email: string) => {
