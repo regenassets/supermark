@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { processPaymentFailure } from "@/ee/features/security";
+import { processPaymentFailure } from "@/lib/security";
 import { stripeInstance } from "@/ee/stripe";
 import { checkoutSessionCompleted } from "@/ee/stripe/webhooks/checkout-session-completed";
 import { customerSubscriptionDeleted } from "@/ee/stripe/webhooks/customer-subscription-deleted";

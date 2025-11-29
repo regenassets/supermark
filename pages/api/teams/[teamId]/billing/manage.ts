@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { checkRateLimit, rateLimiters } from "@/ee/features/security";
+import { checkRateLimit, rateLimiters } from "@/lib/security";
 import { stripeInstance } from "@/ee/stripe";
 import { getQuantityFromPriceId } from "@/ee/stripe/functions/get-quantity-from-plan";
 import getSubscriptionItem from "@/ee/stripe/functions/get-subscription-item";

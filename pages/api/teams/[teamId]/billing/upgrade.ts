@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { checkRateLimit, rateLimiters } from "@/ee/features/security";
+import { checkRateLimit, rateLimiters } from "@/lib/security";
 import { stripeInstance } from "@/ee/stripe";
 import { getPlanFromPriceId, isOldAccount } from "@/ee/stripe/utils";
 import { waitUntil } from "@vercel/functions";
