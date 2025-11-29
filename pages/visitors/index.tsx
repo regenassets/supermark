@@ -46,9 +46,12 @@ export default function Visitors() {
     setCurrentPage(1);
   }, [router.query.search]);
 
+  // AGPL: Visitors page available to all users - no redirect
+  /* Commented out for AGPL version
   useEffect(() => {
     if (isFree && !isTrial) router.push("/documents");
   }, [isTrial, isFree]);
+  */
 
   return (
     <AppLayout>

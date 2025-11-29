@@ -54,9 +54,12 @@ export default function VisitorDetailPage() {
     setCurrentPage(1);
   };
 
+  // AGPL: Visitor detail page available to all users - no redirect
+  /* Commented out for AGPL version
   useEffect(() => {
     if (isFree && !isTrial) router.push("/documents");
   }, [isTrial, isFree]);
+  */
 
   if (error) {
     return <ErrorPage statusCode={404} />;

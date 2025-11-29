@@ -19,9 +19,10 @@ export const getSlackEnv = () => {
   const parsed = envSchema.safeParse(process.env);
 
   if (!parsed.success) {
-    throw new Error(
-      "Slack app environment variables are not configured properly.",
-    );
+    // AGPL: Slack/Mattermost integration is optional
+    // Return null instead of throwing to allow app to function without it
+    console.warn("Slack/Mattermost integration not configured - integration features disabled");
+    return null;
   }
 
   env = parsed.data;
