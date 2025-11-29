@@ -18,5 +18,6 @@ export function useLimits() {
     canAddLinks: true,
     canAddDomains: true,
     canAddUsers: true,
+    showUpgradePlanModal: false,
   };
 }
