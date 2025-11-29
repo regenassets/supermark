@@ -6,8 +6,14 @@ export const getDisplayNameFromPlan = (plan: string) => plan;
 export const getQuantityFromPlan = () => 1;
 export const getQuantityFromPriceId = () => 1;
 export const getCouponFromPlan = () => null;
+export const getPlanFromPriceId = () => "free";
+export const isOldAccount = () => false;
+export const cancelSubscription = async () => ({ success: true });
 export const STRIPE_PLAN_IDS = {};
 export const STRIPE_PRICES = {};
+
+// Default export for getSubscriptionItem (used in some API routes)
+export default getSubscriptionItem;
 
 // Plan enum - AGPL version (all plans available, no restrictions)
 export enum PlanEnum {
