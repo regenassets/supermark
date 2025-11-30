@@ -1,4 +1,4 @@
-import { logger, task } from "@trigger.dev/sdk/v3";
+import { logger, task } from "@trigger.dev/sdk";
 import Bottleneck from "bottleneck";
 
 import { sendExportReadyEmail } from "@/lib/emails/send-export-ready-email";
