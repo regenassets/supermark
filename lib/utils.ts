@@ -520,6 +520,13 @@ export const uploadImage = async (
   file: File,
   uploadType: "profile" | "assets" = "assets",
 ) => {
+  // AGPL: Check if Vercel Blob is configured
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    throw new Error(
+      "Image upload requires Vercel Blob storage configuration. Please add BLOB_READ_WRITE_TOKEN to your .env.local file. See .env.example for details."
+    );
+  }
+
   const newBlob = await upload(file.name, file, {
     access: "public",
     handleUploadUrl: `/api/file/image-upload?type=${uploadType}`,
