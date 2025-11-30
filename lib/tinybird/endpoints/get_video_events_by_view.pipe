@@ -1,6 +1,7 @@
+TOKEN "supermark_app" READ
 
 DESCRIPTION >
-    Get all video events for a specific view 
+    Get all video events for a specific view
 
 NODE get_view_video_events
 SQL >

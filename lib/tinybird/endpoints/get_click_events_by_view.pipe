@@ -1,3 +1,4 @@
+TOKEN "supermark_app" READ
 
 DESCRIPTION >
     Get all click events for a specific view
