@@ -19,7 +19,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Button } from "../../ui/button";
 import { ConversationSidebar } from "../conversations/sidebar";
 
-const DEFAULT_BANNER_IMAGE = "/_static/papermark-banner.png";
+const DEFAULT_BANNER_IMAGE = "/_static/supermark-banner.png";
 
 export default function DataroomNav({
   allowDownload,
