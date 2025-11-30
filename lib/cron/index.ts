@@ -8,12 +8,26 @@ export const limiter = new Bottleneck({
   minTime: 100, // minimum time between requests in ms
 });
 
-// we're using Upstash's Receiver to verify the request signature
-export const receiver = new Receiver({
-  currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY || "",
-  nextSigningKey: process.env.QSTASH_NEXT_SIGNING_KEY || "",
-});
+// AGPL: Make QStash optional for local development
+const isQStashConfigured = !!(
+  process.env.QSTASH_TOKEN &&
+  process.env.QSTASH_CURRENT_SIGNING_KEY &&
+  process.env.QSTASH_NEXT_SIGNING_KEY
+);
 
-export const qstash = new Client({
-  token: process.env.QSTASH_TOKEN || "",
-});
+// Helper to check if QStash is available
+export const isQStashAvailable = () => isQStashConfigured;
+
+// we're using Upstash's Receiver to verify the request signature
+export const receiver = isQStashConfigured
+  ? new Receiver({
+      currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY!,
+      nextSigningKey: process.env.QSTASH_NEXT_SIGNING_KEY!,
+    })
+  : null;
+
+export const qstash = isQStashConfigured
+  ? new Client({
+      token: process.env.QSTASH_TOKEN!,
+    })
+  : null;

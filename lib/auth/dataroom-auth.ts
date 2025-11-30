@@ -52,12 +52,16 @@ async function createDataroomSession(
   // Validate session data before storing
   DataroomSessionSchema.parse(sessionData);
 
-  // Store session in Redis
-  await redis.set(
-    `dataroom_session:${sessionToken}`,
-    JSON.stringify(sessionData),
-    { pxat: expiresAt },
-  );
+  // Store session in Redis if available
+  if (redis) {
+    await redis.set(
+      `dataroom_session:${sessionToken}`,
+      JSON.stringify(sessionData),
+      { pxat: expiresAt },
+    );
+  } else {
+    console.warn("Redis not configured - dataroom sessions will not persist");
+  }
 
   return {
     token: sessionToken,
@@ -71,6 +75,11 @@ async function verifyDataroomSession(
   dataroomId: string,
 ): Promise<DataroomSession | null> {
   if (!dataroomId) return null;
+
+  if (!redis) {
+    console.warn("Redis not configured - cannot verify dataroom sessions");
+    return null;
+  }
 
   const sessionToken = cookies().get(`pm_drs_${linkId}`)?.value;
   if (!sessionToken) return null;
@@ -118,6 +127,11 @@ export async function verifyDataroomSessionInPagesRouter(
   dataroomId: string,
 ): Promise<DataroomSession | null> {
   if (!dataroomId) return null;
+
+  if (!redis) {
+    console.warn("Redis not configured - cannot verify dataroom sessions");
+    return null;
+  }
 
   // Get cookies from request headers
   const cookies = parse(req.headers.cookie || "");
