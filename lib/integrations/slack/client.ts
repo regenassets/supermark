@@ -16,9 +16,8 @@ export class SlackClient {
     this.clientId = process.env.SLACK_CLIENT_ID as string;
     this.clientSecret = process.env.SLACK_CLIENT_SECRET as string;
 
-    if (!this.clientId || !this.clientSecret) {
-      throw new Error("SLACK_CLIENT_ID and SLACK_CLIENT_SECRET must be set");
-    }
+    // AGPL: Make Slack optional for local development
+    // Don't throw error on initialization - methods will check before use
   }
 
   // private decryptToken(accessToken: string): string {
