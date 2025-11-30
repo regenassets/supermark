@@ -34,7 +34,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { BadgeTooltip } from "@/components/ui/tooltip";
 
-export default function SlackSettings() {
+export default function MattermostSettings() {
   const router = useRouter();
   const teamInfo = useTeam();
   const teamId = teamInfo?.currentTeam?.id;
@@ -92,11 +92,11 @@ export default function SlackSettings() {
     let timeoutId: NodeJS.Timeout | null = null;
 
     if (router.query.success) {
-      toast.success("Slack integration connected successfully!");
+      toast.success("Mattermost integration connected successfully!");
       mutateIntegration();
 
       // Track successful connection on client side
-      analytics.capture("Slack Connected", {
+      analytics.capture("Mattermost Connected", {
         source: "settings_page",
         team_id: teamId,
       });
@@ -109,10 +109,10 @@ export default function SlackSettings() {
         router.replace("/settings/slack", undefined, { shallow: true });
       }, 100);
     } else if (router.query.error) {
-      toast.error(`Failed to connect Slack: ${router.query.error}`);
+      toast.error(`Failed to connect Mattermost: ${router.query.error}`);
 
       // Track failed connection on client side
-      analytics.capture("Slack Connection Failed", {
+      analytics.capture("Mattermost Connection Failed", {
         source: "settings_page",
         team_id: teamId,
         error: router.query.error,
@@ -132,7 +132,7 @@ export default function SlackSettings() {
     if (!teamId) return;
 
     setConnecting(true);
-    analytics.capture("Slack Connect Button Clicked", {
+    analytics.capture("Mattermost Connect Button Clicked", {
       source: "settings_page",
       team_id: teamId,
     });
@@ -172,9 +172,9 @@ export default function SlackSettings() {
     };
 
     toast.promise(disconnectPromise(), {
-      loading: "Disconnecting Slack integration...",
-      success: "Slack integration disconnected successfully",
-      error: "Failed to disconnect Slack integration. Please try again.",
+      loading: "Disconnecting Mattermost integration...",
+      success: "Mattermost integration disconnected successfully",
+      error: "Failed to disconnect Mattermost integration. Please try again.",
     });
   };
 
@@ -340,8 +340,8 @@ export default function SlackSettings() {
         mutateIntegration(updatedIntegration, false);
 
         return checked
-          ? "Slack notifications enabled"
-          : "Slack notifications disabled";
+          ? "Mattermost notifications enabled"
+          : "Mattermost notifications disabled";
       };
 
       toast.promise(togglePromise(), {
@@ -367,10 +367,10 @@ export default function SlackSettings() {
                 <div className="space-y-1">
                   <h3 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-foreground">
                     <SlackIcon className="h-6 w-6" />
-                    Slack Integration
+                    Mattermost Integration
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Receive notifications in your Slack channels when documents
+                    Receive notifications in your Mattermost channels when documents
                     are viewed or accessed
                   </p>
                 </div>
@@ -384,14 +384,14 @@ export default function SlackSettings() {
                     ) : (
                       <>
                         <SlackIcon className="mr-2 h-4 w-4" />
-                        Connect to Slack
+                        Connect to Mattermost
                       </>
                     )}
                   </Button>
                 ) : (
                   <CommonAlertDialog
-                    title="Disconnect Slack Integration"
-                    description="Are you sure you want to disconnect Slack? This will remove all notification settings and stop sending notifications to your Slack channels."
+                    title="Disconnect Mattermost Integration"
+                    description="Are you sure you want to disconnect Mattermost? This will remove all notification settings and stop sending notifications to your Mattermost channels."
                     action="Disconnect"
                     actionUpdate="Disconnecting"
                     onAction={handleDisconnect}
@@ -404,10 +404,10 @@ export default function SlackSettings() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <SlackIcon className="h-5 w-5" />
-                      Connect Slack
+                      Connect Mattermost
                     </CardTitle>
                     <CardDescription>
-                      Connect your Slack workspace to receive real-time
+                      Connect your Mattermost workspace to receive real-time
                       notifications about document activity.
                     </CardDescription>
                   </CardHeader>
@@ -416,7 +416,7 @@ export default function SlackSettings() {
                       <div className="flex items-center space-x-2">
                         <Switch disabled={true} />
                         <span className="text-sm font-medium">
-                          Slack notifications
+                          Mattermost notifications
                         </span>
                         <Badge variant="secondary">Not connected</Badge>
                       </div>
@@ -445,11 +445,11 @@ export default function SlackSettings() {
                             <div className="flex items-center gap-2">
                               <SlackIcon className="h-5 w-5" />
                               <h4 className="font-medium">
-                                Slack notification
+                                Mattermost notification
                               </h4>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              Receive notifications in your Slack channels
+                              Receive notifications in your Mattermost channels
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
@@ -465,16 +465,16 @@ export default function SlackSettings() {
                         <div className="space-y-3">
                           <div>
                             <Label className="flex items-center gap-2 text-sm font-medium">
-                              Slack channel(s) *
+                              Mattermost channel(s) *
                               <BadgeTooltip
-                                content="Get instant notifications in Slack when someone views, downloads, or interacts with your documents and datarooms"
+                                content="Get instant notifications in Mattermost when someone views, downloads, or interacts with your documents and datarooms"
                                 key="channel_tooltip"
                               >
                                 <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
                               </BadgeTooltip>
                             </Label>
                             <p className="text-sm text-muted-foreground">
-                              Select the Slack channel(s) where you want to
+                              Select the Mattermost channel(s) where you want to
                               receive notifications.
                             </p>
                           </div>
