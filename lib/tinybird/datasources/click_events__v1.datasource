@@ -1,4 +1,4 @@
-TOKEN "supermark_app" WRITE
+TOKEN "supermark_app" APPEND
 
 DESCRIPTION >
     Click events track when a user clicks a link within a document
