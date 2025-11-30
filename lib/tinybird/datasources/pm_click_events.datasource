@@ -1,3 +1,5 @@
+TOKEN "supermark_app" WRITE
+
 
 DESCRIPTION >
     Event track when a visitor clicks a link

@@ -1,3 +1,5 @@
+TOKEN "supermark_app" READ
+
 
 DESCRIPTION >
     Get all video views for a specific document
