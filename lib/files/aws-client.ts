@@ -22,6 +22,7 @@ export const getS3Client = (storageRegion?: string) => {
       accessKeyId: config.accessKeyId,
       secretAccessKey: config.secretAccessKey,
     },
+    forcePathStyle: true,
   });
 };
 
@@ -41,6 +42,7 @@ export const getS3ClientForTeam = async (teamId: string) => {
       accessKeyId: config.accessKeyId,
       secretAccessKey: config.secretAccessKey,
     },
+    forcePathStyle: true,
   });
 };
 
@@ -103,6 +105,7 @@ export const getTeamS3ClientAndConfig = async (teamId: string) => {
       accessKeyId: config.accessKeyId,
       secretAccessKey: config.secretAccessKey,
     },
+    forcePathStyle: true,
   });
 
   return { client, config };
