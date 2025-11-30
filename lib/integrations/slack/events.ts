@@ -16,6 +16,11 @@ export class SlackEventManager {
     try {
       const env = getSlackEnv();
 
+      // AGPL: Slack is optional - return early if not configured
+      if (!env) {
+        return;
+      }
+
       const integration = await prisma.installedIntegration.findUnique({
         where: {
           teamId_integrationId: {
