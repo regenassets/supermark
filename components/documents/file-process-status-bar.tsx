@@ -26,13 +26,13 @@ export default function FileProcessStatusBar({
   onProcessingChange?: (processing: boolean) => void;
 }) {
   const [messageIndex, setMessageIndex] = useState(0);
-  const { data } = useSWRImmutable<{ publicAccessToken: string }>(
+  const { data } = useSWRImmutable<{ publicAccessToken: string | null }>(
     `/api/progress-token?documentVersionId=${documentVersionId}`,
     fetcher,
   );
 
   const { status: progressStatus, error: progressError } =
-    useDocumentProgressStatus(documentVersionId, data?.publicAccessToken);
+    useDocumentProgressStatus(documentVersionId, data?.publicAccessToken ?? undefined);
 
   // Update processing state whenever status changes
   useEffect(() => {
@@ -58,6 +58,11 @@ export default function FileProcessStatusBar({
       if (interval) clearInterval(interval);
     };
   }, [progressStatus.state]);
+
+  // AGPL: If Trigger.dev is not configured, don't show processing status
+  if (data?.publicAccessToken === null) {
+    return null;
+  }
 
   if (progressStatus.state === "QUEUED" && !progressError) {
     return (
