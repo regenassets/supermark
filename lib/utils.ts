@@ -1,7 +1,6 @@
 import { NextRouter } from "next/router";
 
 import slugify from "@sindresorhus/slugify";
-import { upload } from "@vercel/blob/client";
 import { Message } from "ai";
 import bcrypt from "bcryptjs";
 import * as chrono from "chrono-node";

@@ -1,10 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { del } from "@vercel/blob";
 import { getServerSession } from "next-auth";
 
 import { errorhandler } from "@/lib/errorHandler";
+import { getTeamS3ClientAndConfig } from "@/lib/files/aws-client";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
 
@@ -124,13 +126,42 @@ export default async function handle(
       select: { id: true, logo: true, banner: true },
     });
 
+    const NEXT_PUBLIC_UPLOAD_TRANSPORT = process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
+
     if (brand && brand.logo) {
-      // delete the logo from vercel blob
-      await del(brand.logo);
+      if (NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3") {
+        // Extract S3 key from URL
+        const urlMatch = brand.logo.match(/\/(.*)/);
+        if (urlMatch) {
+          const key = urlMatch[1];
+          const { client, config } = await getTeamS3ClientAndConfig(teamId);
+          await client.send(new DeleteObjectCommand({
+            Bucket: config.bucket,
+            Key: key,
+          }));
+        }
+      } else {
+        // Vercel Blob
+        await del(brand.logo);
+      }
     }
-    if (brand && brand.banner) {
-      // delete the logo from vercel blob
-      await del(brand.banner);
+
+    if (brand && brand.banner && brand.banner !== "no-banner") {
+      if (NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3") {
+        // Extract S3 key from URL
+        const urlMatch = brand.banner.match(/\/(.*)/);
+        if (urlMatch) {
+          const key = urlMatch[1];
+          const { client, config } = await getTeamS3ClientAndConfig(teamId);
+          await client.send(new DeleteObjectCommand({
+            Bucket: config.bucket,
+            Key: key,
+          }));
+        }
+      } else {
+        // Vercel Blob
+        await del(brand.banner);
+      }
     }
 
     // delete the branding from database
