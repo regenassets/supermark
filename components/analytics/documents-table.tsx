@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import {
   ColumnDef,
   SortingState,
@@ -36,10 +35,8 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "@/components/visitors/data-table-pagination";
 
-import { usePlan } from "@/lib/swr/use-billing";
 import { fetcher, timeAgo } from "@/lib/utils";
 import { downloadCSV } from "@/lib/utils/csv";
-import { UpgradeButton } from "../ui/upgrade-button";
 
 
 interface Document {
@@ -168,7 +165,6 @@ export default function DocumentsTable({
 }) {
   const router = useRouter();
   const teamInfo = useTeam();
-  const { isTrial, isFree } = usePlan();
   const [sorting, setSorting] = useState<SortingState>([
     { id: "lastViewed", desc: true },
   ]);
@@ -198,11 +194,6 @@ export default function DocumentsTable({
   });
 
   const handleExport = () => {
-    if (isFree && !isTrial) {
-      toast.error("Please upgrade to export data");
-      return;
-    }
-
     if (!documents?.length) {
       toast.error("No data to export");
       return;
@@ -220,31 +211,13 @@ export default function DocumentsTable({
     downloadCSV(exportData, "documents");
   };
 
-  const UpgradeOrExportButton = () => {
-    if (isFree && !isTrial) {
-      return (
-        <UpgradeButton
-          text="Export"
-          clickedPlan={PlanEnum.Pro}
-          trigger="dashboard_documents_export"
-          variant="outline"
-          size="sm"
-        />
-      );
-    } else {
-      return (
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
         <Button variant="outline" size="sm" onClick={handleExport}>
           <Download className="!size-4" />
           Export
         </Button>
-      );
-    }
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <UpgradeOrExportButton />
       </div>
       <div className="overflow-x-auto rounded-xl border">
         <Table>

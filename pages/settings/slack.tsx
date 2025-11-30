@@ -17,7 +17,7 @@ import { useSlackIntegration } from "@/lib/swr/use-slack-integration";
 import AppLayout from "@/components/layouts/app";
 import { SettingsHeader } from "@/components/settings/settings-header";
 import SlackSettingsSkeleton from "@/components/settings/slack-settings-skeleton";
-import { SlackIcon } from "@/components/shared/icons/slack-icon";
+import { MattermostIcon } from "@/components/shared/icons/mattermost-icon";
 import { CommonAlertDialog } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -370,7 +370,7 @@ export default function MattermostSettings() {
               <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
                 <div className="space-y-1">
                   <h3 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-foreground">
-                    <SlackIcon className="h-6 w-6" />
+                    <MattermostIcon className="h-6 w-6" />
                     Mattermost Integration
                   </h3>
                   <p className="text-sm text-muted-foreground">
@@ -387,7 +387,7 @@ export default function MattermostSettings() {
                       </>
                     ) : (
                       <>
-                        <SlackIcon className="mr-2 h-4 w-4" />
+                        <MattermostIcon className="mr-2 h-4 w-4" />
                         Connect to Mattermost
                       </>
                     )}
@@ -407,7 +407,7 @@ export default function MattermostSettings() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <SlackIcon className="h-5 w-5" />
+                      <MattermostIcon className="h-5 w-5" />
                       Connect Mattermost
                     </CardTitle>
                     <CardDescription>
@@ -449,7 +449,7 @@ export default function MattermostSettings() {
                         <div className="flex items-center justify-between">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <SlackIcon className="h-5 w-5" />
+                              <MattermostIcon className="h-5 w-5" />
                               <h4 className="font-medium">
                                 Mattermost notification
                               </h4>
