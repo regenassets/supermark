@@ -3,9 +3,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth/next";
 import slugify from "@sindresorhus/slugify";
+import crypto from "crypto";
 import path from "node:path";
 
-import { newId } from "@/lib/id-helper";
 import { getTeamS3ClientAndConfig } from "@/lib/files/aws-client";
 import { CustomUser } from "@/lib/types";
 import prisma from "@/lib/prisma";
@@ -112,7 +112,7 @@ export default async function handler(
     const { client, config: s3Config } = await getTeamS3ClientAndConfig(teamId);
 
     // Generate unique file name
-    const fileId = newId("img");
+    const fileId = crypto.randomUUID().replace(/-/g, "");
     const extension = contentType.split("/")[1] || "png";
     const fileName = `${type}-${fileId}.${extension}`;
     const key = `${teamId}/images/${fileName}`;
