@@ -72,6 +72,32 @@ export default function IntegrationsSettings() {
     enabled: !!integration,
   });
 
+  // Get provider-specific icon and name
+  const getProviderInfo = (provider: IntegrationProvider) => {
+    switch (provider) {
+      case "mattermost":
+        return {
+          icon: MattermostIcon,
+          name: "Mattermost",
+          description: "Receive notifications in your Mattermost channels when documents are viewed or accessed"
+        };
+      case "slack":
+        return {
+          icon: SlackIcon,
+          name: "Slack",
+          description: "Receive notifications in your Slack channels when documents are viewed or accessed"
+        };
+      case "discord":
+        return {
+          icon: DiscordIcon,
+          name: "Discord",
+          description: "Receive notifications in your Discord channels when documents are viewed or accessed"
+        };
+    }
+  };
+
+  const providerInfo = useMemo(() => getProviderInfo(selectedProvider), [selectedProvider]);
+
   const ChannelIcon = useMemo(
     () => <Hash className="h-4 w-4 text-muted-foreground" />,
     [],
@@ -372,34 +398,9 @@ export default function IntegrationsSettings() {
         error: "Failed to update notification settings",
       });
     },
-    [teamId, integration, mutateIntegration, providerInfo.name],
+    [teamId, integration, mutateIntegration, selectedProvider],
   );
 
-  // Get provider-specific icon and name
-  const getProviderInfo = (provider: IntegrationProvider) => {
-    switch (provider) {
-      case "mattermost":
-        return {
-          icon: MattermostIcon,
-          name: "Mattermost",
-          description: "Receive notifications in your Mattermost channels when documents are viewed or accessed"
-        };
-      case "slack":
-        return {
-          icon: SlackIcon,
-          name: "Slack",
-          description: "Receive notifications in your Slack channels when documents are viewed or accessed"
-        };
-      case "discord":
-        return {
-          icon: DiscordIcon,
-          name: "Discord",
-          description: "Receive notifications in your Discord channels when documents are viewed or accessed"
-        };
-    }
-  };
-
-  const providerInfo = getProviderInfo(selectedProvider);
   const ProviderIcon = providerInfo.icon;
 
   return (
