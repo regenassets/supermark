@@ -17,7 +17,78 @@ export default async function handle(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method === "POST") {
+  if (req.method === "GET") {
+    // GET /api/teams/:teamId/documents/:id/versions
+    const session = await getServerSession(req, res, authOptions);
+    if (!session) {
+      return res.status(401).end("Unauthorized");
+    }
+
+    const { teamId, id: documentId } = req.query as {
+      teamId: string;
+      id: string;
+    };
+
+    const userId = (session.user as CustomUser).id;
+
+    try {
+      const team = await prisma.team.findUnique({
+        where: {
+          id: teamId,
+          users: {
+            some: {
+              userId,
+            },
+          },
+        },
+      });
+
+      if (!team) {
+        return res.status(401).end("Unauthorized");
+      }
+
+      const document = await prisma.document.findUnique({
+        where: {
+          id: documentId,
+          teamId,
+        },
+        select: {
+          id: true,
+          versions: {
+            orderBy: { versionNumber: "desc" },
+            select: {
+              id: true,
+              versionNumber: true,
+              type: true,
+              file: true,
+              numPages: true,
+              isPrimary: true,
+              createdAt: true,
+              updatedAt: true,
+              contentType: true,
+              fileSize: true,
+              length: true,
+            },
+          },
+        },
+      });
+
+      if (!document) {
+        return res.status(404).json({ error: "Document not found" });
+      }
+
+      return res.status(200).json({ versions: document.versions });
+    } catch (error) {
+      log({
+        message: `Failed to fetch versions for document: _${documentId}_. \n\n ${error} \n\n*Metadata*: \`{teamId: ${teamId}, userId: ${userId}}\``,
+        type: "error",
+      });
+      return res.status(500).json({
+        message: "Internal Server Error",
+        error: (error as Error).message,
+      });
+    }
+  } else if (req.method === "POST") {
     // POST /api/teams/:teamId/documents/:id/versions
     const session = await getServerSession(req, res, authOptions);
     if (!session) {
@@ -221,8 +292,8 @@ export default async function handle(
       });
     }
   } else {
-    // We only allow GET requests
-    res.setHeader("Allow", ["GET"]);
+    // We only allow GET and POST requests
+    res.setHeader("Allow", ["GET", "POST"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
