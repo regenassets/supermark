@@ -21,19 +21,7 @@ export async function sendLinkCreatedWebhook({
     }
 
     // check if team is on paid plan
-    const team = await prisma.team.findUnique({
-      where: { id: teamId },
-      select: { plan: true },
-    });
-
-    if (
-      team?.plan === "free" ||
-      team?.plan === "pro" ||
-      team?.plan.includes("trial")
-    ) {
-      // team is not on paid plan, so we don't need to send webhooks
-      return;
-    }
+    // AGPL: Webhooks available to all users - no plan restrictions
 
     // Get webhooks for team
     const webhooks = await prisma.webhook.findMany({

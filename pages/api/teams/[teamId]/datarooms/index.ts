@@ -98,24 +98,10 @@ export default async function handle(
     const { name } = req.body as { name: string };
 
     try {
-      // Check if the user is part of the team
+      // AGPL: Check if the user is part of the team (no plan restrictions)
       const team = await prisma.team.findUnique({
         where: {
           id: teamId,
-          plan: {
-            // exclude all teams not on `business`, `datarooms`, `datarooms-plus`, `business+old`, `datarooms+old`, `datarooms-plus+old` plan
-            in: [
-              "business",
-              "datarooms",
-              "datarooms-plus",
-              "business+old",
-              "datarooms+old",
-              "datarooms-plus+old",
-              "datarooms+drtrial",
-              "business+drtrial",
-              "datarooms-plus+drtrial",
-            ],
-          },
           users: {
             some: {
               userId: userId,

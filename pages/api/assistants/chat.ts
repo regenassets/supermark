@@ -70,7 +70,8 @@ export default async function POST(req: Request) {
     }
   }
 
-  if (input.userId && input.plan !== "pro") {
+  // AGPL: No rate limiting for chat - available to all users
+  if (false) {
     const { success, limit, reset, remaining } = await ratelimit.free.limit(
       `ratelimit_${input.userId}`,
     );

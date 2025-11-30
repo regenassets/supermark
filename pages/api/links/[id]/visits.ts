@@ -95,11 +95,8 @@ export default async function handle(
         },
       });
 
-      // limit the number of views to 20 on free plan
-      const limitedViews =
-        result?.document?.team?.plan === "free"
-          ? views.slice(0, LIMITS.views)
-          : views;
+      // AGPL: No view limits - all users get full view history
+      const limitedViews = views;
 
       const durationsPromises = limitedViews.map((view) => {
         return getViewPageDuration({

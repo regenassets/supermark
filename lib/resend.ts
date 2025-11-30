@@ -44,24 +44,25 @@ export const sendEmail = async ({
   const html = await render(react);
   const plainText = toPlainText(html);
 
+  // AGPL: Rebranded to Supermark - update email addresses for your deployment
   const fromAddress =
     from ??
     (marketing
-      ? "Marc from Papermark <marc@ship.papermark.io>"
+      ? "Supermark <noreply@supermark.local>"
       : system
-        ? "Papermark <system@papermark.io>"
+        ? "Supermark <system@supermark.local>"
         : verify
-          ? "Papermark <system@verify.papermark.io>"
+          ? "Supermark <verify@supermark.local>"
           : !!scheduledAt
-            ? "Marc Seitz <marc@papermark.io>"
-            : "Marc from Papermark <marc@papermark.io>");
+            ? "Supermark <noreply@supermark.local>"
+            : "Supermark <noreply@supermark.local>");
 
   try {
     const { data, error } = await resend.emails.send({
       from: fromAddress,
       to: test ? "delivered@resend.dev" : to,
       cc: cc,
-      replyTo: marketing ? "marc@papermark.io" : replyTo,
+      replyTo: marketing ? "noreply@supermark.local" : replyTo,
       subject,
       react,
       scheduledAt,

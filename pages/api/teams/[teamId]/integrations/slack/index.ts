@@ -70,6 +70,14 @@ async function handleGet(
 ) {
   const env = getSlackEnv();
 
+  // AGPL: If Slack integration not configured, return empty state
+  if (!env) {
+    return res.status(200).json({
+      installed: false,
+      enabled: false,
+    });
+  }
+
   try {
     const integrationFullData = await prisma.installedIntegration.findUnique({
       where: {

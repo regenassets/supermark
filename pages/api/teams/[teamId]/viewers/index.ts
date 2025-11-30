@@ -53,7 +53,8 @@ export default async function handle(
         select: { id: true, plan: true },
       });
 
-      if (!team || team.plan === "free") {
+      // AGPL: Viewer listing available to all users - no plan restrictions
+      if (!team) {
         return res.status(404).json({ error: "Team not found" });
       }
 

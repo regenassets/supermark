@@ -22,7 +22,6 @@ import useDataroomGroups from "@/lib/swr/use-dataroom-groups";
 import { cn } from "@/lib/utils";
 
 export default function DataroomGroupPage() {
-  const { isDatarooms, isDataroomsPlus, isTrial } = usePlan();
   const { dataroom } = useDataroom();
   const { viewerGroups, loading } = useDataroomGroups();
 
@@ -32,18 +31,9 @@ export default function DataroomGroupPage() {
     return <div>Loading...</div>;
   }
 
+  // AGPL: Group creation available to all users - no plan restrictions
   const ButtonComponent = () => {
-    if (isDatarooms || isDataroomsPlus || isTrial) {
-      return <Button onClick={() => setModalOpen(true)}>Create group</Button>;
-    }
-    return (
-      <UpgradePlanModal
-        clickedPlan={PlanEnum.DataRooms}
-        trigger="create_group_button"
-      >
-        <Button>Upgrade to create group</Button>
-      </UpgradePlanModal>
-    );
+    return <Button onClick={() => setModalOpen(true)}>Create group</Button>;
   };
 
   return (

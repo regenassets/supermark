@@ -129,11 +129,7 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      if (team.plan === "free" || team.plan === "pro") {
-        return res.status(403).json({
-          message: "Upgrade your plan to use datarooms.",
-        });
-      }
+      // AGPL: Dataroom folder operations available to all users - no plan restrictions
 
       try {
         const folderContents = await fetchFolderContents(folderId);
