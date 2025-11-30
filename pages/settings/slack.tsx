@@ -45,13 +45,17 @@ export default function MattermostSettings() {
 
   // Use SWR hook for integration data
   const {
-    integration,
+    integration: integrationData,
     error: integrationError,
     loading: loadingIntegration,
     mutate: mutateIntegration,
   } = useSlackIntegration({
     enabled: !!teamId,
   });
+
+  // Check if integration is actually installed (not just env configured)
+  const integration =
+    integrationData && "id" in integrationData ? integrationData : null;
 
   const {
     channels,
