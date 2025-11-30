@@ -1,13 +1,7 @@
 import { CircleHelpIcon, RotateCcwIcon } from "lucide-react";
 
-
-
-import { usePlan } from "@/lib/swr/use-billing";
 import { cn } from "@/lib/utils";
 
-
-
-import PlanBadge from "@/components/billing/plan-badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { BadgeTooltip, ButtonTooltip } from "@/components/ui/tooltip";
@@ -33,10 +27,7 @@ export default function LinkItem({
   resetAction?: () => void;
   tooltipContent?: string;
 }) {
-  const { isTrial } = usePlan();
-  const showBadge =
-    isTrial && requiredPlan?.toLowerCase() === "data rooms plus";
-
+  // AGPL: All features available - no plan badges needed
   return (
     <div className="flex items-center justify-between gap-x-2">
       <div className="flex w-full items-center justify-between space-x-2">
@@ -45,7 +36,7 @@ export default function LinkItem({
             "flex flex-1 cursor-pointer flex-row items-center gap-2 text-sm font-medium leading-6",
             enabled ? "text-foreground" : "text-muted-foreground",
           )}
-          onClick={isAllowed ? action : () => upgradeAction?.()}
+          onClick={action}
         >
           <span>{title}</span>
           {!!tooltipContent && (
@@ -57,9 +48,6 @@ export default function LinkItem({
               <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
             </BadgeTooltip>
           )}
-          {(!isAllowed && requiredPlan) || showBadge ? (
-            <PlanBadge plan={requiredPlan} />
-          ) : null}
         </h2>
         {enabled && resetAction && (
           <ButtonTooltip content="Reset to defaults">
@@ -80,9 +68,7 @@ export default function LinkItem({
       </div>
       <Switch
         checked={enabled}
-        onClick={isAllowed ? undefined : () => upgradeAction?.()}
-        className={isAllowed ? undefined : "opacity-50"}
-        onCheckedChange={isAllowed ? action : undefined}
+        onCheckedChange={action}
       />
     </div>
   );
