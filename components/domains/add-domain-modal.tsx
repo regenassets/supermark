@@ -51,9 +51,9 @@ export function AddDomainModal({
       .min(3, {
         message: "Please provide a domain name with at least 3 characters.",
       })
-      // Add validation for papermark
-      .refine((name) => !name.toLowerCase().includes("papermark"), {
-        message: "Domain cannot contain 'papermark'",
+      // Add validation for supermark
+      .refine((name) => !name.toLowerCase().includes("supermark"), {
+        message: "Domain cannot contain 'supermark'",
       }),
   });
 

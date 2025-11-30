@@ -33,7 +33,7 @@ export default function ExportReady({
               <span className="font-bold tracking-tighter">Supermark</span>
             </Text>
             <Text className="text-sm leading-6 text-black">
-              The export you requested is ready to download for your Papermark
+              The export you requested is ready to download for your Supermark
               account. Make sure you&apos;re signed into this account, and click
               below to download. The file will be available for the next three
               days.

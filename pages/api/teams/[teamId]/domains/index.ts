@@ -84,11 +84,11 @@ export default async function handle(
         return res.status(422).json("Invalid domain");
       }
 
-      // Check if domain contains papermark
-      if (sanitizedDomain.toLowerCase().includes("papermark")) {
+      // Check if domain contains supermark
+      if (sanitizedDomain.toLowerCase().includes("supermark")) {
         return res
           .status(400)
-          .json({ message: "Domain cannot contain 'papermark'" });
+          .json({ message: "Domain cannot contain 'supermark'" });
       }
 
       // Check if domain already exists

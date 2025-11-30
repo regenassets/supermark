@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 
 import { useState } from "react";
 
-import SupermarkLogo from "@/public/_static/papermark-logo.svg";
+import SupermarkLogo from "@/public/_static/supermark-logo.svg";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
