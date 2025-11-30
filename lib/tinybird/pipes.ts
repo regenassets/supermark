@@ -4,7 +4,15 @@ import { z } from "zod";
 import { VIDEO_EVENT_TYPES } from "../constants";
 import { WEBHOOK_TRIGGERS } from "../webhook/constants";
 
-const tb = new Tinybird({ token: process.env.TINYBIRD_TOKEN! });
+// AGPL: Make Tinybird optional for local development
+// Use a placeholder token if not configured to prevent initialization errors
+const isTinybirdConfigured = !!process.env.TINYBIRD_TOKEN;
+const tb = new Tinybird({
+  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev"
+});
+
+// Helper to check if Tinybird is available
+export const isTinybirdAvailable = () => isTinybirdConfigured;
 
 export const getTotalAvgPageDuration = tb.buildPipe({
   pipe: "get_total_average_page_duration__v5",

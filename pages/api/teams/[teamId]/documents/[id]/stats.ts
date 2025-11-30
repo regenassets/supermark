@@ -132,29 +132,34 @@ export default async function handle(
         (view) => !allExcludedViews.map((view) => view.id).includes(view.id),
       );
 
-      const [duration, totalDocumentDuration] = await Promise.all([
-        getTotalAvgPageDuration({
-          documentId: docId,
-          excludedLinkIds: "",
-          excludedViewIds: allExcludedViews.map((view) => view.id).join(","),
-          since: 0,
-        }),
-        getTotalDocumentDuration({
-          documentId: docId,
-          excludedLinkIds: "",
-          excludedViewIds: allExcludedViews.map((view) => view.id).join(","),
-          since: 0,
-        }),
-      ]);
+      // AGPL: Check if Tinybird is available
+      const { isTinybirdAvailable } = await import("@/lib/tinybird");
+
+      const [duration, totalDocumentDuration] = isTinybirdAvailable()
+        ? await Promise.all([
+            getTotalAvgPageDuration({
+              documentId: docId,
+              excludedLinkIds: "",
+              excludedViewIds: allExcludedViews.map((view) => view.id).join(","),
+              since: 0,
+            }),
+            getTotalDocumentDuration({
+              documentId: docId,
+              excludedLinkIds: "",
+              excludedViewIds: allExcludedViews.map((view) => view.id).join(","),
+              since: 0,
+            }),
+          ])
+        : [{ data: [] }, { data: [{ sum_duration: 0 }] }];
 
       // Calculate average completion rate for all filtered views
       let avgCompletionRate = 0;
       if (filteredViews.length > 0) {
         if (document.type === "video") {
           // For video documents, calculate based on unique watch time
-          const videoEvents = await getVideoEventsByDocument({
-            document_id: docId,
-          });
+          const videoEvents = isTinybirdAvailable()
+            ? await getVideoEventsByDocument({ document_id: docId })
+            : { data: [] };
 
           const completionRates = await Promise.all(
             filteredViews.map(async (view) => {
@@ -190,11 +195,13 @@ export default async function handle(
           // For document (PDF) type, calculate based on pages viewed
           const completionRates = await Promise.all(
             filteredViews.map(async (view) => {
-              const pageData = await getViewPageDuration({
-                documentId: docId,
-                viewId: view.id,
-                since: 0,
-              });
+              const pageData = isTinybirdAvailable()
+                ? await getViewPageDuration({
+                    documentId: docId,
+                    viewId: view.id,
+                    since: 0,
+                  })
+                : { data: [] };
 
               const relevantVersion = document.versions.find(
                 (version) => version.createdAt <= view.viewedAt,
