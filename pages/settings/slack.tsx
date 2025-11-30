@@ -144,7 +144,7 @@ export default function IntegrationsSettings() {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [router.query, mutateIntegration, analytics, teamId]);
+  }, [router.query, router, mutateIntegration, analytics, teamId]);
 
   const handleConnect = async () => {
     if (!teamId) return;
@@ -372,7 +372,7 @@ export default function IntegrationsSettings() {
         error: "Failed to update notification settings",
       });
     },
-    [teamId, integration, mutateIntegration],
+    [teamId, integration, mutateIntegration, providerInfo.name],
   );
 
   // Get provider-specific icon and name
