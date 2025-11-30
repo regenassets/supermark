@@ -14,7 +14,8 @@ import { sendOtpVerificationEmail } from "@/lib/emails/send-email-otp-verificati
 import { getFeatureFlags } from "@/lib/featureFlags";
 import { getFile } from "@/lib/files/get-file";
 import { newId } from "@/lib/id-helper";
-import { notifyDocumentView } from "@/lib/integrations/slack/events";
+import { notifyDocumentView as notifySlackDocumentView } from "@/lib/integrations/slack/events";
+import { notifyDocumentView as notifyMattermostDocumentView } from "@/lib/integrations/mattermost/events";
 import prisma from "@/lib/prisma";
 import { ratelimit } from "@/lib/redis";
 import { parseSheet } from "@/lib/sheet";
@@ -647,7 +648,7 @@ export async function POST(request: NextRequest) {
         );
         if (!isPreview) {
           waitUntil(
-            notifyDocumentView({
+            notifySlackDocumentView({
               teamId: link.teamId!,
               documentId,
               linkId,
@@ -655,6 +656,17 @@ export async function POST(request: NextRequest) {
               viewerId: viewer?.id ?? undefined,
             }).catch((error) => {
               console.error("Error sending Slack notification:", error);
+            }),
+          );
+          waitUntil(
+            notifyMattermostDocumentView({
+              teamId: link.teamId!,
+              documentId,
+              linkId,
+              viewerEmail: email ?? undefined,
+              viewerId: viewer?.id ?? undefined,
+            }).catch((error) => {
+              console.error("Error sending Mattermost notification:", error);
             }),
           );
         }

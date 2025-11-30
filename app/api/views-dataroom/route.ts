@@ -18,9 +18,13 @@ import { sendOtpVerificationEmail } from "@/lib/emails/send-email-otp-verificati
 import { getFile } from "@/lib/files/get-file";
 import { newId } from "@/lib/id-helper";
 import {
-  notifyDataroomAccess,
-  notifyDocumentView,
+  notifyDataroomAccess as notifySlackDataroomAccess,
+  notifyDocumentView as notifySlackDocumentView,
 } from "@/lib/integrations/slack/events";
+import {
+  notifyDataroomAccess as notifyMattermostDataroomAccess,
+  notifyDocumentView as notifyMattermostDocumentView,
+} from "@/lib/integrations/mattermost/events";
 import prisma from "@/lib/prisma";
 import { ratelimit } from "@/lib/redis";
 import { parseSheet } from "@/lib/sheet";
@@ -674,7 +678,7 @@ export async function POST(request: NextRequest) {
             waitUntil(
               (async () => {
                 try {
-                  await notifyDataroomAccess({
+                  await notifySlackDataroomAccess({
                     teamId: link.teamId!,
                     dataroomId,
                     linkId,
@@ -683,6 +687,21 @@ export async function POST(request: NextRequest) {
                   });
                 } catch (error) {
                   console.error("Error sending Slack notification:", error);
+                }
+              })(),
+            );
+            waitUntil(
+              (async () => {
+                try {
+                  await notifyMattermostDataroomAccess({
+                    teamId: link.teamId!,
+                    dataroomId,
+                    linkId,
+                    viewerEmail: verifiedEmail ?? email,
+                    viewerId: viewer?.id,
+                  });
+                } catch (error) {
+                  console.error("Error sending Mattermost notification:", error);
                 }
               })(),
             );
@@ -798,12 +817,12 @@ export async function POST(request: NextRequest) {
           select: { id: true },
         });
         console.timeEnd("create-view");
-        // Only send Slack notifications for non-preview views
+        // Only send Slack and Mattermost notifications for non-preview views
         if (link.teamId && !isPreview) {
           waitUntil(
             (async () => {
               try {
-                await notifyDocumentView({
+                await notifySlackDocumentView({
                   teamId: link.teamId!,
                   documentId,
                   dataroomId,
@@ -813,6 +832,22 @@ export async function POST(request: NextRequest) {
                 });
               } catch (error) {
                 console.error("Error sending Slack notification:", error);
+              }
+            })(),
+          );
+          waitUntil(
+            (async () => {
+              try {
+                await notifyMattermostDocumentView({
+                  teamId: link.teamId!,
+                  documentId,
+                  dataroomId,
+                  linkId,
+                  viewerEmail: verifiedEmail ?? email,
+                  viewerId: viewer?.id,
+                });
+              } catch (error) {
+                console.error("Error sending Mattermost notification:", error);
               }
             })(),
           );
