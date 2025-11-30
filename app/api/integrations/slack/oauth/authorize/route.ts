@@ -11,6 +11,7 @@ import { getSearchParams } from "@/lib/utils/get-search-params";
 
 const oAuthAuthorizeSchema = z.object({
   teamId: z.string().cuid(),
+  provider: z.enum(["slack", "mattermost", "discord"]).optional().default("mattermost"),
 });
 
 export async function GET(req: Request) {
@@ -20,7 +21,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { teamId } = oAuthAuthorizeSchema.parse(getSearchParams(req.url));
+    const { teamId, provider } = oAuthAuthorizeSchema.parse(getSearchParams(req.url));
     const userId = (session.user as CustomUser).id;
 
     const userTeam = await prisma.userTeam.findUnique({
@@ -36,13 +37,17 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
+    // Get provider-specific OAuth URL
+    // For now, all providers use the same installation URL function
+    // In the future, this can be expanded to support different providers
     const oauthUrl = await getSlackInstallationUrl(teamId);
 
     return NextResponse.json({
       oauthUrl,
+      provider, // Include provider in response for tracking
     });
   } catch (error) {
-    console.error("Slack OAuth authorization error:", error);
+    console.error("OAuth authorization error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

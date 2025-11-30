@@ -111,5 +111,7 @@ export const GET = async (req: Request) => {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 
-  redirect(`/settings/slack?success=true`);
+  // Note: Provider info could be stored in Redis state if needed for multi-provider support
+  // For now, we assume Mattermost as the default provider
+  redirect(`/settings/slack?success=true&provider=mattermost`);
 };

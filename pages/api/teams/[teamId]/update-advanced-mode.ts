@@ -47,16 +47,9 @@ export default async function handle(
         return res.status(404).json({ error: "Team not found." });
       }
 
-      const isPlanRestricted = ["free", "starter", "pro"].includes(team.plan);
-      const isTrial = team.plan.includes("trial");
+      // AGPL: Excel advanced mode available to all users - no plan restrictions
 
-      if (isPlanRestricted && !isTrial) {
-        return res
-          .status(403)
-          .json({ error: "Your current plan does not allow this feature." });
-      }
-
-      // Update team limits
+      // Update team settings
       await prisma.team.update({
         where: {
           id: teamId,

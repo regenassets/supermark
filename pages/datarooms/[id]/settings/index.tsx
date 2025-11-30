@@ -5,7 +5,6 @@ import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
-import { usePlan } from "@/lib/swr/use-billing";
 import { useDataroom } from "@/lib/swr/use-dataroom";
 
 import { DataroomHeader } from "@/components/datarooms/dataroom-header";
@@ -31,8 +30,6 @@ export default function Settings() {
   const teamInfo = useTeam();
   const teamId = teamInfo?.currentTeam?.id;
   const [isCopied, setIsCopied] = useState(false);
-
-  const { isBusiness, isDatarooms, isDataroomsPlus } = usePlan();
 
   if (!dataroom) {
     return <div>Loading...</div>;
@@ -167,12 +164,10 @@ export default function Settings() {
               </CardFooter>
             </Card>
 
-            {isBusiness || isDatarooms || isDataroomsPlus ? (
-              <DeleteDataroom
-                dataroomId={dataroom.id}
-                dataroomName={dataroom.name}
-              />
-            ) : null}
+            <DeleteDataroom
+              dataroomId={dataroom.id}
+              dataroomName={dataroom.name}
+            />
             {/* <Card>
                   <CardHeader className="relative">
                     <CardTitle>Feedback Question</CardTitle>

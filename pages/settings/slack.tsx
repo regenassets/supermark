@@ -17,7 +17,9 @@ import { useSlackIntegration } from "@/lib/swr/use-slack-integration";
 import AppLayout from "@/components/layouts/app";
 import { SettingsHeader } from "@/components/settings/settings-header";
 import SlackSettingsSkeleton from "@/components/settings/slack-settings-skeleton";
+import { MattermostIcon } from "@/components/shared/icons/mattermost-icon";
 import { SlackIcon } from "@/components/shared/icons/slack-icon";
+import { DiscordIcon } from "@/components/shared/icons/discord-icon";
 import { CommonAlertDialog } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,14 +35,18 @@ import { MultiSelect } from "@/components/ui/multi-select-v2";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { BadgeTooltip } from "@/components/ui/tooltip";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function MattermostSettings() {
+type IntegrationProvider = "mattermost" | "slack" | "discord";
+
+export default function IntegrationsSettings() {
   const router = useRouter();
   const teamInfo = useTeam();
   const teamId = teamInfo?.currentTeam?.id;
   const [connecting, setConnecting] = useState(false);
   const [isChannelPopoverOpen, setIsChannelPopoverOpen] = useState(false);
   const [pendingChannelUpdate, setPendingChannelUpdate] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<IntegrationProvider>("mattermost");
   const analytics = useAnalytics();
 
   // Use SWR hook for integration data
@@ -96,13 +102,17 @@ export default function MattermostSettings() {
     let timeoutId: NodeJS.Timeout | null = null;
 
     if (router.query.success) {
-      toast.success("Mattermost integration connected successfully!");
+      const provider = (router.query.provider as string) || "integration";
+      const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+
+      toast.success(`${providerName} integration connected successfully!`);
       mutateIntegration();
 
       // Track successful connection on client side
-      analytics.capture("Mattermost Connected", {
+      analytics.capture(`${providerName} Connected`, {
         source: "settings_page",
         team_id: teamId,
+        provider: provider,
       });
 
       if (router.query.warning) {
@@ -113,12 +123,16 @@ export default function MattermostSettings() {
         router.replace("/settings/slack", undefined, { shallow: true });
       }, 100);
     } else if (router.query.error) {
-      toast.error(`Failed to connect Mattermost: ${router.query.error}`);
+      const provider = (router.query.provider as string) || "integration";
+      const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+
+      toast.error(`Failed to connect ${providerName}: ${router.query.error}`);
 
       // Track failed connection on client side
-      analytics.capture("Mattermost Connection Failed", {
+      analytics.capture(`${providerName} Connection Failed`, {
         source: "settings_page",
         team_id: teamId,
+        provider: provider,
         error: router.query.error,
       });
 
@@ -130,25 +144,29 @@ export default function MattermostSettings() {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [router.query, mutateIntegration, analytics, teamId]);
+  }, [router.query, router, mutateIntegration, analytics, teamId]);
 
   const handleConnect = async () => {
     if (!teamId) return;
 
     setConnecting(true);
-    analytics.capture("Mattermost Connect Button Clicked", {
+    analytics.capture(`${providerInfo.name} Connect Button Clicked`, {
       source: "settings_page",
       team_id: teamId,
+      provider: selectedProvider,
     });
 
     try {
-      const response = await fetch(
-        `/api/integrations/slack/oauth/authorize?teamId=${teamId}`,
-      );
+      // Use provider-specific OAuth endpoint
+      const oauthEndpoint = selectedProvider === "mattermost" || selectedProvider === "slack"
+        ? `/api/integrations/slack/oauth/authorize?teamId=${teamId}&provider=${selectedProvider}`
+        : `/api/integrations/${selectedProvider}/oauth/authorize?teamId=${teamId}`;
+
+      const response = await fetch(oauthEndpoint);
       const data = await response.json();
 
       if (response.ok) {
-        // Redirect to Slack OAuth
+        // Redirect to provider OAuth
         window.location.href = data.oauthUrl;
       } else {
         toast.error(data.error || "Failed to start OAuth process");
@@ -171,14 +189,14 @@ export default function MattermostSettings() {
         mutateIntegration(undefined, false);
       } else {
         const data = await response.json();
-        throw new Error(data.error || "Failed to disconnect Slack");
+        throw new Error(data.error || `Failed to disconnect ${providerInfo.name}`);
       }
     };
 
     toast.promise(disconnectPromise(), {
-      loading: "Disconnecting Mattermost integration...",
-      success: "Mattermost integration disconnected successfully",
-      error: "Failed to disconnect Mattermost integration. Please try again.",
+      loading: `Disconnecting ${providerInfo.name} integration...`,
+      success: `${providerInfo.name} integration disconnected successfully`,
+      error: `Failed to disconnect ${providerInfo.name} integration. Please try again.`,
     });
   };
 
@@ -344,8 +362,8 @@ export default function MattermostSettings() {
         mutateIntegration(updatedIntegration, false);
 
         return checked
-          ? "Mattermost notifications enabled"
-          : "Mattermost notifications disabled";
+          ? `${providerInfo.name} notifications enabled`
+          : `${providerInfo.name} notifications disabled`;
       };
 
       toast.promise(togglePromise(), {
@@ -354,8 +372,35 @@ export default function MattermostSettings() {
         error: "Failed to update notification settings",
       });
     },
-    [teamId, integration, mutateIntegration],
+    [teamId, integration, mutateIntegration, providerInfo.name],
   );
+
+  // Get provider-specific icon and name
+  const getProviderInfo = (provider: IntegrationProvider) => {
+    switch (provider) {
+      case "mattermost":
+        return {
+          icon: MattermostIcon,
+          name: "Mattermost",
+          description: "Receive notifications in your Mattermost channels when documents are viewed or accessed"
+        };
+      case "slack":
+        return {
+          icon: SlackIcon,
+          name: "Slack",
+          description: "Receive notifications in your Slack channels when documents are viewed or accessed"
+        };
+      case "discord":
+        return {
+          icon: DiscordIcon,
+          name: "Discord",
+          description: "Receive notifications in your Discord channels when documents are viewed or accessed"
+        };
+    }
+  };
+
+  const providerInfo = getProviderInfo(selectedProvider);
+  const ProviderIcon = providerInfo.icon;
 
   return (
     <AppLayout>
@@ -367,15 +412,43 @@ export default function MattermostSettings() {
             <SlackSettingsSkeleton />
           ) : (
             <>
-              <div className="mb-4 flex items-center justify-between md:mb-8 lg:mb-12">
+              <div className="mb-4 space-y-4 md:mb-8 lg:mb-12">
                 <div className="space-y-1">
-                  <h3 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-foreground">
-                    <SlackIcon className="h-6 w-6" />
-                    Mattermost Integration
+                  <h3 className="text-2xl font-semibold tracking-tight text-foreground">
+                    Integrations
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Receive notifications in your Mattermost channels when documents
-                    are viewed or accessed
+                    Connect your workspace to receive real-time notifications
+                  </p>
+                </div>
+
+                {/* Provider Selection Tabs */}
+                <Tabs value={selectedProvider} onValueChange={(value) => setSelectedProvider(value as IntegrationProvider)} className="w-full">
+                  <TabsList className="grid w-full max-w-md grid-cols-3">
+                    <TabsTrigger value="mattermost" className="flex items-center gap-2">
+                      <MattermostIcon className="h-4 w-4" />
+                      Mattermost
+                    </TabsTrigger>
+                    <TabsTrigger value="slack" className="flex items-center gap-2">
+                      <SlackIcon className="h-4 w-4" />
+                      Slack
+                    </TabsTrigger>
+                    <TabsTrigger value="discord" className="flex items-center gap-2">
+                      <DiscordIcon className="h-4 w-4" />
+                      Discord
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
+              </div>
+
+              <div className="mb-4 flex items-center justify-between">
+                <div className="space-y-1">
+                  <h4 className="flex items-center gap-2 text-lg font-medium tracking-tight text-foreground">
+                    <ProviderIcon className="h-5 w-5" />
+                    {providerInfo.name} Integration
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {providerInfo.description}
                   </p>
                 </div>
                 {!integration ? (
@@ -387,15 +460,15 @@ export default function MattermostSettings() {
                       </>
                     ) : (
                       <>
-                        <SlackIcon className="mr-2 h-4 w-4" />
-                        Connect to Mattermost
+                        <ProviderIcon className="mr-2 h-4 w-4" />
+                        Connect to {providerInfo.name}
                       </>
                     )}
                   </Button>
                 ) : (
                   <CommonAlertDialog
-                    title="Disconnect Mattermost Integration"
-                    description="Are you sure you want to disconnect Mattermost? This will remove all notification settings and stop sending notifications to your Mattermost channels."
+                    title={`Disconnect ${providerInfo.name} Integration`}
+                    description={`Are you sure you want to disconnect ${providerInfo.name}? This will remove all notification settings and stop sending notifications to your ${providerInfo.name} channels.`}
                     action="Disconnect"
                     actionUpdate="Disconnecting"
                     onAction={handleDisconnect}
@@ -407,11 +480,11 @@ export default function MattermostSettings() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <SlackIcon className="h-5 w-5" />
-                      Connect Mattermost
+                      <ProviderIcon className="h-5 w-5" />
+                      Connect {providerInfo.name}
                     </CardTitle>
                     <CardDescription>
-                      Connect your Mattermost workspace to receive real-time
+                      Connect your {providerInfo.name} workspace to receive real-time
                       notifications about document activity.
                     </CardDescription>
                   </CardHeader>
@@ -420,7 +493,7 @@ export default function MattermostSettings() {
                       <div className="flex items-center space-x-2">
                         <Switch disabled={true} />
                         <span className="text-sm font-medium">
-                          Mattermost notifications
+                          {providerInfo.name} notifications
                         </span>
                         <Badge variant="secondary">Not connected</Badge>
                       </div>
@@ -445,17 +518,17 @@ export default function MattermostSettings() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-6">
-                        {/* Slack Notification Toggle */}
+                        {/* Notification Toggle */}
                         <div className="flex items-center justify-between">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <SlackIcon className="h-5 w-5" />
+                              <ProviderIcon className="h-5 w-5" />
                               <h4 className="font-medium">
-                                Mattermost notification
+                                {providerInfo.name} notification
                               </h4>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              Receive notifications in your Mattermost channels
+                              Receive notifications in your {providerInfo.name} channels
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
@@ -471,16 +544,16 @@ export default function MattermostSettings() {
                         <div className="space-y-3">
                           <div>
                             <Label className="flex items-center gap-2 text-sm font-medium">
-                              Mattermost channel(s) *
+                              {providerInfo.name} channel(s) *
                               <BadgeTooltip
-                                content="Get instant notifications in Mattermost when someone views, downloads, or interacts with your documents and datarooms"
+                                content={`Get instant notifications in ${providerInfo.name} when someone views, downloads, or interacts with your documents and datarooms`}
                                 key="channel_tooltip"
                               >
                                 <CircleHelpIcon className="h-4 w-4 shrink-0 text-muted-foreground hover:text-foreground" />
                               </BadgeTooltip>
                             </Label>
                             <p className="text-sm text-muted-foreground">
-                              Select the Mattermost channel(s) where you want to
+                              Select the {providerInfo.name} channel(s) where you want to
                               receive notifications.
                             </p>
                           </div>

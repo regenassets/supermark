@@ -116,18 +116,18 @@ export default function TokenSettings() {
       <main className="relative mx-2 mb-10 mt-4 space-y-8 overflow-hidden px-1 sm:mx-3 md:mx-5 md:mt-5 lg:mx-7 lg:mt-8 xl:mx-10">
         <SettingsHeader />
 
-        <div className="rounded-lg border border-gray-200 bg-white">
-          <div className="flex flex-col items-center justify-between gap-4 space-y-3 border-b border-gray-200 p-5 sm:flex-row sm:space-y-0 sm:p-10">
+        <div className="rounded-lg border border-border bg-secondary">
+          <div className="flex flex-col items-center justify-between gap-4 space-y-3 border-b border-border p-5 sm:flex-row sm:space-y-0 sm:p-10">
             <div className="flex max-w-screen-sm flex-col space-y-3">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-medium text-gray-900">
+                <h2 className="text-xl font-medium text-foreground">
                   API Tokens
                 </h2>
                 <BadgeTooltip content="Use these tokens to authenticate your API requests">
-                  <CircleHelpIcon className="h-4 w-4 text-gray-500" />
+                  <CircleHelpIcon className="h-4 w-4 text-muted-foreground" />
                 </BadgeTooltip>
               </div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 Create API tokens to integrate Supermark with your applications.
                 Keep your tokens secure and never share them publicly.
               </p>
@@ -137,7 +137,7 @@ export default function TokenSettings() {
           <div className="p-5 sm:p-10">
             <div className="flex flex-col space-y-4">
               <div>
-                <Label htmlFor="token-name" className="text-gray-900">
+                <Label htmlFor="token-name">
                   Token Name
                 </Label>
                 <Input
@@ -145,12 +145,11 @@ export default function TokenSettings() {
                   placeholder="Enter a name for your token"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="text-gray-900 dark:bg-white"
                 />
               </div>
 
               {token && (
-                <div className="rounded-lg bg-gray-50 p-4 text-gray-900">
+                <div className="rounded-lg bg-muted p-4">
                   <div className="flex items-center gap-2">
                     <Label>
                       Your API Token (copy it now, it won&apos;t be shown again)
@@ -166,7 +165,7 @@ export default function TokenSettings() {
                       <CopyIcon />
                     </Button>
                   </div>
-                  <code className="mt-2 block break-all rounded bg-gray-100 p-2 font-mono text-sm">
+                  <code className="mt-2 block break-all rounded bg-background p-2 font-mono text-sm">
                     {token}
                   </code>
                 </div>
@@ -175,33 +174,33 @@ export default function TokenSettings() {
               <Button
                 onClick={generateToken}
                 disabled={!name || isLoading}
-                className="w-fit bg-gray-900 text-gray-50 hover:bg-gray-900/90"
+                className="w-fit"
               >
                 {isLoading ? "Generating..." : "Generate Token"}
               </Button>
 
               {/* Tokens List */}
               <div className="mt-8">
-                <h3 className="mb-4 text-lg font-medium text-gray-900">
+                <h3 className="mb-4 text-lg font-medium text-foreground">
                   Existing Tokens
                 </h3>
-                <div className="rounded-lg border border-gray-200">
+                <div className="rounded-lg border border-border">
                   {tokens?.length === 0 ? (
-                    <div className="p-4 text-center text-sm text-gray-500">
+                    <div className="p-4 text-center text-sm text-muted-foreground">
                       No tokens generated yet
                     </div>
                   ) : (
-                    <div className="divide-y divide-gray-200">
+                    <div className="divide-y divide-border">
                       {tokens?.map((token) => (
                         <div
                           key={token.id}
                           className="flex items-center justify-between p-4"
                         >
                           <div className="space-y-1">
-                            <p className="font-medium text-gray-900">
+                            <p className="font-medium text-foreground">
                               {token.name}
                             </p>
-                            <div className="flex items-center space-x-2 text-sm text-gray-500">
+                            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                               <span className="font-mono">
                                 {token.partialKey}
                               </span>

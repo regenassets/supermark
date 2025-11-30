@@ -1,8 +1,7 @@
-import ErrorPage from "next/error";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { usePlan } from "@/lib/swr/use-billing";
 import useViewer from "@/lib/swr/use-viewer";
@@ -61,14 +60,40 @@ export default function VisitorDetailPage() {
   }, [isTrial, isFree]);
   */
 
-  if (error) {
-    return <ErrorPage statusCode={404} />;
-  }
-
   return (
     <AppLayout>
       <div className="p-4 pb-0 sm:m-4 sm:py-4">
-        {viewer ? (
+        {error ? (
+          <section className="mb-4 flex flex-col justify-between md:mb-8 lg:mb-12">
+            <Breadcrumb className="hidden md:flex">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/visitors">All Visitors</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Visitor Not Found</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+            <div className="mt-8 text-center">
+              <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+                Visitor Not Found
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                This visitor could not be found or you don't have permission to view it.
+              </p>
+              <Link
+                href="/visitors"
+                className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+              >
+                Back to All Visitors
+              </Link>
+            </div>
+          </section>
+        ) : viewer ? (
           <section className="mb-4 flex flex-col justify-between md:mb-8 lg:mb-12">
             <div className="mt-2 flex items-center gap-x-2">
               <VisitorAvatar viewerEmail={viewer.email} />
@@ -82,21 +107,23 @@ export default function VisitorDetailPage() {
           <VisitorDetailHeaderSkeleton />
         )}
 
-        <Separator className="bg-gray-200 dark:bg-gray-800" />
+        {!error && <Separator className="bg-gray-200 dark:bg-gray-800" />}
       </div>
 
-      <div className="relative p-4 pt-0 sm:mx-4 sm:mt-4">
-        <ContactsDocumentsTable
-          views={views}
-          durations={durations}
-          loadingDurations={loadingDurations}
-          pagination={pagination}
-          sorting={sorting}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-          onSortChange={handleSortChange}
-        />
-      </div>
+      {!error && (
+        <div className="relative p-4 pt-0 sm:mx-4 sm:mt-4">
+          <ContactsDocumentsTable
+            views={views}
+            durations={durations}
+            loadingDurations={loadingDurations}
+            pagination={pagination}
+            sorting={sorting}
+            onPageChange={handlePageChange}
+            onPageSizeChange={handlePageSizeChange}
+            onSortChange={handleSortChange}
+          />
+        </div>
+      )}
     </AppLayout>
   );
 }
