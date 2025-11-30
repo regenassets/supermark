@@ -138,8 +138,12 @@ export const processDocument = async ({
   });
 
   // Trigger appropriate conversion tasks based on document type
+  // Skip trigger tasks if TRIGGER_SECRET_KEY is not configured (local development)
+  const isTriggerConfigured = !!process.env.TRIGGER_SECRET_KEY;
+
   // Check if it's a Keynote file (slides type with Keynote content type)
   if (
+    isTriggerConfigured &&
     type === "slides" &&
     (contentType === "application/vnd.apple.keynote" ||
       contentType === "application/x-iwork-keynote-sffkey")
@@ -161,7 +165,7 @@ export const processDocument = async ({
         concurrencyKey: teamId,
       },
     );
-  } else if (type === "docs" || type === "slides") {
+  } else if (isTriggerConfigured && (type === "docs" || type === "slides")) {
     await convertFilesToPdfTask.trigger(
       {
         documentId: document.id,
@@ -181,7 +185,7 @@ export const processDocument = async ({
     );
   }
 
-  if (type === "cad") {
+  if (isTriggerConfigured && type === "cad") {
     await convertCadToPdfTask.trigger(
       {
         documentId: document.id,
@@ -202,6 +206,7 @@ export const processDocument = async ({
   }
 
   if (
+    isTriggerConfigured &&
     type === "video" &&
     contentType !== "video/mp4" &&
     contentType?.startsWith("video/")
@@ -228,7 +233,7 @@ export const processDocument = async ({
   }
 
   // skip triggering convert-pdf-to-image job for "notion" / "excel" documents
-  if (type === "pdf") {
+  if (isTriggerConfigured && type === "pdf") {
     await convertPdfToImageRoute.trigger(
       {
         documentId: document.id,
