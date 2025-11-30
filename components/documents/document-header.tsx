@@ -318,10 +318,7 @@ export default function DocumentHeader({
 
   // export method to fetch the visits data and convert to csv.
   const exportVisitCounts = (document: Document) => {
-    if (isFree) {
-      toast.error("This feature is not available for your plan");
-      return;
-    }
+    // AGPL: All features available - no plan restrictions
     setExportModalOpen(true);
   };
 
@@ -735,16 +732,7 @@ export default function DocumentHeader({
                 primaryVersion.type !== "zip" &&
                 primaryVersion.type !== "map" &&
                 primaryVersion.type !== "email" && (
-                  <DropdownMenuItem
-                    onClick={() =>
-                      isFree
-                        ? handleUpgradeClick(
-                            PlanEnum.Business,
-                            "download-only-document",
-                          )
-                        : toggleDownloadOnly()
-                    }
-                  >
+                  <DropdownMenuItem onClick={toggleDownloadOnly}>
                     {prismaDocument.downloadOnly ? (
                       <>
                         <ViewIcon className="mr-2 h-4 w-4" />
@@ -753,8 +741,7 @@ export default function DocumentHeader({
                     ) : (
                       <>
                         <CloudDownloadIcon className="mr-2 h-4 w-4" />
-                        Set download only{" "}
-                        {isFree && <PlanBadge className="ml-2" plan="pro" />}
+                        Set download only
                       </>
                     )}
                   </DropdownMenuItem>
@@ -783,16 +770,9 @@ export default function DocumentHeader({
               <DropdownMenuSeparator />
 
               {/* Export views in CSV */}
-              <DropdownMenuItem
-                onClick={() =>
-                  isFree
-                    ? handleUpgradeClick(PlanEnum.Pro, "export-document-visits")
-                    : exportVisitCounts(prismaDocument)
-                }
-              >
+              <DropdownMenuItem onClick={() => exportVisitCounts(prismaDocument)}>
                 <FileDownIcon className="mr-2 h-4 w-4" />
-                Export views{" "}
-                {isFree && <PlanBadge className="ml-2" plan="pro" />}
+                Export views
               </DropdownMenuItem>
 
               {/* Download latest version */}
