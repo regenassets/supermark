@@ -63,6 +63,18 @@ const VisitorsTable = dynamic(
   },
 );
 
+const VersionHistory = dynamic(
+  () => import("@/components/documents/version-history"),
+  {
+    loading: () => (
+      <div className="flex h-48 animate-pulse items-center justify-center rounded-lg bg-gray-100">
+        <LoadingSpinner className="h-6 w-6" />
+      </div>
+    ),
+    ssr: false,
+  },
+);
+
 export default function DocumentPage() {
   const {
     data: overview,
@@ -230,6 +242,9 @@ export default function DocumentPage() {
               primaryVersion={primaryVersion}
               isVideo={primaryVersion.type === "video"}
             />
+
+            {/* Version History - Always show */}
+            <VersionHistory documentId={prismaDocument.id} />
           </>
         </Suspense>
 
