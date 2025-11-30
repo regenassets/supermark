@@ -20,7 +20,8 @@ export default async function handle(
     const publicAccessToken = await generateTriggerPublicAccessToken(
       `version:${documentVersionId}`,
     );
-    return res.status(200).json({ publicAccessToken });
+    // Return null if Trigger.dev is not configured (AGPL: optional service)
+    return res.status(200).json({ publicAccessToken: publicAccessToken ?? null });
   } catch (error) {
     console.error("Error generating token:", error);
     return res.status(500).json({ error: "Failed to generate token" });
