@@ -77,7 +77,13 @@ export default async function handle(
         return res.status(404).json({ error: "Document not found" });
       }
 
-      return res.status(200).json({ versions: document.versions });
+      // Convert BigInt to string for JSON serialization
+      const versions = document.versions.map((version) => ({
+        ...version,
+        fileSize: version.fileSize ? version.fileSize.toString() : null,
+      }));
+
+      return res.status(200).json({ versions });
     } catch (error) {
       log({
         message: `Failed to fetch versions for document: _${documentId}_. \n\n ${error} \n\n*Metadata*: \`{teamId: ${teamId}, userId: ${userId}}\``,

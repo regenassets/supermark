@@ -15,7 +15,7 @@ export interface DocumentVersion {
   createdAt: string;
   updatedAt: string;
   contentType: string | null;
-  fileSize: bigint | null;
+  fileSize: string | null;
   length: number | null;
 }
 
