@@ -36,6 +36,12 @@ export function useDocumentProgressStatus(
 
   // If we have no runs at all
   if (runs.length === 0) {
+    // If Trigger is not configured, mark as completed so UI doesn't show endless loading
+    if (!publicAccessToken) {
+      status.state = "COMPLETED";
+      status.progress = 100;
+      status.text = "Processing complete";
+    }
     return { status, error, run: undefined };
   }
 
