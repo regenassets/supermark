@@ -1,7 +1,6 @@
 import { NextRouter } from "next/router";
 
 import slugify from "@sindresorhus/slugify";
-import { upload } from "@vercel/blob/client";
 import { Message } from "ai";
 import bcrypt from "bcryptjs";
 import * as chrono from "chrono-node";
@@ -518,14 +517,36 @@ export const validateImageDimensions = (
 
 export const uploadImage = async (
   file: File,
+  teamId: string,
   uploadType: "profile" | "assets" = "assets",
 ) => {
-  const newBlob = await upload(file.name, file, {
-    access: "public",
-    handleUploadUrl: `/api/file/image-upload?type=${uploadType}`,
+  // Convert file to data URL
+  const reader = new FileReader();
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
 
-  return newBlob.url;
+  // Upload to S3 via API
+  const response = await fetch(`/api/file/image-upload?type=${uploadType}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      file: dataUrl,
+      teamId,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to upload image");
+  }
+
+  const { url } = await response.json();
+  return url;
 };
 
 /**

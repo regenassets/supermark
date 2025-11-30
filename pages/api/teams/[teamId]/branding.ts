@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { del } from "@vercel/blob";
 import { getServerSession } from "next-auth";
 
 import { errorhandler } from "@/lib/errorHandler";
+import { getTeamS3ClientAndConfig } from "@/lib/files/aws-client";
 import prisma from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 import { CustomUser } from "@/lib/types";
@@ -136,13 +138,44 @@ export default async function handle(
     });
 
     if (brand) {
-      // delete the logo from vercel blob
+      const NEXT_PUBLIC_UPLOAD_TRANSPORT = process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
+
+      // Delete the logo from storage
       if (brand.logo) {
-        await del(brand.logo);
+        if (NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3") {
+          // Extract S3 key from URL (format: {teamId}/images/{filename})
+          const urlMatch = brand.logo.match(/\/(.*)/);
+          if (urlMatch) {
+            const key = urlMatch[1];
+            const { client, config } = await getTeamS3ClientAndConfig(teamId);
+            await client.send(new DeleteObjectCommand({
+              Bucket: config.bucket,
+              Key: key,
+            }));
+          }
+        } else {
+          // Vercel Blob
+          await del(brand.logo);
+        }
       }
-      // delete the banner from vercel blob
-      if (brand.banner) {
-        await del(brand.banner);
+
+      // Delete the banner from storage
+      if (brand.banner && brand.banner !== "no-banner") {
+        if (NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3") {
+          // Extract S3 key from URL
+          const urlMatch = brand.banner.match(/\/(.*)/);
+          if (urlMatch) {
+            const key = urlMatch[1];
+            const { client, config } = await getTeamS3ClientAndConfig(teamId);
+            await client.send(new DeleteObjectCommand({
+              Bucket: config.bucket,
+              Key: key,
+            }));
+          }
+        } else {
+          // Vercel Blob
+          await del(brand.banner);
+        }
       }
     }
 

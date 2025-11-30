@@ -192,8 +192,8 @@ export default function DataroomBrandPage() {
     if (logo && logo.startsWith("data:")) {
       // Convert the data URL to a blob
       const blob = convertDataUrlToFile({ dataUrl: logo });
-      // Upload the blob to vercel storage
-      blobUrl = await uploadImage(blob);
+      // Upload the blob to S3 storage
+      blobUrl = await uploadImage(blob, teamInfo?.currentTeam?.id!);
       setLogo(blobUrl);
     }
 
@@ -203,8 +203,8 @@ export default function DataroomBrandPage() {
     if (banner && banner.startsWith("data:")) {
       // Convert the data URL to a blob
       const blob = convertDataUrlToFile({ dataUrl: banner });
-      // Upload the blob to vercel storage
-      bannerBlobUrl = await uploadImage(blob);
+      // Upload the blob to S3 storage
+      bannerBlobUrl = await uploadImage(blob, teamInfo?.currentTeam?.id!);
       setBanner(bannerBlobUrl);
     } else if (banner === "no-banner") {
       // Use the special value to hide the banner
