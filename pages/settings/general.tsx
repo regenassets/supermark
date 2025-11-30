@@ -187,7 +187,6 @@ export default function General() {
             )}
             helpText="When enabled, newly uploaded Excel files will be viewed using the Microsoft Office viewer for better formatting and compatibility."
             handleSubmit={handleExcelAdvancedModeChange}
-            plan={(isFree && !isTrial) || isPro ? "Business" : undefined}
           />
 
           <Form
