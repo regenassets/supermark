@@ -434,7 +434,9 @@ export default function MattermostSettings() {
                         General Settings
                       </CardTitle>
                       <CardDescription>
-                        Connected to {integration.credentials.team.name}
+                        {integration.credentials?.team?.name
+                          ? `Connected to ${integration.credentials.team.name}`
+                          : "Integration connected"}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
