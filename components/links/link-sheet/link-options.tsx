@@ -131,13 +131,7 @@ export const LinkOptions = ({
       <EmailProtectionSection {...{ data, setData }} />
       <EmailAuthenticationSection
         {...{ data, setData }}
-        isAllowed={
-          isTrial ||
-          (isPro && allowAdvancedLinkControls) ||
-          isBusiness ||
-          isDatarooms ||
-          isDataroomsPlus
-        }
+        isAllowed={true} // AGPL: Available to all users
         handleUpgradeStateChange={handleUpgradeStateChange}
       />
       <AllowDownloadSection {...{ data, setData }} />
@@ -146,25 +140,13 @@ export const LinkOptions = ({
         <>
           <AllowListSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              (isPro && allowAdvancedLinkControls) ||
-              isBusiness ||
-              isDatarooms ||
-              isDataroomsPlus
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
             presets={currentPreset}
           />
           <DenyListSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              (isPro && allowAdvancedLinkControls) ||
-              isBusiness ||
-              isDatarooms ||
-              isDataroomsPlus
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
             presets={currentPreset}
           />
@@ -178,39 +160,23 @@ export const LinkOptions = ({
           <ExpirationSection {...{ data, setData }} presets={currentPreset} />
           <ScreenshotProtectionSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              (isPro && allowAdvancedLinkControls) ||
-              isBusiness ||
-              isDatarooms ||
-              isDataroomsPlus
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
           />
           <WatermarkSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              isDatarooms ||
-              isDataroomsPlus ||
-              allowWatermarkOnBusiness
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
             presets={currentPreset}
           />
           <AgreementSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              isDatarooms ||
-              isDataroomsPlus ||
-              allowAgreementOnBusiness
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
           />
           <CustomFieldsSection
             {...{ data, setData }}
-            isAllowed={isTrial || isBusiness || isDatarooms || isDataroomsPlus}
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
             presets={currentPreset}
           />
@@ -223,27 +189,14 @@ export const LinkOptions = ({
           <WelcomeMessageSection {...{ data, setData }} />
           <OGSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              (isPro && allowAdvancedLinkControls) ||
-              isBusiness ||
-              isDatarooms ||
-              isDataroomsPlus
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
             editLink={editLink ?? false}
             presets={currentPreset}
           />
           <ProBannerSection
             {...{ data, setData }}
-            isAllowed={
-              isTrial ||
-              isPro ||
-              isBusiness ||
-              isDatarooms ||
-              isDataroomsPlus ||
-              isStarter
-            }
+            isAllowed={true} // AGPL: Available to all users
             handleUpgradeStateChange={handleUpgradeStateChange}
           />
         </div>
@@ -256,11 +209,7 @@ export const LinkOptions = ({
             {targetId ? (
               <UploadSection
                 {...{ data, setData }}
-                isAllowed={
-                  isTrial ||
-                  isDataroomsPlus ||
-                  (isDatarooms && limits?.dataroomUpload === true)
-                }
+                isAllowed={true} // AGPL: Available to all users
                 handleUpgradeStateChange={handleUpgradeStateChange}
                 targetId={targetId}
               />
@@ -268,21 +217,16 @@ export const LinkOptions = ({
 
             <IndexFileSection
               {...{ data, setData }}
-              isAllowed={isTrial || isDataroomsPlus}
+              isAllowed={true} // AGPL: Available to all users
               handleUpgradeStateChange={handleUpgradeStateChange}
             />
 
-            {limits?.conversationsInDataroom ? (
-              <ConversationSection
-                {...{ data, setData }}
-                isAllowed={
-                  isDataroomsPlus ||
-                  ((isBusiness || isDatarooms) &&
-                    limits?.conversationsInDataroom)
-                }
-                handleUpgradeStateChange={handleUpgradeStateChange}
-              />
-            ) : null}
+            {/* AGPL: Conversations available to all users */}
+            <ConversationSection
+              {...{ data, setData }}
+              isAllowed={true}
+              handleUpgradeStateChange={handleUpgradeStateChange}
+            />
           </div>
         </CollapsibleSection>
       ) : null}

@@ -47,11 +47,9 @@ export default function DomainSection({
 
   const { isBusiness, isDatarooms, isDataroomsPlus } = usePlan();
 
-  // Check plan eligibility for custom domains
-  const canUseCustomDomainForDocument =
-    isBusiness || isDatarooms || isDataroomsPlus || limits?.customDomainOnPro;
-  const canUseCustomDomainForDataroom =
-    isDatarooms || isDataroomsPlus || limits?.customDomainInDataroom;
+  // AGPL: Custom domains available to all users
+  const canUseCustomDomainForDocument = true;
+  const canUseCustomDomainForDataroom = true;
 
   // Check if we're editing a link with a custom domain
   const isEditingCustomDomain =
@@ -76,21 +74,7 @@ export default function DomainSection({
       return;
     }
 
-    // Check if this is a custom domain selection (not supermark.cc)
-    if (value !== "supermark.cc") {
-      // Show upgrade modal if user doesn't have the right plan
-      if (
-        (linkType === "DOCUMENT_LINK" && !canUseCustomDomainForDocument) ||
-        (linkType === "DATAROOM_LINK" && !canUseCustomDomainForDataroom)
-      ) {
-        setUpgradeModalOpen(true);
-        setData({ ...data, domain: "supermark.cc" });
-        setDisplayValue("supermark.cc");
-        return;
-      }
-    }
-
-    // Update domain normally if allowed
+    // AGPL: Update domain normally - all users can use custom domains
     setData({ ...data, domain: value });
     setDisplayValue(value);
   };
@@ -300,20 +284,7 @@ export default function DomainSection({
         linkType={linkType}
       />
 
-      {/* Upgrade plan modal when trying to use custom domains without the right plan */}
-      <UpgradePlanModal
-        clickedPlan={
-          linkType === "DATAROOM_LINK" ? PlanEnum.DataRooms : PlanEnum.Business
-        }
-        open={isUpgradeModalOpen}
-        setOpen={setUpgradeModalOpen}
-        trigger={
-          linkType === "DATAROOM_LINK"
-            ? "select_custom_domain_dataroom"
-            : "select_custom_domain_document"
-        }
-        highlightItem={["custom-domain"]}
-      />
+      {/* AGPL: Custom domains available to all users - upgrade modal removed */}
     </>
   );
 }
