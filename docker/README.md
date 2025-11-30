@@ -1,6 +1,6 @@
-# Papermark Docker Setup
+# Supermark Docker Setup
 
-This directory contains scripts and configurations for self-hosting Papermark with Docker.
+This directory contains scripts and configurations for self-hosting Supermark with Docker.
 
 ## Quick Start
 
@@ -145,7 +145,7 @@ docker compose restart papermark
 docker compose down
 ```
 
-### Update Papermark
+### Update Supermark
 
 ```bash
 # Backup first
@@ -162,7 +162,7 @@ docker compose up -d --build
 ### Access Container Shell
 
 ```bash
-# Papermark app
+# Supermark app
 docker compose exec papermark sh
 
 # PostgreSQL

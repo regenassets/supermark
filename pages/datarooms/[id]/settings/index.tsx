@@ -60,7 +60,7 @@ export default function Settings() {
           <div className="grid gap-6">
             <Form
               title="Dataroom Name"
-              description="This is the name of your data room on Papermark."
+              description="This is the name of your data room on Supermark."
               inputAttrs={{
                 name: "name",
                 placeholder: "My Dataroom",
@@ -127,7 +127,7 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle>Dataroom ID</CardTitle>
                 <CardDescription>
-                  Unique ID of your dataroom on Papermark.
+                  Unique ID of your dataroom on Supermark.
                 </CardDescription>
               </CardHeader>
               <CardContent>

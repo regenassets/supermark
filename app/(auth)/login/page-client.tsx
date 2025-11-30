@@ -204,7 +204,7 @@ export default function Login() {
           </div>
           <p className="mt-10 w-full max-w-md px-4 text-xs text-muted-foreground sm:px-12">
             By clicking continue, you acknowledge that you have read and agree
-            to Supermark&apos;s{" "}
+            to Supermark's{" "}
             <a
               href={`${process.env.NEXT_PUBLIC_MARKETING_URL}/terms`}
               target="_blank"
@@ -271,7 +271,7 @@ export default function Login() {
               </div>
               <LogoCloud />
               {/* <img
-                src="https://assets.papermark.io/upload/file_7JEGY7zM9ZTfmxu8pe7vWj-Screenshot-2025-05-09-at-18.09.13.png"
+                src="https://assets.supermark.cc/upload/file_7JEGY7zM9ZTfmxu8pe7vWj-Screenshot-2025-05-09-at-18.09.13.png"
                 alt="Trusted teams illustration"
                 className="mt-4 max-w-full h-auto object-contain"
                 style={{maxHeight: '120px'}}

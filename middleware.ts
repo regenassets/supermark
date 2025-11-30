@@ -26,8 +26,7 @@ function isCustomDomain(host: string) {
     (process.env.NODE_ENV !== "development" &&
       !(
         host?.includes("localhost") ||
-        host?.includes("papermark.io") ||
-        host?.includes("papermark.com") ||
+        host?.includes("supermark.cc") ||
         host?.endsWith(".vercel.app")
       ))
   );
@@ -65,7 +64,7 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
     return DomainMiddleware(req);
   }
 
-  // Handle standard papermark.io paths
+  // Handle standard supermark.cc paths
   if (
     !path.startsWith("/view/") &&
     !path.startsWith("/verify") &&

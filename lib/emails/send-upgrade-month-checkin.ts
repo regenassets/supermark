@@ -18,8 +18,8 @@ export const sendUpgradeOneMonthCheckinEmail = async (
   try {
     await sendEmail({
       to: email as string,
-      subject: "Check-in from Papermark",
-      from: "Marc Seitz <marc@papermark.com>",
+      subject: "Check-in from Supermark",
+      from: "Marc Seitz <marc@supermark.cc>",
       react: emailTemplate,
       test: process.env.NODE_ENV === "development",
     });
