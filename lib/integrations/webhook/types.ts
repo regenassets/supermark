@@ -5,7 +5,7 @@ import { InstalledIntegration } from "@prisma/client";
  * (Slack, Mattermost, Discord, etc.)
  */
 
-export type WebhookProvider = "slack" | "mattermost";
+export type WebhookProvider = "slack" | "mattermost" | "discord";
 
 export type WebhookCredential = {
   provider: WebhookProvider;
@@ -20,12 +20,17 @@ export type WebhookCredential = {
   mattermostUrl?: string;
   mattermostTeamId?: string;
   mattermostTeamName?: string;
+  // Discord-specific fields
+  discordGuildId?: string;
+  discordGuildName?: string;
+  webhookUrl?: string;
 };
 
 export type WebhookCredentialPublic = {
   provider: WebhookProvider;
   team?: { id: string; name: string };
   mattermostTeamName?: string;
+  discordGuildName?: string;
 };
 
 export type WebhookConfiguration = {
