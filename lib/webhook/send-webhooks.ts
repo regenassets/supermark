@@ -1,6 +1,7 @@
 import { Webhook } from "@prisma/client";
 
-import { qstash } from "@/lib/cron";
+import { qstash, isQStashAvailable } from "@/lib/cron";
+import { addWebhookJob, isQueueAvailable } from "@/lib/queue";
 
 import { createWebhookSignature } from "./signature";
 import { prepareWebhookPayload } from "./transform";
@@ -29,7 +30,7 @@ export const sendWebhooks = async ({
   );
 };
 
-// Publish webhook event to QStash
+// Publish webhook event to QStash or BullMQ queue
 const publishWebhookEventToQStash = async ({
   webhook,
   payload,
@@ -37,12 +38,6 @@ const publishWebhookEventToQStash = async ({
   webhook: Pick<Webhook, "pId" | "url" | "secret">;
   payload: WebhookPayload;
 }) => {
-  if (!qstash) {
-    console.warn("QStash not configured - webhook will not be sent");
-    return null;
-  }
-
-  // TODO: add proper domain like app.supermark.dev in dev
   const callbackUrl = new URL(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhooks/callback`,
   );
@@ -52,20 +47,51 @@ const publishWebhookEventToQStash = async ({
 
   const signature = await createWebhookSignature(webhook.secret, payload);
 
-  const response = await qstash.publishJSON({
-    url: webhook.url,
-    body: payload,
-    headers: {
-      "X-Supermark-Signature": signature,
-      "Upstash-Hide-Headers": "true",
-    },
-    callback: callbackUrl.href,
-    failureCallback: callbackUrl.href,
-  });
+  // Try QStash first (if configured)
+  if (isQStashAvailable() && qstash) {
+    try {
+      const response = await qstash.publishJSON({
+        url: webhook.url,
+        body: payload,
+        headers: {
+          "X-Supermark-Signature": signature,
+          "Upstash-Hide-Headers": "true",
+        },
+        callback: callbackUrl.href,
+        failureCallback: callbackUrl.href,
+      });
 
-  if (!response.messageId) {
-    console.error("Failed to publish webhook event to QStash", response);
+      if (!response.messageId) {
+        console.error("Failed to publish webhook event to QStash", response);
+      }
+
+      return response;
+    } catch (error) {
+      console.error("QStash error, falling back to BullMQ:", error);
+    }
   }
 
-  return response;
+  // Fallback to BullMQ queue (using existing Redis)
+  if (isQueueAvailable()) {
+    try {
+      const job = await addWebhookJob({
+        webhookId: webhook.pId,
+        webhookUrl: webhook.url,
+        payload,
+        signature,
+        callbackUrl: callbackUrl.href,
+        eventId: payload.id,
+        event: payload.event,
+      });
+
+      console.log(`Webhook queued to BullMQ: ${job?.id}`);
+      return { messageId: job?.id, provider: "bullmq" };
+    } catch (error) {
+      console.error("BullMQ error:", error);
+    }
+  }
+
+  // No queue system available
+  console.warn("No queue system configured (QStash or Redis) - webhook will not be sent");
+  return null;
 };

@@ -13,7 +13,7 @@ import { dub } from "@/lib/dub";
 import { isBlacklistedEmail } from "@/lib/edge-config/blacklist";
 import { sendVerificationRequestEmail } from "@/lib/emails/send-verification-request";
 import { sendWelcomeEmail } from "@/lib/emails/send-welcome";
-import hanko from "@/lib/hanko";
+import hanko, { isHankoAvailable } from "@/lib/hanko";
 import prisma from "@/lib/prisma";
 import { CreateUserEmailProps, CustomUser } from "@/lib/types";
 import { subscribe } from "@/lib/unsend";
@@ -103,14 +103,19 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
-    PasskeyProvider({
-      tenant: hanko,
-      async authorize({ userId }) {
-        const user = await prisma.user.findUnique({ where: { id: userId } });
-        if (!user) return null;
-        return user;
-      },
-    }),
+    // AGPL: Only include PasskeyProvider if Hanko is configured
+    ...(isHankoAvailable() && hanko
+      ? [
+          PasskeyProvider({
+            tenant: hanko,
+            async authorize({ userId }) {
+              const user = await prisma.user.findUnique({ where: { id: userId } });
+              if (!user) return null;
+              return user;
+            },
+          }),
+        ]
+      : []),
   ],
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },

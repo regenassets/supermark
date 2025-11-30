@@ -10,6 +10,7 @@ import {
   convertFilesToPdfTask,
   convertKeynoteToPdfTask,
 } from "@/lib/trigger/convert-files";
+import { isTriggerAvailable } from "@/lib/trigger";
 import { processVideo } from "@/lib/trigger/optimize-video-files";
 import { convertPdfToImageRoute } from "@/lib/trigger/pdf-to-image-route";
 import { getExtension } from "@/lib/utils";
@@ -139,11 +140,11 @@ export const processDocument = async ({
 
   // Trigger appropriate conversion tasks based on document type
   // Skip trigger tasks if TRIGGER_SECRET_KEY is not configured (local development)
-  const isTriggerConfigured = !!process.env.TRIGGER_SECRET_KEY;
+  const triggerConfigured = isTriggerAvailable();
 
   // Check if it's a Keynote file (slides type with Keynote content type)
   if (
-    isTriggerConfigured &&
+    triggerConfigured &&
     type === "slides" &&
     (contentType === "application/vnd.apple.keynote" ||
       contentType === "application/x-iwork-keynote-sffkey")
@@ -165,7 +166,7 @@ export const processDocument = async ({
         concurrencyKey: teamId,
       },
     );
-  } else if (isTriggerConfigured && (type === "docs" || type === "slides")) {
+  } else if (triggerConfigured && (type === "docs" || type === "slides")) {
     await convertFilesToPdfTask.trigger(
       {
         documentId: document.id,
@@ -185,7 +186,7 @@ export const processDocument = async ({
     );
   }
 
-  if (isTriggerConfigured && type === "cad") {
+  if (triggerConfigured && type === "cad") {
     await convertCadToPdfTask.trigger(
       {
         documentId: document.id,
@@ -206,7 +207,7 @@ export const processDocument = async ({
   }
 
   if (
-    isTriggerConfigured &&
+    triggerConfigured &&
     type === "video" &&
     contentType !== "video/mp4" &&
     contentType?.startsWith("video/")
@@ -233,7 +234,7 @@ export const processDocument = async ({
   }
 
   // skip triggering convert-pdf-to-image job for "notion" / "excel" documents
-  if (isTriggerConfigured && type === "pdf") {
+  if (triggerConfigured && type === "pdf") {
     await convertPdfToImageRoute.trigger(
       {
         documentId: document.id,

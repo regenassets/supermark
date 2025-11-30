@@ -86,6 +86,7 @@
     "base-x": "^5.0.1",
     "bcryptjs": "^3.0.2",
     "bottleneck": "^2.19.5",
+    "bullmq": "^5.65.0",
     "chrono-node": "^2.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

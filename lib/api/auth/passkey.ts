@@ -1,6 +1,6 @@
 import { type Session } from "next-auth";
 
-import hanko from "@/lib/hanko";
+import hanko, { isHankoAvailable } from "@/lib/hanko";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
 
@@ -10,6 +10,10 @@ export async function startServerPasskeyRegistration({
   session: Session;
 }) {
   if (!session) throw new Error("Not logged in");
+
+  if (!isHankoAvailable() || !hanko) {
+    throw new Error("Passkey authentication is not configured");
+  }
 
   const sessionUser = session.user as CustomUser;
 
@@ -37,6 +41,10 @@ export async function finishServerPasskeyRegistration({
 }) {
   if (!session) throw new Error("Not logged in");
 
+  if (!isHankoAvailable() || !hanko) {
+    throw new Error("Passkey authentication is not configured");
+  }
+
   await hanko.registration.finalize(credential);
 
   // const sessionUser = session.user as CustomUser;
@@ -51,6 +59,10 @@ export async function finishServerPasskeyRegistration({
 
 export async function listUserPasskeys({ session }: { session: Session }) {
   if (!session) throw new Error("Not logged in");
+
+  if (!isHankoAvailable()) {
+    throw new Error("Passkey authentication is not configured");
+  }
 
   const sessionUser = session.user as CustomUser;
 
@@ -99,6 +111,10 @@ export async function removeUserPasskey({
   session: Session;
 }) {
   if (!session) throw new Error("Not logged in");
+
+  if (!isHankoAvailable()) {
+    throw new Error("Passkey authentication is not configured");
+  }
 
   // First verify the credential belongs to the user
   const sessionUser = session.user as CustomUser;
