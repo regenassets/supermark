@@ -114,20 +114,7 @@ export default async function handle(
         return res.status(401).end("Unauthorized");
       }
 
-      // Limits: Check if the user has reached the limit of datarooms in the team
-      const dataroomCount = await prisma.dataroom.count({
-        where: {
-          teamId: teamId,
-        },
-      });
-
-      const limits = await getLimits({ teamId, userId });
-
-      if (limits && dataroomCount >= limits.datarooms) {
-        return res
-          .status(403)
-          .json({ message: "You have reached the limit of datarooms" });
-      }
+      // AGPL: No dataroom limits - unlimited datarooms for all users
 
       const pId = newId("dataroom");
 
