@@ -148,7 +148,7 @@ export default async function VerifyInvitationPage({
                 </div>
                 <p className="mt-10 w-full max-w-md px-4 text-xs text-muted-foreground sm:px-16">
                   By accepting this invitation, you acknowledge that you have
-                  read and agree to Supermark's{" "}
+                  read and agree to Supermark&apos;s{" "}
                   <a
                     href={`${process.env.NEXT_PUBLIC_MARKETING_URL}/terms`}
                     target="_blank"

@@ -34,11 +34,6 @@ export default function FileProcessStatusBar({
   const { status: progressStatus, error: progressError } =
     useDocumentProgressStatus(documentVersionId, data?.publicAccessToken ?? undefined);
 
-  // AGPL: If Trigger.dev is not configured, don't show processing status
-  if (data?.publicAccessToken === null) {
-    return null;
-  }
-
   // Update processing state whenever status changes
   useEffect(() => {
     if (onProcessingChange) {
@@ -63,6 +58,11 @@ export default function FileProcessStatusBar({
       if (interval) clearInterval(interval);
     };
   }, [progressStatus.state]);
+
+  // AGPL: If Trigger.dev is not configured, don't show processing status
+  if (data?.publicAccessToken === null) {
+    return null;
+  }
 
   if (progressStatus.state === "QUEUED" && !progressError) {
     return (
