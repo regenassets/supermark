@@ -199,11 +199,7 @@ export default function LinkSheet({
   }, [currentLink]);
 
   const handlePreviewLink = async (link: LinkWithViews) => {
-    if (link.domainId && isFree) {
-      toast.error("You need to upgrade to preview this link");
-      return;
-    }
-
+    // AGPL: Preview available to all users
     setIsLoading(true);
     const response = await fetch(`/api/links/${link.id}/preview`, {
       method: "POST",
@@ -489,20 +485,10 @@ export default function LinkSheet({
                         <TabsTrigger value={LinkAudienceType.GENERAL}>
                           General
                         </TabsTrigger>
-                        {isDatarooms || isDataroomsPlus || isTrial ? (
-                          <TabsTrigger value={LinkAudienceType.GROUP}>
-                            Group
-                          </TabsTrigger>
-                        ) : (
-                          <UpgradePlanModal
-                            clickedPlan={PlanEnum.DataRooms}
-                            trigger="add_group_link"
-                          >
-                            <div className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all">
-                              Group
-                            </div>
-                          </UpgradePlanModal>
-                        )}
+                        {/* AGPL: Group links available to all users */}
+                        <TabsTrigger value={LinkAudienceType.GROUP}>
+                          Group
+                        </TabsTrigger>
                       </TabsList>
                     ) : null}
 

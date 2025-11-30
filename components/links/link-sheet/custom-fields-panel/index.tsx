@@ -39,19 +39,11 @@ export default function CustomFieldsPanel({
 }) {
   const { isDatarooms, isDataroomsPlus, isBusiness } = usePlan();
 
-  const fieldLimit = useMemo(() => {
-    if (isDatarooms || isDataroomsPlus) return 5;
-    if (isBusiness) return 1;
-    return 0;
-  }, [isDatarooms, isDataroomsPlus, isBusiness]);
+  // AGPL: Unlimited custom fields for all users
+  const fieldLimit = Infinity;
 
   const addField = useCallback(() => {
-    if (fields.length >= fieldLimit) {
-      toast.error(
-        `You can only add up to ${fieldLimit} custom field${fieldLimit === 1 ? "" : "s"} on the ${isDatarooms ? "Data Rooms" : "Business"} plan`,
-      );
-      return;
-    }
+    // No field limit check needed - unlimited for all users
 
     const newField: CustomFieldData = {
       type: "SHORT_TEXT",

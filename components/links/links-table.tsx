@@ -238,10 +238,7 @@ export default function LinksTable({
   };
 
   const handlePreviewLink = async (link: LinkWithViews) => {
-    if (link.domainId && isFree) {
-      toast.error("You need to upgrade to preview this link");
-      return;
-    }
+    // AGPL: Preview available to all users
 
     if (isDocumentProcessing(primaryVersion)) {
       toast.error(
@@ -483,22 +480,12 @@ export default function LinksTable({
   };
 
   const AddLinkButton = () => {
-    if (!canAddLinks) {
-      return (
-        <UpgradePlanModal
-          clickedPlan={isTrial ? PlanEnum.Business : PlanEnum.Pro}
-          trigger={"limit_add_link"}
-        >
-          <Button>Upgrade to Create Link</Button>
-        </UpgradePlanModal>
-      );
-    } else {
-      return (
-        <Button onClick={() => setIsLinkSheetVisible(true)}>
-          Create link to share
-        </Button>
-      );
-    }
+    // AGPL: All users can create links
+    return (
+      <Button onClick={() => setIsLinkSheetVisible(true)}>
+        Create link to share
+      </Button>
+    );
   };
 
   const handleArchiveLink = async (
@@ -635,11 +622,7 @@ export default function LinksTable({
                                 Updated
                               </Badge>
                             )}
-                            {link.domainId && isFree ? (
-                              <span className="ml-2 rounded-full bg-destructive px-2.5 py-0.5 text-xs text-foreground ring-1 ring-destructive">
-                                Inactive
-                              </span>
-                            ) : null}
+                            {/* AGPL: Custom domain links active for all users */}
                           </div>
                         </TableCell>
                         <TableCell className="flex items-center gap-x-2 sm:min-w-[300px] md:min-w-[400px] lg:min-w-[450px]">
@@ -670,29 +653,20 @@ export default function LinksTable({
                                 : `${process.env.NEXT_PUBLIC_MARKETING_URL}/view/${link.id}`}
                             </div>
 
-                            {link.domainId && isFree ? (
-                              <button
-                                className="absolute bottom-0 left-0 right-0 top-0 z-10 hidden w-full whitespace-nowrap text-center text-sm group-hover/cell:block group-hover/cell:text-primary-foreground"
-                                onClick={() => router.push("/settings/billing")}
-                                title="Upgrade to activate link"
-                              >
-                                Upgrade to activate link
-                              </button>
-                            ) : (
-                              <button
-                                className="absolute bottom-0 left-0 right-0 top-0 z-10 hidden w-full whitespace-nowrap text-center text-xs group-hover/cell:block group-hover/cell:text-primary-foreground sm:text-sm"
-                                onClick={() =>
-                                  handleCopyToClipboard(
-                                    link.domainId
-                                      ? `https://${link.domainSlug}/${link.slug}`
-                                      : `${process.env.NEXT_PUBLIC_MARKETING_URL}/view/${link.id}`,
-                                  )
-                                }
-                                title="Copy & Share"
-                              >
-                                Copy & Share
-                              </button>
-                            )}
+                            {/* AGPL: All links work for all users */}
+                            <button
+                              className="absolute bottom-0 left-0 right-0 top-0 z-10 hidden w-full whitespace-nowrap text-center text-xs group-hover/cell:block group-hover/cell:text-primary-foreground sm:text-sm"
+                              onClick={() =>
+                                handleCopyToClipboard(
+                                  link.domainId
+                                    ? `https://${link.domainSlug}/${link.slug}`
+                                    : `${process.env.NEXT_PUBLIC_MARKETING_URL}/view/${link.id}`,
+                                )
+                              }
+                              title="Copy & Share"
+                            >
+                              Copy & Share
+                            </button>
                           </div>
                           <PreviewButton
                             link={link}
@@ -914,21 +888,18 @@ export default function LinksTable({
                                 <Code2Icon className="mr-2 h-4 w-4" />
                                 Get Embed Code
                               </DropdownMenuItem>
-                              {!isFree && (
-                                <>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      setLinkToDelete(link);
-                                      setShowDeleteLinkModal(true);
-                                    }}
-                                    className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
-                                  >
-                                    <Trash2Icon className="mr-2 h-4 w-4" />
-                                    Delete Link
-                                  </DropdownMenuItem>
-                                </>
-                              )}
+                              {/* AGPL: All users can delete links */}
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  setLinkToDelete(link);
+                                  setShowDeleteLinkModal(true);
+                                }}
+                                className="text-destructive focus:bg-destructive focus:text-destructive-foreground"
+                              >
+                                <Trash2Icon className="mr-2 h-4 w-4" />
+                                Delete Link
+                              </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
