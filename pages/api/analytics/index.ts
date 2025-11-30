@@ -10,6 +10,7 @@ import {
   getTotalLinkDuration,
   getTotalViewerDuration,
   getViewPageDuration,
+  isTinybirdAvailable,
 } from "@/lib/tinybird/pipes";
 import { CustomUser } from "@/lib/types";
 import { durationFormat } from "@/lib/utils";
@@ -303,7 +304,7 @@ export default async function handler(
           links.map(async (link) => {
             let avgDuration = "0s";
 
-            if (link.documentId) {
+            if (link.documentId && isTinybirdAvailable()) {
               try {
                 const durationData = await getTotalLinkDuration({
                   linkId: link.id,
@@ -322,7 +323,10 @@ export default async function handler(
                   avgDuration = durationFormat(avgDurationMs);
                 }
               } catch (error) {
-                console.error("Error fetching Tinybird data:", error);
+                // Only log errors if Tinybird is actually configured
+                if (isTinybirdAvailable()) {
+                  console.error("Error fetching Tinybird data:", error);
+                }
               }
             }
 
@@ -394,24 +398,28 @@ export default async function handler(
         const transformedDocuments = await Promise.all(
           documents.map(async (doc) => {
             let avgDuration = "0s";
-            try {
-              const durationData = await getTotalDocumentDuration({
-                documentId: doc.id,
-                excludedLinkIds: "", // Include all links
-                excludedViewIds: "", // Include all views
-                since,
-                until: endStr
-                  ? new Date(endStr).getTime()
-                  : new Date().getTime(),
-              });
+            if (isTinybirdAvailable()) {
+              try {
+                const durationData = await getTotalDocumentDuration({
+                  documentId: doc.id,
+                  excludedLinkIds: "", // Include all links
+                  excludedViewIds: "", // Include all views
+                  since,
+                  until: endStr
+                    ? new Date(endStr).getTime()
+                    : new Date().getTime(),
+                });
 
-              if (durationData.data && durationData.data[0]) {
-                const totalDuration = durationData.data[0].sum_duration;
-                const avgDurationMs = totalDuration / doc._count.views;
-                avgDuration = durationFormat(avgDurationMs);
+                if (durationData.data && durationData.data[0]) {
+                  const totalDuration = durationData.data[0].sum_duration;
+                  const avgDurationMs = totalDuration / doc._count.views;
+                  avgDuration = durationFormat(avgDurationMs);
+                }
+              } catch (error) {
+                if (isTinybirdAvailable()) {
+                  console.error("Error fetching Tinybird data:", error);
+                }
               }
-            } catch (error) {
-              console.error("Error fetching Tinybird data:", error);
             }
 
             return {
@@ -462,21 +470,25 @@ export default async function handler(
             );
 
             let totalDuration = 0;
-            try {
-              const viewIds = viewer.views.map((view) => view.id).join(",");
-              const durationData = await getTotalViewerDuration({
-                viewIds,
-                since,
-                until: endStr
-                  ? new Date(endStr).getTime()
-                  : new Date().getTime(),
-              });
+            if (isTinybirdAvailable()) {
+              try {
+                const viewIds = viewer.views.map((view) => view.id).join(",");
+                const durationData = await getTotalViewerDuration({
+                  viewIds,
+                  since,
+                  until: endStr
+                    ? new Date(endStr).getTime()
+                    : new Date().getTime(),
+                });
 
-              if (durationData.data && durationData.data[0]) {
-                totalDuration = durationData.data[0].sum_duration;
+                if (durationData.data && durationData.data[0]) {
+                  totalDuration = durationData.data[0].sum_duration;
+                }
+              } catch (error) {
+                if (isTinybirdAvailable()) {
+                  console.error("Error fetching Tinybird data:", error);
+                }
               }
-            } catch (error) {
-              console.error("Error fetching Tinybird data:", error);
             }
 
             return {
@@ -537,7 +549,7 @@ export default async function handler(
             let totalDuration = 0;
             let completionRate = 0;
 
-            if (view.document?.id) {
+            if (view.document?.id && isTinybirdAvailable()) {
               try {
                 const pageData = await getViewPageDuration({
                   documentId: view.document.id,
@@ -562,7 +574,9 @@ export default async function handler(
                     : 0;
                 }
               } catch (error) {
-                console.error("Error fetching Tinybird data:", error);
+                if (isTinybirdAvailable()) {
+                  console.error("Error fetching Tinybird data:", error);
+                }
               }
             }
 

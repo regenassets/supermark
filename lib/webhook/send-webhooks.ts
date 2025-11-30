@@ -37,6 +37,11 @@ const publishWebhookEventToQStash = async ({
   webhook: Pick<Webhook, "pId" | "url" | "secret">;
   payload: WebhookPayload;
 }) => {
+  if (!qstash) {
+    console.warn("QStash not configured - webhook will not be sent");
+    return null;
+  }
+
   // TODO: add proper domain like app.supermark.dev in dev
   const callbackUrl = new URL(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhooks/callback`,
