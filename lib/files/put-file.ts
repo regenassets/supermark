@@ -116,7 +116,7 @@ const putFileInS3 = async ({
   }
 };
 
-// Single file upload (existing logic)
+// Single file upload - server-side proxy to avoid CORS issues with R2
 const putFileSingle = async ({
   file,
   teamId,
@@ -126,48 +126,32 @@ const putFileSingle = async ({
   teamId: string;
   docId: string;
 }) => {
-  const presignedResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/file/s3/get-presigned-post-url`,
+  // Create FormData for multipart upload
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("teamId", teamId);
+  formData.append("docId", docId);
+
+  // Upload via server-side proxy endpoint
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/file/s3/upload`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName: file.name,
-        contentType: file.type,
-        teamId: teamId,
-        docId: docId,
-      }),
+      body: formData,
     },
   );
-
-  if (!presignedResponse.ok) {
-    throw new Error(
-      `Failed to get presigned post url, failed with status code ${presignedResponse.status}`,
-    );
-  }
-
-  const { url, key, fileName } = (await presignedResponse.json()) as {
-    url: string;
-    key: string;
-    fileName: string;
-  };
-
-  const response = await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": file.type,
-      "Content-Disposition": `attachment; filename="${fileName}"`,
-    },
-    body: file,
-  });
 
   if (!response.ok) {
     throw new Error(
       `Failed to upload file "${file.name}", failed with status code ${response.status}`,
     );
   }
+
+  const { key, fileName } = (await response.json()) as {
+    key: string;
+    fileName: string;
+    size: number;
+  };
 
   let numPages: number = 1;
   // get page count for pdf files
