@@ -4,7 +4,21 @@ import {
   DomainVerificationResponse,
 } from "@/lib/types";
 
+// AGPL: Make Vercel API optional for self-hosted deployments
+const isVercelApiConfigured = !!(
+  process.env.PROJECT_ID_VERCEL &&
+  process.env.TEAM_ID_VERCEL &&
+  process.env.AUTH_BEARER_TOKEN
+);
+
+// Helper to check if custom domains (Vercel API) is available
+export const isCustomDomainsAvailable = () => isVercelApiConfigured;
+
 export const addDomainToVercel = async (domain: string) => {
+  if (!isVercelApiConfigured) {
+    throw new Error("Custom domains not configured - Vercel API credentials missing");
+  }
+
   return await fetch(
     `https://api.vercel.com/v10/projects/${process.env.PROJECT_ID_VERCEL}/domains?teamId=${process.env.TEAM_ID_VERCEL}`,
     {
@@ -21,6 +35,10 @@ export const addDomainToVercel = async (domain: string) => {
 };
 
 export const removeDomainFromVercelProject = async (domain: string) => {
+  if (!isVercelApiConfigured) {
+    throw new Error("Custom domains not configured - Vercel API credentials missing");
+  }
+
   return await fetch(
     `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains/${domain}?teamId=${process.env.TEAM_ID_VERCEL}`,
     {
@@ -33,6 +51,10 @@ export const removeDomainFromVercelProject = async (domain: string) => {
 };
 
 export const removeDomainFromVercelTeam = async (domain: string) => {
+  if (!isVercelApiConfigured) {
+    throw new Error("Custom domains not configured - Vercel API credentials missing");
+  }
+
   return await fetch(
     `https://api.vercel.com/v6/domains/${domain}?teamId=${process.env.TEAM_ID_VERCEL}`,
     {
@@ -63,6 +85,10 @@ export const removeDomainFromVercel = async (
 export const getDomainResponse = async (
   domain: string,
 ): Promise<DomainResponse & { error: { code: string; message: string } }> => {
+  if (!isVercelApiConfigured) {
+    throw new Error("Custom domains not configured - Vercel API credentials missing");
+  }
+
   return await fetch(
     `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains/${domain.toLowerCase()}?teamId=${process.env.TEAM_ID_VERCEL}`,
     {
@@ -80,6 +106,10 @@ export const getDomainResponse = async (
 export const getConfigResponse = async (
   domain: string,
 ): Promise<DomainConfigResponse> => {
+  if (!isVercelApiConfigured) {
+    throw new Error("Custom domains not configured - Vercel API credentials missing");
+  }
+
   return await fetch(
     `https://api.vercel.com/v6/domains/${domain.toLowerCase()}/config?teamId=${process.env.TEAM_ID_VERCEL}`,
     {
@@ -95,6 +125,10 @@ export const getConfigResponse = async (
 export const verifyDomain = async (
   domain: string,
 ): Promise<DomainVerificationResponse> => {
+  if (!isVercelApiConfigured) {
+    throw new Error("Custom domains not configured - Vercel API credentials missing");
+  }
+
   return await fetch(
     `https://api.vercel.com/v9/projects/${process.env.PROJECT_ID_VERCEL}/domains/${domain.toLowerCase()}/verify?teamId=${process.env.TEAM_ID_VERCEL}`,
     {

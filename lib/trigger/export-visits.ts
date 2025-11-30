@@ -1,5 +1,4 @@
 import { logger, task } from "@trigger.dev/sdk/v3";
-import { put } from "@vercel/blob";
 import Bottleneck from "bottleneck";
 
 import { sendExportReadyEmail } from "@/lib/emails/send-export-ready-email";
@@ -10,6 +9,7 @@ import {
   getViewUserAgent,
   getViewUserAgent_v2,
 } from "@/lib/tinybird";
+import { putFileServer } from "@/lib/files/put-file-server";
 
 // Helper function to properly escape CSV fields
 function escapeCsvField(field: string | number | null | undefined): string {
@@ -104,24 +104,48 @@ export const exportVisitsTask = task({
       // Create timestamp for filename
       const currentTime = new Date().toISOString().split("T")[0];
 
-      // Upload CSV to Vercel Blob
+      // Upload CSV using the configured storage transport (Vercel Blob or S3/R2)
       const filename = `visits-${resourceName.replace(/[^a-zA-Z0-9]/g, "_")}-${currentTime}.csv`;
-      const blob = await put(filename, csvData, {
-        access: "public",
-        addRandomSuffix: true,
-        contentType: "text/csv",
+      const csvBuffer = Buffer.from(csvData, "utf-8");
+
+      const { type: storageType, data: storageData } = await putFileServer({
+        file: {
+          name: filename,
+          type: "text/csv",
+          buffer: csvBuffer,
+        },
+        teamId: teamId,
+        restricted: false, // CSV files are not restricted like documents
       });
 
-      logger.info("CSV uploaded to Vercel Blob", {
+      if (!storageType || !storageData) {
+        throw new Error("Failed to upload CSV file to storage");
+      }
+
+      // Generate public URL based on storage type
+      let downloadUrl: string;
+      if (storageType === "VERCEL_BLOB") {
+        downloadUrl = storageData; // Vercel Blob returns the full URL
+      } else {
+        // S3/R2 - construct URL from distribution host
+        const distributionHost = process.env.NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST;
+        if (!distributionHost) {
+          throw new Error("NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST not configured for S3 storage");
+        }
+        downloadUrl = `https://${distributionHost}/${storageData}`;
+      }
+
+      logger.info("CSV uploaded to storage", {
         filename,
-        url: blob.downloadUrl,
+        storageType,
+        url: downloadUrl,
         size: csvData.length,
       });
 
-      // Store the blob URL in Redis
+      // Store the download URL in Redis
       const updatedJob = await jobStore.updateJob(exportId, {
         status: "COMPLETED",
-        result: blob.downloadUrl,
+        result: downloadUrl,
         resourceName,
         completedAt: new Date().toISOString(),
       });
@@ -151,7 +175,8 @@ export const exportVisitsTask = task({
         type,
         resourceId,
         csvSize: csvData.length,
-        blobUrl: blob.downloadUrl,
+        storageType,
+        downloadUrl,
       });
 
       return {
@@ -159,7 +184,7 @@ export const exportVisitsTask = task({
         exportId,
         resourceName,
         csvSize: csvData.length,
-        blobUrl: blob.downloadUrl,
+        downloadUrl,
       };
     } catch (error) {
       logger.error("Export visits task failed", {
