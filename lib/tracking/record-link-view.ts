@@ -100,9 +100,12 @@ export async function recordLinkView({
     city: geo.city || "Unknown",
   };
 
+  // AGPL: Check if Tinybird is available
+  const { isTinybirdAvailable } = await import("@/lib/tinybird");
+
   const [, ,] = await Promise.all([
-    // record link view in Tinybird
-    recordLinkViewTB(clickData),
+    // record link view in Tinybird (optional)
+    isTinybirdAvailable() ? recordLinkViewTB(clickData) : Promise.resolve(),
 
     // send email notification
     enableNotification ? sendNotification({ viewId, locationData }) : null,

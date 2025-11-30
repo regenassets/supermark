@@ -131,6 +131,26 @@ async function getVideoViews(
 }
 
 async function getDocumentViews(views: ViewWithExtras[], document: Document) {
+  const { isTinybirdAvailable } = await import("@/lib/tinybird");
+
+  // AGPL: Return empty durations if Tinybird not configured
+  if (!isTinybirdAvailable()) {
+    const emptyDurations = views.map(() => ({ data: [] }));
+    return views.map((view, index) => {
+      const relevantDocumentVersion = document.versions.find(
+        (version) => version.createdAt <= view.viewedAt,
+      );
+      return {
+        ...view,
+        duration: emptyDurations[index],
+        totalDuration: 0,
+        completionRate: "0",
+        versionNumber: relevantDocumentVersion?.versionNumber || 1,
+        versionNumPages: relevantDocumentVersion?.numPages || document.numPages || 0,
+      };
+    });
+  }
+
   const durationsPromises = views.map((view) => {
     return getViewPageDuration({
       documentId: document.id,
@@ -303,9 +323,13 @@ export default async function handle(
 
       let viewsWithDuration;
       if (document.type === "video") {
-        const videoEvents = await getVideoEventsByDocument({
-          document_id: docId,
-        });
+        const { isTinybirdAvailable } = await import("@/lib/tinybird");
+
+        // AGPL: Handle video analytics when Tinybird not configured
+        const videoEvents = isTinybirdAvailable()
+          ? await getVideoEventsByDocument({ document_id: docId })
+          : { data: [] };
+
         viewsWithDuration = await getVideoViews(
           limitedViews,
           document,
