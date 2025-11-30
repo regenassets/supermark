@@ -43,8 +43,12 @@ export default function General() {
       }),
     }).then(async (res) => {
       if (!res.ok) {
-        const { error } = await res.json();
-        throw new Error(error.message);
+        const data = await res.json();
+        const errorMessage =
+          typeof data.error === "string"
+            ? data.error
+            : data.error?.message || "Failed to update setting";
+        throw new Error(errorMessage);
       }
       await Promise.all([
         mutate(`/api/teams/${teamId}`),
@@ -82,8 +86,12 @@ export default function General() {
       }),
     }).then(async (res) => {
       if (!res.ok) {
-        const { error } = await res.json();
-        throw new Error(error.message);
+        const data = await res.json();
+        const errorMessage =
+          typeof data.error === "string"
+            ? data.error
+            : data.error?.message || "Failed to update setting";
+        throw new Error(errorMessage);
       }
       await Promise.all([
         mutate(`/api/teams/${teamId}`),
@@ -121,8 +129,12 @@ export default function General() {
         body: JSON.stringify({ name: sanitizedName }),
       }).then(async (res) => {
         if (!res.ok) {
-          const { error } = await res.json();
-          throw new Error(error.message);
+          const data = await res.json();
+          const errorMessage =
+            typeof data.error === "string"
+              ? data.error
+              : data.error?.message || "Failed to update setting";
+          throw new Error(errorMessage);
         }
         await Promise.all([
           mutate(`/api/teams/${teamId}`),
