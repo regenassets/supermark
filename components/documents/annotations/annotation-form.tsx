@@ -73,7 +73,7 @@ export function AnnotationForm({
   const handleImageUpload = async (file: File): Promise<string> => {
     try {
       // Upload the image using the existing uploadImage utility
-      const imageUrl = await uploadImage(file, "assets");
+      const imageUrl = await uploadImage(file, teamId, "assets");
 
       // Don't save to database here - let the form submission handle it
       // Images will be embedded in the rich text content and parsed when saving

@@ -167,8 +167,8 @@ export default function DeckGeneratorUpload() {
     if (linkData.metaImage && linkData.metaImage.startsWith("data:")) {
       // Convert the data URL to a blob
       const blob = convertDataUrlToFile({ dataUrl: linkData.metaImage });
-      // Upload the blob to vercel storage
-      blobUrl = await uploadImage(blob);
+      // Upload the blob to S3 storage
+      blobUrl = await uploadImage(blob, teamId);
       setLinkData({ ...linkData, metaImage: blobUrl });
     }
 

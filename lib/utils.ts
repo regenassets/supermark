@@ -518,21 +518,36 @@ export const validateImageDimensions = (
 
 export const uploadImage = async (
   file: File,
+  teamId: string,
   uploadType: "profile" | "assets" = "assets",
 ) => {
-  // AGPL: Check if Vercel Blob is configured
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    throw new Error(
-      "Image upload requires Vercel Blob storage configuration. Please add BLOB_READ_WRITE_TOKEN to your .env.local file. See .env.example for details."
-    );
-  }
-
-  const newBlob = await upload(file.name, file, {
-    access: "public",
-    handleUploadUrl: `/api/file/image-upload?type=${uploadType}`,
+  // Convert file to data URL
+  const reader = new FileReader();
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
 
-  return newBlob.url;
+  // Upload to S3 via API
+  const response = await fetch(`/api/file/image-upload?type=${uploadType}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      file: dataUrl,
+      teamId,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || "Failed to upload image");
+  }
+
+  const { url } = await response.json();
+  return url;
 };
 
 /**

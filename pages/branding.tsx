@@ -179,7 +179,7 @@ export default function Branding() {
       logo && logo.startsWith("data:") ? null : logo;
     if (logo && logo.startsWith("data:")) {
       const blob = convertDataUrlToFile({ dataUrl: logo });
-      logoBlobUrl = await uploadImage(blob);
+      logoBlobUrl = await uploadImage(blob, teamInfo?.currentTeam?.id!);
       setLogo(logoBlobUrl);
     }
 
@@ -187,7 +187,7 @@ export default function Branding() {
       banner && banner.startsWith("data:") ? null : banner;
     if (banner && banner.startsWith("data:")) {
       const blob = convertDataUrlToFile({ dataUrl: banner });
-      bannerBlobUrl = await uploadImage(blob);
+      bannerBlobUrl = await uploadImage(blob, teamInfo?.currentTeam?.id!);
       setBanner(bannerBlobUrl);
     }
 

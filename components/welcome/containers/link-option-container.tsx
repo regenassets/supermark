@@ -52,7 +52,7 @@ export function LinkOptionContainer({
         : linkData.metaImage;
     if (linkData.metaImage && linkData.metaImage.startsWith("data:")) {
       const blob = convertDataUrlToFile({ dataUrl: linkData.metaImage });
-      blobUrl = await uploadImage(blob);
+      blobUrl = await uploadImage(blob, teamId!);
       setLinkData({ ...linkData, metaImage: blobUrl });
     }
 

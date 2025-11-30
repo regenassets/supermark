@@ -288,8 +288,8 @@ export default function LinkSheet({
     if (data.metaImage && data.metaImage.startsWith("data:")) {
       // Convert the data URL to a blob
       const blob = convertDataUrlToFile({ dataUrl: data.metaImage });
-      // Upload the blob to vercel storage
-      blobUrl = await uploadImage(blob);
+      // Upload the blob to S3 storage
+      blobUrl = await uploadImage(blob, teamInfo?.currentTeam?.id!);
       setData({ ...data, metaImage: blobUrl });
     }
 
@@ -300,7 +300,7 @@ export default function LinkSheet({
         : data.metaFavicon;
     if (data.metaFavicon && data.metaFavicon.startsWith("data:")) {
       const blobFavicon = convertDataUrlToFile({ dataUrl: data.metaFavicon });
-      blobUrlFavicon = await uploadImage(blobFavicon);
+      blobUrlFavicon = await uploadImage(blobFavicon, teamInfo?.currentTeam?.id!);
       setData({
         ...data,
         metaFavicon: blobUrlFavicon,
