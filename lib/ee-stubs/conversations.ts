@@ -11,6 +11,9 @@ export const LinkOptionConversationSection = () => null;
 export const ConversationDetail = () => null;
 export const ConversationOverview = () => null;
 export const FaqOverview = () => null;
+
+// Default export for conversation-section.tsx
+export default LinkOptionConversationSection;
 export const conversationsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
 export const teamConversationsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
 export const teamFaqsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
