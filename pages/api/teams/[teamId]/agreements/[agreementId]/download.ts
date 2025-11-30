@@ -73,8 +73,8 @@ export default async function handle(
 
       const agreement = team.agreements[0];
 
-      // Check if the content is a Papermark URL
-      const isPapermarkUrl =
+      // Check if the content is a Supermark URL
+      const isSupermarkUrl =
         agreement.content.includes("supermark.cc/view/") ||
         agreement.content.includes("www.supermark.cc/view/");
 
@@ -82,11 +82,11 @@ export default async function handle(
       let filename: string;
       let link: any = null;
 
-      if (isPapermarkUrl) {
+      if (isSupermarkUrl) {
         // Extract linkId from Supermark URL
         const urlParts = agreement.content.split("/view/");
         if (urlParts.length < 2) {
-          return res.status(400).json("Invalid Papermark URL format");
+          return res.status(400).json("Invalid Supermark URL format");
         }
 
         const linkId = urlParts[1].split(/[/?#]/)[0]; // Get linkId, remove any query params or fragments
@@ -122,7 +122,7 @@ export default async function handle(
         if (!link || !link.document) {
           return res
             .status(404)
-            .json("Document not found for the provided Papermark URL");
+            .json("Document not found for the provided Supermark URL");
         }
 
         // Use the primary version if available, otherwise use the document file

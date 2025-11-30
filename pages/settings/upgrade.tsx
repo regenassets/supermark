@@ -138,7 +138,7 @@ export default function UpgradePage() {
             >
               <div className="mb-4 border-b border-gray-200 pb-2">
                 <h3 className="text-balance text-xl font-medium text-foreground text-gray-900 dark:text-white">
-                  Papermark {planOption}
+                  Supermark {planOption}
                 </h3>
                 {(planOption === PlanEnum.Business ||
                   planOption === PlanEnum.DataRoomsPlus) && (

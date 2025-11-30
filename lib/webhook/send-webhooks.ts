@@ -37,7 +37,7 @@ const publishWebhookEventToQStash = async ({
   webhook: Pick<Webhook, "pId" | "url" | "secret">;
   payload: WebhookPayload;
 }) => {
-  // TODO: add proper domain like app.papermark.dev in dev
+  // TODO: add proper domain like app.supermark.dev in dev
   const callbackUrl = new URL(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhooks/callback`,
   );

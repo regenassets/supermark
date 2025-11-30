@@ -22,7 +22,7 @@ function isAnalyticsPath(path: string) {
 function isCustomDomain(host: string) {
   return (
     (process.env.NODE_ENV === "development" &&
-      (host?.includes(".local") || host?.includes("papermark.dev"))) ||
+      (host?.includes(".local") || host?.includes("supermark.dev"))) ||
     (process.env.NODE_ENV !== "development" &&
       !(
         host?.includes("localhost") ||
