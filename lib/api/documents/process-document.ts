@@ -207,7 +207,7 @@ export const processDocument = async ({
   }
 
   if (
-    isTriggerConfigured &&
+    triggerConfigured &&
     type === "video" &&
     contentType !== "video/mp4" &&
     contentType?.startsWith("video/")
@@ -234,7 +234,7 @@ export const processDocument = async ({
   }
 
   // skip triggering convert-pdf-to-image job for "notion" / "excel" documents
-  if (isTriggerConfigured && type === "pdf") {
+  if (triggerConfigured && type === "pdf") {
     await convertPdfToImageRoute.trigger(
       {
         documentId: document.id,
