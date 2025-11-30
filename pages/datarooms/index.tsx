@@ -64,24 +64,14 @@ export default function DataroomsPage() {
           <div className="flex items-center gap-x-1">
             {/* AGPL: All users can create datarooms - no plan restrictions */}
             <AddDataroomModal>
-                <Button
-                  className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                  title="Create New Document"
-                >
-                  <PlusIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
-                  <span>Create New Dataroom</span>
-                </Button>
-              </AddDataroomModal>
-            ) : (
-              <DataroomTrialModal>
-                <Button
-                  className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
-                  title="Start Data Room Trial"
-                >
-                  <span>Start Data Room Trial</span>
-                </Button>
-              </DataroomTrialModal>
-            )}
+              <Button
+                className="group flex flex-1 items-center justify-start gap-x-3 px-3 text-left"
+                title="Create New Dataroom"
+              >
+                <PlusIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
+                <span>Create New Dataroom</span>
+              </Button>
+            </AddDataroomModal>
           </div>
         </section>
 
