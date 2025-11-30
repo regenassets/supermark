@@ -39,7 +39,7 @@ import { fileIcon } from "@/lib/utils/get-file-icon";
 
 import FileUp from "@/components/shared/icons/file-up";
 import MoreVertical from "@/components/shared/icons/more-vertical";
-import PapermarkSparkle from "@/components/shared/icons/papermark-sparkle";
+import SupermarkSparkle from "@/components/shared/icons/supermark-sparkle";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -604,7 +604,7 @@ export default function DocumentHeader({
                 onClick={() => activateOrRedirectAssistant(prismaDocument)}
                 title="Open AI Assistant"
               >
-                <PapermarkSparkle className="h-5 w-5" />
+                <SupermarkSparkle className="h-5 w-5" />
               </Button>
             )} */}
 
@@ -683,7 +683,7 @@ export default function DocumentHeader({
                           activateOrRedirectAssistant(prismaDocument)
                         }
                       >
-                        <PapermarkSparkle className="mr-2 h-4 w-4" />
+                        <SupermarkSparkle className="mr-2 h-4 w-4" />
                         Open AI Assistant
                       </DropdownMenuItem>
                     </>

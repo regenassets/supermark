@@ -1,5 +1,5 @@
 #!/bin/bash
-# Papermark Restore Script
+# Supermark Restore Script
 # This script restores PostgreSQL database and MinIO data from a backup
 
 set -e
@@ -26,7 +26,7 @@ if [ "$confirm" != "yes" ]; then
   exit 0
 fi
 
-echo "Starting Papermark restore..."
+echo "Starting Supermark restore..."
 
 # Restore PostgreSQL database
 if [ -f "$BACKUP_DIR/database.sql" ]; then

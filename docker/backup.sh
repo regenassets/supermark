@@ -1,5 +1,5 @@
 #!/bin/bash
-# Papermark Backup Script
+# Supermark Backup Script
 # This script backs up PostgreSQL database and MinIO data
 
 set -e
@@ -7,7 +7,7 @@ set -e
 BACKUP_DIR="./backups/$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 
-echo "Starting Papermark backup..."
+echo "Starting Supermark backup..."
 
 # Backup PostgreSQL database
 echo "Backing up PostgreSQL database..."
@@ -30,7 +30,7 @@ echo "MinIO data backup completed: $BACKUP_DIR/minio-data.tar.gz"
 
 # Create backup info file
 cat > "$BACKUP_DIR/backup-info.txt" << EOF
-Papermark Backup
+Supermark Backup
 Created: $(date)
 Database: PostgreSQL
 Storage: MinIO

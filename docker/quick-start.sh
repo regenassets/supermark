@@ -1,11 +1,11 @@
 #!/bin/bash
-# Papermark Quick Start Script
-# This script helps you set up Papermark self-hosted instance quickly
+# Supermark Quick Start Script
+# This script helps you set up Supermark self-hosted instance quickly
 
 set -e
 
 echo "======================================"
-echo "Papermark Self-Hosting Quick Start"
+echo "Supermark Self-Hosting Quick Start"
 echo "======================================"
 echo ""
 
@@ -116,7 +116,7 @@ echo ""
 read -p "Do you want to use Nginx reverse proxy with SSL support? (recommended for production) (yes/no): " use_nginx
 
 echo ""
-echo "Starting Papermark..."
+echo "Starting Supermark..."
 
 if [ "$use_nginx" = "yes" ]; then
     docker compose --profile with-nginx up -d
@@ -126,14 +126,14 @@ fi
 
 echo ""
 echo "======================================"
-echo "Papermark is starting up!"
+echo "Supermark is starting up!"
 echo "======================================"
 echo ""
 echo "Access URLs:"
 if [ "$use_nginx" = "yes" ]; then
-    echo "  - Papermark: http://$domain (configure SSL separately)"
+    echo "  - Supermark: http://$domain (configure SSL separately)"
 else
-    echo "  - Papermark: $BASE_URL"
+    echo "  - Supermark: $BASE_URL"
 fi
 echo "  - MinIO Console: http://$APP_HOST:9001"
 echo ""

@@ -274,11 +274,11 @@ export default function UpgradePage() {
           analytics.
         </a>
         <a
-          href="https://cal.com/marcseitz/papermark"
+          href="https://github.com/regenassets/supermark/discussions"
           target="_blank"
           className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
         >
-          Looking for Papermark Enterprise?
+          Looking for Supermark Enterprise?
         </a>
       </div>
     </div>

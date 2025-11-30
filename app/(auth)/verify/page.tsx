@@ -15,7 +15,7 @@ const data = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.papermark.com"),
+  metadataBase: new URL("https://www.supermark.cc"),
   title: data.title,
   description: data.description,
   openGraph: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: data.title,
     description: data.description,
-    creator: "@papermarkio",
+    creator: "@supermarkcc",
     images: ["/_static/meta-image.png"],
   },
 };
@@ -104,7 +104,7 @@ export default function VerifyPage({
           </div>
           <p className="mt-10 w-full max-w-md px-4 text-xs text-muted-foreground sm:px-12">
             By clicking continue, you acknowledge that you have read and agree
-            to Supermark&apos;s{" "}
+            to Supermark's{" "}
             <a
               href={`${process.env.NEXT_PUBLIC_MARKETING_URL}/terms`}
               target="_blank"

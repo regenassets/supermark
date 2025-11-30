@@ -33,7 +33,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import PapermarkSparkle from "../shared/icons/papermark-sparkle";
+import SupermarkSparkle from "../shared/icons/supermark-sparkle";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -365,7 +365,7 @@ export default function Nav({
                   }}
                   title="Open AI Document Assistant"
                 >
-                  <PapermarkSparkle className="h-5 w-5" />
+                  <SupermarkSparkle className="h-5 w-5" />
                 </Button>
               </Link>
             ) : null}
