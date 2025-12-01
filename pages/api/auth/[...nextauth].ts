@@ -38,6 +38,7 @@ export const config = {
 export const authOptions: NextAuthOptions = {
   pages: {
     error: "/login",
+    signOut: "/",
   },
   providers: [
     GoogleProvider({
