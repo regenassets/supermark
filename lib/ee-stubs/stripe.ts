@@ -8,7 +8,7 @@ export const getQuantityFromPriceId = (...args: any[]) => 1;
 export const getCouponFromPlan = (...args: any[]) => null;
 export const getPlanFromPriceId = (...args: any[]) => "free";
 export const isOldAccount = (...args: any[]) => false;
-export const cancelSubscription = async () => ({ success: true });
+export const cancelSubscription = async (...args: any[]) => ({ success: true });
 export const STRIPE_PLAN_IDS = {};
 export const STRIPE_PRICES = {};
 
@@ -69,4 +69,4 @@ export const PLANS = [
 ];
 
 // Stripe instance stub
-export const getStripe = () => null;
+export const getStripe = (...args: any[]) => null;
