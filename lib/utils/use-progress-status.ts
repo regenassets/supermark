@@ -23,9 +23,9 @@ export function useDocumentProgressStatus(
     },
   );
 
-  // Find the most recent active run (QUEUED or EXECUTING)
+  // Find the most recent active run (PENDING_VERSION, QUEUED, DEQUEUED, EXECUTING, or WAITING)
   const activeRun = runs.find((run) =>
-    ["QUEUED", "EXECUTING"].includes(run.status),
+    ["PENDING_VERSION", "QUEUED", "DEQUEUED", "EXECUTING", "WAITING"].includes(run.status),
   );
 
   const status: IDocumentProgressStatus = {
@@ -48,7 +48,12 @@ export function useDocumentProgressStatus(
   // If we found an active run, use its status
   if (activeRun) {
     status.state = activeRun.status;
-    if (activeRun.metadata) {
+
+    // Show friendly message for PENDING_VERSION state
+    if (activeRun.status === "PENDING_VERSION") {
+      status.progress = 0;
+      status.text = "Waiting for worker to connect...";
+    } else if (activeRun.metadata) {
       const { progress, text } = parseStatus(activeRun.metadata);
       status.progress = progress;
       status.text = text;
