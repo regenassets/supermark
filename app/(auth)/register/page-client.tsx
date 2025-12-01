@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import { useState } from "react";
 
-import SupermarkLogo from "@/public/_static/supermark-logo.svg";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -34,13 +32,8 @@ export default function Register() {
       </div>
       <div className="z-10 mx-5 mt-[calc(20vh)] h-fit w-full max-w-md overflow-hidden rounded-lg border border-border bg-gray-50 dark:bg-gray-900 sm:mx-0 sm:shadow-xl">
         <div className="flex flex-col items-center justify-center space-y-3 px-4 py-6 pt-8 text-center sm:px-16">
-          <Link href="/">
-            <Image
-              src={SupermarkLogo}
-              width={119}
-              height={32}
-              alt="Supermark Logo"
-            />
+          <Link href="/" className="text-2xl font-bold">
+            Supermark
           </Link>
           <h3 className="text-2xl font-medium text-foreground">
             Start sharing documents
