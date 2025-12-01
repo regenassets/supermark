@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { checkRateLimit, rateLimiters } from "@/lib/security";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import PasskeyProvider from "@teamhanko/passkeys-next-auth-provider";
 import NextAuth, { type NextAuthOptions } from "next-auth";
@@ -15,6 +14,7 @@ import { sendVerificationRequestEmail } from "@/lib/emails/send-verification-req
 import { sendWelcomeEmail } from "@/lib/emails/send-welcome";
 import hanko, { isHankoAvailable } from "@/lib/hanko";
 import prisma from "@/lib/prisma";
+import { checkRateLimit, rateLimiters } from "@/lib/security";
 import { CreateUserEmailProps, CustomUser } from "@/lib/types";
 import { subscribe } from "@/lib/unsend";
 import { log } from "@/lib/utils";
@@ -110,7 +110,9 @@ export const authOptions: NextAuthOptions = {
           PasskeyProvider({
             tenant: hanko,
             async authorize({ userId }) {
-              const user = await prisma.user.findUnique({ where: { id: userId } });
+              const user = await prisma.user.findUnique({
+                where: { id: userId },
+              });
               if (!user) return null;
               return user;
             },
