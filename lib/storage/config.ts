@@ -12,6 +12,7 @@ export interface StorageConfig {
   secretAccessKey: string;
   endpoint?: string;
   forcePathStyle?: boolean;
+  distributionHost?: string;
 }
 
 export type StorageRegion = "eu-central-1" | "us-east-1" | "us-east-2";
@@ -55,6 +56,8 @@ export function getStorageConfig(storageRegion?: string): StorageConfig {
   const forcePathStyle =
     process.env.NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE === "true";
 
+  const distributionHost = process.env[`NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST${suffix}`];
+
   return {
     bucket,
     region,
@@ -62,6 +65,7 @@ export function getStorageConfig(storageRegion?: string): StorageConfig {
     secretAccessKey,
     endpoint,
     forcePathStyle,
+    distributionHost,
   };
 }
 

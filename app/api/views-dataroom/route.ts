@@ -933,7 +933,7 @@ export async function POST(request: NextRequest) {
               const storageConfig = await getTeamStorageConfigById(
                 link.teamId!,
               );
-              documentVersion.file = `https://${storageConfig.advancedDistributionHost}/${documentVersion.file}`;
+              documentVersion.file = `https://${storageConfig.distributionHost}/${documentVersion.file}`;
             }
           } else {
             const fileUrl = await getFile({
