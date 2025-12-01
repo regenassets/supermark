@@ -48,7 +48,29 @@ See [AGPL-MIGRATION.md](AGPL-MIGRATION.md) for complete details.
 
 ## Quick Start
 
-### Docker Deployment (Recommended)
+### 🚀 Production Deployment (DigitalOcean)
+
+Deploy to production in under 30 minutes with our automated setup:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/regenassets/supermark/main/docker/digitalocean-setup.sh | bash
+```
+
+**Documentation:**
+- 📘 [DigitalOcean Deployment Guide](./DIGITALOCEAN-DEPLOYMENT.md) - Complete step-by-step guide
+- ⚡ [Quick Deploy Reference](./QUICK-DEPLOY.md) - TL;DR version
+- 🔧 [Tinybird/Trigger.dev Workarounds](./TINYBIRD-TRIGGERDEV-WORKAROUNDS.md) - Service configuration
+
+**What's included:**
+- PostgreSQL database (persistent storage)
+- MinIO S3-compatible object storage
+- Nginx reverse proxy with SSL/HTTPS
+- Automated backups and updates
+- Health monitoring
+
+---
+
+### Docker Deployment (Local/Development)
 
 ```bash
 # Clone the repository
