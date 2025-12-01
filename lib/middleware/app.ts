@@ -26,8 +26,13 @@ export default async function AppMiddleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // UNAUTHENTICATED if there's no token and the path isn't /login or /register, redirect to /login
-  if (!token?.email && path !== "/login" && path !== "/register") {
+  // UNAUTHENTICATED if there's no token and the path isn't /login, /register, or /sponsorship, redirect to /login
+  if (
+    !token?.email &&
+    path !== "/login" &&
+    path !== "/register" &&
+    path !== "/sponsorship"
+  ) {
     const loginUrl = new URL(`/login`, req.url);
     const nextPath =
       path === "/auth/confirm-email-change" ? `${path}${url.search}` : path;
@@ -47,8 +52,11 @@ export default async function AppMiddleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/welcome", req.url));
   }
 
-  // AUTHENTICATED if the path is /login or /register, redirect to "/dashboard"
-  if (token?.email && (path === "/login" || path === "/register")) {
+  // AUTHENTICATED if the path is /login, /register, or /sponsorship, redirect to "/dashboard"
+  if (
+    token?.email &&
+    (path === "/login" || path === "/register" || path === "/sponsorship")
+  ) {
     const nextPath = url.searchParams.get("next") || "/dashboard"; // Default redirection to "/dashboard" if no next parameter
     return NextResponse.redirect(
       new URL(decodeURIComponent(nextPath), req.url),
