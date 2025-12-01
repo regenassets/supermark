@@ -82,7 +82,7 @@ const VerifyEmailChange = async ({ params: { token } }: PageProps) => {
 
   const currentUserId = (session.user as CustomUser).id;
 
-  const data = await redis.get<{ email: string; newEmail: string }>(
+  const data = await redis?.get<{ email: string; newEmail: string }>(
     `email-change-request:user:${currentUserId}`,
   );
 
@@ -129,6 +129,6 @@ const deleteRequest = async (tokenFound: VerificationToken) => {
       },
     }),
 
-    redis.del(`email-change-request:user:${tokenFound.identifier}`),
+    redis?.del(`email-change-request:user:${tokenFound.identifier}`),
   ]);
 };
