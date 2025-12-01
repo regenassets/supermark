@@ -21,8 +21,13 @@ export default async function AppMiddleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  // UNAUTHENTICATED if there's no token and the path isn't /login, /register, or /, redirect to /login
-  if (!token?.email && path !== "/login" && path !== "/register" && path !== "/") {
+  // UNAUTHENTICATED if there's no token and the path is "/", allow access to homepage
+  if (!token?.email && path === "/") {
+    return NextResponse.next();
+  }
+
+  // UNAUTHENTICATED if there's no token and the path isn't /login or /register, redirect to /login
+  if (!token?.email && path !== "/login" && path !== "/register") {
     const loginUrl = new URL(`/login`, req.url);
     const nextPath =
       path === "/auth/confirm-email-change" ? `${path}${url.search}` : path;
