@@ -39,6 +39,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     error: "/login",
     signOut: "/",
+    verifyRequest: "/auth/verify-request",
   },
   providers: [
     GoogleProvider({
