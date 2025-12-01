@@ -17,6 +17,43 @@ async function fetchAndCacheDurations(
   cacheKey: string,
 ): Promise<Record<string, number>> {
   let durationsMap: Record<string, number> = {};
+
+  if (!redis) {
+    // If redis is not available, fetch durations without caching
+    const batchSize = 10;
+    for (let i = 0; i < groupedViews.length; i += batchSize) {
+      const batch = groupedViews.slice(i, i + batchSize);
+
+      const batchPromises = batch.map(async (view) => {
+        try {
+          const durationResult = await getDocumentDurationPerViewer({
+            documentId: view.documentId,
+            viewIds: view.viewIds.join(","),
+          });
+          return {
+            documentId: view.documentId,
+            totalDuration: durationResult.data[0]?.sum_duration || 0,
+          };
+        } catch (error) {
+          console.error(
+            `Error fetching duration for document ${view.documentId}:`,
+            error,
+          );
+          return {
+            documentId: view.documentId,
+            totalDuration: 0,
+          };
+        }
+      });
+
+      const batchResults = await Promise.all(batchPromises);
+      batchResults.forEach((result) => {
+        durationsMap[result.documentId] = result.totalDuration;
+      });
+    }
+    return durationsMap;
+  }
+
   const cachedDurations = await redis.get(cacheKey);
 
   if (cachedDurations) {
@@ -314,7 +351,7 @@ export default async function handle(
         },
       };
 
-      if (withDuration !== "true") {
+      if (withDuration !== "true" && redis) {
         await redis.set(cacheKey, JSON.stringify(formattedViews), { ex: 600 }); // 10 min cache
       }
       res.setHeader(

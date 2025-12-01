@@ -47,6 +47,9 @@ export default async function webhookHandler(
     try {
       if (!sig || !webhookSecret) return;
       const stripe = stripeInstance();
+      if (!stripe) {
+        return res.status(500).json({ error: "Stripe not configured" });
+      }
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
     } catch (err: any) {
       return res.status(400).send(`Webhook Error: ${err.message}`);

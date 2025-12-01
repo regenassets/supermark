@@ -24,3 +24,7 @@ export const handleReactivate = async () => ({
 });
 export const sendPauseResumeNotification = async () => null;
 export const automaticUnpause = async () => null;
+export const sendPauseResumeNotificationTask = async (..._args: any[]) => null;
+export const handleRoute = async (..._args: any[]) =>
+  new Response("Billing disabled", { status: 501 });
+export default handleRoute;

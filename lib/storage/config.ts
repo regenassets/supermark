@@ -13,6 +13,9 @@ export interface StorageConfig {
   endpoint?: string;
   forcePathStyle?: boolean;
   distributionHost?: string;
+  advancedBucket?: string;
+  distributionKeyId?: string;
+  distributionKeyContents?: string;
 }
 
 export type StorageRegion = "eu-central-1" | "us-east-1" | "us-east-2";
@@ -57,6 +60,9 @@ export function getStorageConfig(storageRegion?: string): StorageConfig {
     process.env.NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE === "true";
 
   const distributionHost = process.env[`NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST${suffix}`];
+  const advancedBucket = process.env[`NEXT_PRIVATE_UPLOAD_ADVANCED_BUCKET${suffix}`];
+  const distributionKeyId = process.env[`NEXT_PRIVATE_UPLOAD_DISTRIBUTION_KEY_ID${suffix}`];
+  const distributionKeyContents = process.env[`NEXT_PRIVATE_UPLOAD_DISTRIBUTION_KEY_CONTENTS${suffix}`];
 
   return {
     bucket,
@@ -66,6 +72,9 @@ export function getStorageConfig(storageRegion?: string): StorageConfig {
     endpoint,
     forcePathStyle,
     distributionHost,
+    advancedBucket,
+    distributionKeyId,
+    distributionKeyContents,
   };
 }
 

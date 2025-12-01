@@ -96,6 +96,9 @@ export default async function handle(
     const dubDiscount = await getDubDiscountForExternalUserId(userId);
 
     const stripe = stripeInstance(oldAccount);
+    if (!stripe) {
+      return res.status(500).json({ error: "Stripe not configured" });
+    }
     if (team.stripeId) {
       // if the team already has a stripeId (i.e. is a customer) let's use as a customer
       stripeSession = await stripe.checkout.sessions.create({

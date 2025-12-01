@@ -37,6 +37,11 @@ export const PLAN_NAME_MAP: Record<string, string> = {
 export type SubscriptionDiscount = {
   percent_off: number | null;
   amount_off: number | null;
+  valid: boolean;
+  duration?: string | null;
+  durationInMonths?: number | null;
+  percentOff?: number | null;
+  amountOff?: number | null;
 };
 
 // Feature type for plan features
@@ -46,6 +51,11 @@ export type Feature = {
   description?: string;
   included: boolean;
   isHighlighted?: boolean;
+  text: string;
+  tooltip?: string | null;
+  isUsers?: boolean;
+  isNotIncluded?: boolean;
+  isCustomDomain?: boolean;
 };
 
 // Get features for a plan - AGPL version (all features enabled)
@@ -70,3 +80,8 @@ export const PLANS = [
 
 // Stripe instance stub
 export const getStripe = (...args: any[]) => null;
+
+// Webhook handler stubs
+export const checkoutSessionCompleted = async (...args: any[]) => {};
+export const customerSubscriptionDeleted = async (...args: any[]) => {};
+export const customerSubsciptionUpdated = async (...args: any[]) => {};

@@ -69,6 +69,13 @@ export default async function handler(
     const reportKey = `report:doc_${documentId}`;
     const viewIdValue = `view_${viewId}`;
 
+    if (!redis) {
+      return res.status(500).json({
+        status: "error",
+        message: "Redis is not configured",
+      });
+    }
+
     // Check if the viewId has already reported for this documentId
     const hasReported = await redis.sismember(reportKey, viewIdValue);
     if (hasReported) {

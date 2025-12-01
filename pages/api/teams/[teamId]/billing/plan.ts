@@ -79,7 +79,7 @@ export default async function handle(
             team.subscriptionId,
             isOldAccount(team.plan),
           );
-          discount = subscriptionData.discount;
+          discount = subscriptionData?.discount ?? null;
         } catch (error) {
           // If we can't fetch discount info, just log and continue without it
           console.error("Failed to fetch discount information:", error);

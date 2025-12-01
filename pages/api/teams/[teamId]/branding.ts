@@ -83,7 +83,7 @@ export default async function handle(
     });
 
     // Cache the logo URL in Redis if logo exists and Redis is configured
-    if (logo && process.env.UPSTASH_REDIS_REST_URL) {
+    if (logo && redis) {
       try {
         await redis.set(`brand:logo:${teamId}`, logo);
       } catch (error) {
@@ -126,7 +126,7 @@ export default async function handle(
     });
 
     // Update logo in Redis cache if Redis is configured
-    if (process.env.UPSTASH_REDIS_REST_URL) {
+    if (redis) {
       try {
         if (logo) {
           await redis.set(`brand:logo:${teamId}`, logo);
@@ -204,7 +204,7 @@ export default async function handle(
     });
 
     // Remove logo from Redis cache if Redis is configured
-    if (process.env.UPSTASH_REDIS_REST_URL) {
+    if (redis) {
       try {
         await redis.del(`brand:logo:${teamId}`);
       } catch (error) {

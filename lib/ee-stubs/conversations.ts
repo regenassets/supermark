@@ -26,4 +26,10 @@ export const toggleConversationsRoute = async (...args: any[]) =>
 export const sendConversationNotification = async (...args: any[]) => null;
 export const sendConversationTeamNotification = async (...args: any[]) => null;
 export const conversationMessageNotification = async (...args: any[]) => null;
+export const sendConversationMessageNotificationTask = async (...args: any[]) => null;
+export const sendConversationTeamMemberNotificationTask = async (...args: any[]) => null;
+export const handleRoute = async (...args: any[]) => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
 export const faqSchema = {};
+
+// Type exports
+export type ConversationSidebarProps = {};

@@ -112,6 +112,9 @@ export default async function handle(
       const minQuantity = getQuantityFromPriceId(priceId);
 
       const stripe = stripeInstance(isOldAccount(team.plan));
+      if (!stripe) {
+        return res.status(500).json({ error: "Stripe not configured" });
+      }
       const { url } = await stripe.billingPortal.sessions.create({
         customer: team.stripeId,
         return_url: `${process.env.NEXTAUTH_URL}/settings/billing?cancel=true`,
