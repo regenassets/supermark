@@ -15,7 +15,11 @@ export default function HomepageFeatures() {
       title: "Open Source & Self-Hosted",
       description:
         "Own your infrastructure, control your data, modify the code",
-      benefits: ["AGPL-3.0 licensed", "No vendor lock-in", "Full transparency"],
+      benefits: [
+        "AGPL-3.0 licensed - truly open",
+        "No paygated features ever",
+        "All features available to everyone",
+      ],
     },
     {
       icon: RocketIcon,
