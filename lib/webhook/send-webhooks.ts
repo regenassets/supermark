@@ -50,7 +50,7 @@ const publishWebhookEventToQStash = async ({
   // Try QStash first (if configured)
   if (isQStashAvailable() && qstash) {
     try {
-      const response = await qstash.publishJSON({
+      const response = await qstash?.publishJSON({
         url: webhook.url,
         body: payload,
         headers: {
