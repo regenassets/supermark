@@ -15,17 +15,6 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/dashboard",
-        permanent: false,
-        has: [
-          {
-            type: "host",
-            value: process.env.NEXT_PUBLIC_APP_BASE_HOST,
-          },
-        ],
-      },
-      {
         // temporary redirect set on 2025-10-22
         source: "/view/cmdn06aw00001ju04jgsf8h4f",
         destination: "/view/cmh0uiv6t001mjm04sk10ecc8",

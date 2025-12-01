@@ -16,16 +16,18 @@ export default async function AppMiddleware(req: NextRequest) {
     };
   };
 
-  // UNAUTHENTICATED if there's no token and the path isn't /login, redirect to /login
-  if (!token?.email && path !== "/login") {
-    const loginUrl = new URL(`/login`, req.url);
-    // Append "next" parameter only if not navigating to the root
-    if (path !== "/") {
-      const nextPath =
-        path === "/auth/confirm-email-change" ? `${path}${url.search}` : path;
+  // AUTHENTICATED if the path is "/", redirect to "/dashboard"
+  if (token?.email && path === "/") {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
 
-      loginUrl.searchParams.set("next", encodeURIComponent(nextPath));
-    }
+  // UNAUTHENTICATED if there's no token and the path isn't /login, /register, or /, redirect to /login
+  if (!token?.email && path !== "/login" && path !== "/register" && path !== "/") {
+    const loginUrl = new URL(`/login`, req.url);
+    const nextPath =
+      path === "/auth/confirm-email-change" ? `${path}${url.search}` : path;
+
+    loginUrl.searchParams.set("next", encodeURIComponent(nextPath));
     return NextResponse.redirect(loginUrl);
   }
 
@@ -40,8 +42,8 @@ export default async function AppMiddleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/welcome", req.url));
   }
 
-  // AUTHENTICATED if the path is /login, redirect to "/dashboard"
-  if (token?.email && path === "/login") {
+  // AUTHENTICATED if the path is /login or /register, redirect to "/dashboard"
+  if (token?.email && (path === "/login" || path === "/register")) {
     const nextPath = url.searchParams.get("next") || "/dashboard"; // Default redirection to "/dashboard" if no next parameter
     return NextResponse.redirect(
       new URL(decodeURIComponent(nextPath), req.url),
