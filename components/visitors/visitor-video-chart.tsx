@@ -8,10 +8,10 @@ import {
 } from "recharts";
 import useSWR from "swr";
 
+import { fetcher } from "@/lib/utils";
+
 import { Card } from "@/components/ui/card";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-
-import { fetcher } from "@/lib/utils";
 
 export default function VisitorVideoChart({
   documentId,

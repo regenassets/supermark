@@ -1,12 +1,12 @@
 import { render } from "@react-email/components";
 import { nanoid } from "nanoid";
 
-import YearInReviewEmail from "@/components/emails/year-in-review-supermark";
-
 import prisma from "@/lib/prisma";
 import { resend } from "@/lib/resend";
 import { log } from "@/lib/utils";
 import { generateUnsubscribeUrl } from "@/lib/utils/unsubscribe";
+
+import YearInReviewEmail from "@/components/emails/year-in-review-supermark";
 
 const BATCH_SIZE = 100; // Maximum number of emails Resend supports in one batch
 const MAX_ATTEMPTS = 3;

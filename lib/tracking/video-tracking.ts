@@ -117,7 +117,11 @@ class VideoTracker {
     target.addEventListener(type, listener);
   }
 
-  private async trackEvent(eventType: EventType, endTime?: number, useBeacon: boolean = false) {
+  private async trackEvent(
+    eventType: EventType,
+    endTime?: number,
+    useBeacon: boolean = false,
+  ) {
     if (this.trackingConfig.isPreview) return;
 
     const currentTime = this.videoElement.currentTime;

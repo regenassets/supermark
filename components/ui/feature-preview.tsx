@@ -1,8 +1,8 @@
 import React from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { LockIcon } from "lucide-react";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { cn } from "@/lib/utils";
 
 import {

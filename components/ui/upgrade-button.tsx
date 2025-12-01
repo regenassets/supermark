@@ -1,8 +1,8 @@
 import React, { ButtonHTMLAttributes, useState } from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { CrownIcon } from "lucide-react";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { cn } from "@/lib/utils";
 
 import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";

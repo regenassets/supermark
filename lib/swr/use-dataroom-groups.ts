@@ -14,7 +14,9 @@ import { fetcher } from "@/lib/utils";
 
 import { LinkWithViews } from "../types";
 
-export default function useDataroomGroups({ documentId }: { documentId?: string } = {}) {
+export default function useDataroomGroups({
+  documentId,
+}: { documentId?: string } = {}) {
   const teamInfo = useTeam();
   const router = useRouter();
 
@@ -39,8 +41,9 @@ export default function useDataroomGroups({ documentId }: { documentId?: string 
     teamInfo?.currentTeam?.id &&
       id &&
       isDataroom &&
-    `/api/teams/${teamInfo?.currentTeam?.id}/datarooms/${id}/groups${documentId ? `?documentId=${documentId}` : ""
-    }`,
+      `/api/teams/${teamInfo?.currentTeam?.id}/datarooms/${id}/groups${
+        documentId ? `?documentId=${documentId}` : ""
+      }`,
     fetcher,
     { dedupingInterval: 30000 },
   );

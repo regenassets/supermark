@@ -4,6 +4,8 @@ import { useTeam } from "@/context/team-context";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
+import { useAnalytics } from "@/lib/analytics";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,8 +18,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-
-import { useAnalytics } from "@/lib/analytics";
 
 export function AddGroupMemberModal({
   dataroomId,

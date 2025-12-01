@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 
 import { errorhandler } from "@/lib/errorHandler";
@@ -8,22 +9,24 @@ import prisma from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 import { getDocumentDurationPerViewer } from "@/lib/tinybird";
 import { CustomUser } from "@/lib/types";
-import { Prisma } from "@prisma/client";
 
 async function fetchAndCacheDurations(
   groupedViews: Array<{ documentId: string; viewIds: string[] }>,
   teamId: string,
   viewerId: string,
-  cacheKey: string
+  cacheKey: string,
 ): Promise<Record<string, number>> {
   let durationsMap: Record<string, number> = {};
   const cachedDurations = await redis.get(cacheKey);
 
   if (cachedDurations) {
-    const parsedDurations = typeof cachedDurations === 'string' ? JSON.parse(cachedDurations) : cachedDurations;
+    const parsedDurations =
+      typeof cachedDurations === "string"
+        ? JSON.parse(cachedDurations)
+        : cachedDurations;
     durationsMap = parsedDurations;
   } else {
-    const batchSize = 10; 
+    const batchSize = 10;
     for (let i = 0; i < groupedViews.length; i += batchSize) {
       const batch = groupedViews.slice(i, i + batchSize);
 
@@ -38,7 +41,10 @@ async function fetchAndCacheDurations(
             totalDuration: durationResult.data[0]?.sum_duration || 0,
           };
         } catch (error) {
-          console.error(`Error fetching duration for document ${view.documentId}:`, error);
+          console.error(
+            `Error fetching duration for document ${view.documentId}:`,
+            error,
+          );
           return {
             documentId: view.documentId,
             totalDuration: 0,
@@ -47,7 +53,7 @@ async function fetchAndCacheDurations(
       });
 
       const batchResults = await Promise.all(batchPromises);
-      batchResults.forEach(result => {
+      batchResults.forEach((result) => {
         durationsMap[result.documentId] = result.totalDuration;
       });
     }
@@ -69,15 +75,16 @@ export default async function handle(
       return res.status(401).end("Unauthorized");
     }
 
-    const { teamId, id, page, pageSize, sortBy, sortOrder, withDuration } = req.query as {
-      teamId: string;
-      id: string;
-      page?: string;
-      pageSize?: string;
-      sortBy?: string;
-      sortOrder?: string;
-      withDuration?: string;
-    };
+    const { teamId, id, page, pageSize, sortBy, sortOrder, withDuration } =
+      req.query as {
+        teamId: string;
+        id: string;
+        page?: string;
+        pageSize?: string;
+        sortBy?: string;
+        sortOrder?: string;
+        withDuration?: string;
+      };
 
     // Parse pagination parameters
     const currentPage = parseInt(page || "1", 10);
@@ -88,7 +95,9 @@ export default async function handle(
     const validSortFields = ["lastViewed", "totalDuration", "viewCount"];
     const validSortOrders = ["asc", "desc"];
     const sort = validSortFields.includes(sortBy || "") ? sortBy : "lastViewed";
-    const order = validSortOrders.includes(sortOrder || "") ? sortOrder : "desc";
+    const order = validSortOrders.includes(sortOrder || "")
+      ? sortOrder
+      : "desc";
 
     const userId = (session.user as CustomUser).id;
 
@@ -140,19 +149,21 @@ export default async function handle(
 
       let orderByClause: Prisma.Sql;
       if (sort === "lastViewed") {
-        orderByClause = order === "desc"
-          ? Prisma.sql`"lastViewed" DESC`
-          : Prisma.sql`"lastViewed" ASC`;
+        orderByClause =
+          order === "desc"
+            ? Prisma.sql`"lastViewed" DESC`
+            : Prisma.sql`"lastViewed" ASC`;
       } else if (sort === "viewCount") {
-        orderByClause = order === "desc"
-          ? Prisma.sql`"viewCount" DESC, "lastViewed" DESC`
-          : Prisma.sql`"viewCount" ASC, "lastViewed" DESC`;
+        orderByClause =
+          order === "desc"
+            ? Prisma.sql`"viewCount" DESC, "lastViewed" DESC`
+            : Prisma.sql`"viewCount" ASC, "lastViewed" DESC`;
       } else {
         orderByClause = Prisma.sql`"lastViewed" DESC`;
       }
 
       if (sort === "totalDuration") {
-        const allDocuments = await prisma.$queryRaw`
+        const allDocuments = (await prisma.$queryRaw`
           WITH viewer_documents AS (
             SELECT 
               v."documentId",
@@ -170,7 +181,7 @@ export default async function handle(
           )
           SELECT * FROM viewer_documents
           ORDER BY "lastViewed" DESC
-        ` as Array<{
+        `) as Array<{
           documentId: string;
           viewCount: number;
           lastViewed: Date;
@@ -181,11 +192,16 @@ export default async function handle(
         }>;
 
         const durationCacheKey = `durations:${teamId}:${id}:all:duration-sort`;
-        const durationsMap = await fetchAndCacheDurations(allDocuments, teamId, id, durationCacheKey);
+        const durationsMap = await fetchAndCacheDurations(
+          allDocuments,
+          teamId,
+          id,
+          durationCacheKey,
+        );
 
-        const documentsWithDurations = allDocuments.map(doc => ({
+        const documentsWithDurations = allDocuments.map((doc) => ({
           ...doc,
-          totalDuration: durationsMap[doc.documentId] || 0
+          totalDuration: durationsMap[doc.documentId] || 0,
         }));
 
         // Sort by duration efficiently
@@ -197,10 +213,9 @@ export default async function handle(
 
         // Apply pagination after sorting
         groupedViews = documentsWithDurations.slice(offset, offset + limit);
-
       } else {
         // Optimized query leveraging our performance indexes
-        groupedViews = await prisma.$queryRaw`
+        groupedViews = (await prisma.$queryRaw`
           WITH viewer_documents AS (
             SELECT 
               v."documentId",
@@ -220,7 +235,7 @@ export default async function handle(
           ORDER BY ${orderByClause}
           LIMIT ${limit}
           OFFSET ${offset}
-        ` as Array<{
+        `) as Array<{
           documentId: string;
           viewCount: number;
           lastViewed: Date;
@@ -231,12 +246,12 @@ export default async function handle(
         }>;
       }
 
-      const totalCountResult = await prisma.$queryRaw`
+      const totalCountResult = (await prisma.$queryRaw`
         SELECT COUNT(DISTINCT v."documentId")::int as count
         FROM "View" v
         WHERE v."viewerId" = ${id}
           AND v."documentId" IS NOT NULL
-      ` as Array<{ count: number }>;
+      `) as Array<{ count: number }>;
 
       const totalItems = totalCountResult[0]?.count || 0;
       const totalPages = Math.ceil(totalItems / limit);
@@ -245,17 +260,24 @@ export default async function handle(
       if (withDuration === "true") {
         try {
           const durationCacheKey = `durations:${teamId}:${id}:${currentPage}:${limit}:${sort}:${order}`;
-          const durationsMap = await fetchAndCacheDurations(groupedViews, teamId, id, durationCacheKey);
+          const durationsMap = await fetchAndCacheDurations(
+            groupedViews,
+            teamId,
+            id,
+            durationCacheKey,
+          );
 
           // Add cache headers
-          res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+          res.setHeader(
+            "Cache-Control",
+            "public, s-maxage=60, stale-while-revalidate=300",
+          );
           return res.status(200).json({ durations: durationsMap });
-
         } catch (error) {
           console.error("Error processing duration batches:", error);
           // Return empty durations on error
           const emptyDurationsMap = Object.fromEntries(
-            groupedViews.map(view => [view.documentId, 0])
+            groupedViews.map((view) => [view.documentId, 0]),
           );
           return res.status(200).json({ durations: emptyDurationsMap });
         }
@@ -295,11 +317,14 @@ export default async function handle(
       if (withDuration !== "true") {
         await redis.set(cacheKey, JSON.stringify(formattedViews), { ex: 600 }); // 10 min cache
       }
-      res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=300');
+      res.setHeader(
+        "Cache-Control",
+        "public, s-maxage=30, stale-while-revalidate=300",
+      );
 
       return res.status(200).json(newViewer);
     } catch (error) {
-      console.error('Viewer Details API Error:', error);
+      console.error("Viewer Details API Error:", error);
       errorhandler(error, res);
     }
   } else {

@@ -19,11 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export default function VersionHistory({
-  documentId,
-}: {
-  documentId: string;
-}) {
+export default function VersionHistory({ documentId }: { documentId: string }) {
   const teamInfo = useTeam();
   const teamId = teamInfo?.currentTeam?.id;
   const { versions, loading, mutate } = useDocumentVersions();
@@ -69,10 +65,16 @@ export default function VersionHistory({
     const numBytes = Number(bytes);
     if (numBytes === 0) return "0 Bytes";
     const i = Math.floor(Math.log(numBytes) / Math.log(1024));
-    return Math.round(numBytes / Math.pow(1024, i) * 100) / 100 + " " + sizes[i];
+    return (
+      Math.round((numBytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i]
+    );
   };
 
-  const getFileTypeDisplay = (type: string, numPages: number | null, length: number | null) => {
+  const getFileTypeDisplay = (
+    type: string,
+    numPages: number | null,
+    length: number | null,
+  ) => {
     if (type === "video") {
       const minutes = length ? Math.floor(length / 60) : 0;
       const seconds = length ? length % 60 : 0;
@@ -135,12 +137,18 @@ export default function VersionHistory({
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <FileTextIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-medium">v{version.versionNumber}</span>
+                    <span className="font-medium">
+                      v{version.versionNumber}
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-muted-foreground">
-                    {getFileTypeDisplay(version.type, version.numPages, version.length)}
+                    {getFileTypeDisplay(
+                      version.type,
+                      version.numPages,
+                      version.length,
+                    )}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -171,7 +179,9 @@ export default function VersionHistory({
                       onClick={() => handleSetPrimary(version.id)}
                       disabled={settingPrimary !== null}
                     >
-                      {settingPrimary === version.id ? "Setting..." : "Set as Current"}
+                      {settingPrimary === version.id
+                        ? "Setting..."
+                        : "Set as Current"}
                     </Button>
                   )}
                 </TableCell>

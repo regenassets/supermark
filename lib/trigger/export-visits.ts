@@ -2,6 +2,7 @@ import { logger, task } from "@trigger.dev/sdk";
 import Bottleneck from "bottleneck";
 
 import { sendExportReadyEmail } from "@/lib/emails/send-export-ready-email";
+import { putFileServer } from "@/lib/files/put-file-server";
 import prisma from "@/lib/prisma";
 import { jobStore } from "@/lib/redis-job-store";
 import {
@@ -9,7 +10,6 @@ import {
   getViewUserAgent,
   getViewUserAgent_v2,
 } from "@/lib/tinybird";
-import { putFileServer } from "@/lib/files/put-file-server";
 
 // Helper function to properly escape CSV fields
 function escapeCsvField(field: string | number | null | undefined): string {
@@ -128,9 +128,12 @@ export const exportVisitsTask = task({
         downloadUrl = storageData; // Vercel Blob returns the full URL
       } else {
         // S3/R2 - construct URL from distribution host
-        const distributionHost = process.env.NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST;
+        const distributionHost =
+          process.env.NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST;
         if (!distributionHost) {
-          throw new Error("NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST not configured for S3 storage");
+          throw new Error(
+            "NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST not configured for S3 storage",
+          );
         }
         downloadUrl = `https://${distributionHost}/${storageData}`;
       }

@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { initialState } from "@/context/team-context";
 import { useTeam } from "@/context/team-context";
 import { TeamContextType } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { InfoIcon, ShieldAlertIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import { useGetTeam } from "@/lib/swr/use-team";
 import { useTeams } from "@/lib/swr/use-teams";

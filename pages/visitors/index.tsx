@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
 
-
-
 import { useEffect, useState } from "react";
 
 import { usePlan } from "@/lib/swr/use-billing";

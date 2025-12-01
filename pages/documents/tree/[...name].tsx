@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import { useTeam } from "@/context/team-context";
 import { FolderPlusIcon, PlusIcon } from "lucide-react";
 
+import { useFolder, useFolderDocuments } from "@/lib/swr/use-documents";
+
 import { AddDocumentModal } from "@/components/documents/add-document-modal";
 import { DocumentsList } from "@/components/documents/documents-list";
 import { AddFolderModal } from "@/components/folders/add-folder-modal";
 import AppLayout from "@/components/layouts/app";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-
-import { useFolder, useFolderDocuments } from "@/lib/swr/use-documents";
 
 export default function DocumentTreePage() {
   const router = useRouter();

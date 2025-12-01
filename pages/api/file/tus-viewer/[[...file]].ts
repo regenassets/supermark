@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { MultiRegionS3Store } from "@/lib/storage/config";
 import { CopyObjectCommand } from "@aws-sdk/client-s3";
 import slugify from "@sindresorhus/slugify";
 import { Server } from "@tus/server";
@@ -12,6 +11,7 @@ import { RedisLocker } from "@/lib/files/tus-redis-locker";
 import { newId } from "@/lib/id-helper";
 import prisma from "@/lib/prisma";
 import { lockerRedisClient } from "@/lib/redis";
+import { MultiRegionS3Store } from "@/lib/storage/config";
 import { log } from "@/lib/utils";
 
 export const config = {

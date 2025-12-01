@@ -165,7 +165,10 @@ export function NavUser() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => {
-                    window.open("https://github.com/regenassets/supermark/issues", "_blank");
+                    window.open(
+                      "https://github.com/regenassets/supermark/issues",
+                      "_blank",
+                    );
                   }}
                 >
                   <MailIcon />

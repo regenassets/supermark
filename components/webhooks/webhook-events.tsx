@@ -1,10 +1,10 @@
 "use client";
 
-import { PropsWithChildren, useState, useEffect } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 import { CircleCheck, CircleXIcon, CopyIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { createHighlighter, type Highlighter } from "shiki";
+import { type Highlighter, createHighlighter } from "shiki";
 
 import { useCopyToClipboard } from "@/lib/utils/use-copy-to-clipboard";
 import { useMediaQuery } from "@/lib/utils/use-media-query";
@@ -25,12 +25,12 @@ export type EventListProps = PropsWithChildren<{
 }>;
 
 // Shiki Code Highlighter Component
-const CodeHighlighter = ({ 
-  code, 
+const CodeHighlighter = ({
+  code,
   language = "json",
-  isDark = false 
-}: { 
-  code: string; 
+  isDark = false,
+}: {
+  code: string;
   language?: string;
   isDark?: boolean;
 }) => {
@@ -40,8 +40,8 @@ const CodeHighlighter = ({
   useEffect(() => {
     const initHighlighter = async () => {
       const shiki = await createHighlighter({
-        themes: ['material-theme-lighter', 'material-theme-darker'],
-        langs: ['json']
+        themes: ["material-theme-lighter", "material-theme-darker"],
+        langs: ["json"],
       });
       setHighlighter(shiki);
     };
@@ -51,7 +51,7 @@ const CodeHighlighter = ({
 
   useEffect(() => {
     if (highlighter && code) {
-      const theme = isDark ? 'material-theme-darker' : 'material-theme-lighter';
+      const theme = isDark ? "material-theme-darker" : "material-theme-lighter";
       const html = highlighter.codeToHtml(code, {
         lang: language,
         theme: theme,
@@ -61,23 +61,27 @@ const CodeHighlighter = ({
               // Add custom styling to the pre element
               node.properties.style = [
                 node.properties.style,
-                'margin: 0',
-                'padding: 0.5rem',
-                'font-size: 0.875rem',
-                'border-radius: 0.375rem',
-                'overflow-x: auto'
-              ].filter(Boolean).join('; ');
+                "margin: 0",
+                "padding: 0.5rem",
+                "font-size: 0.875rem",
+                "border-radius: 0.375rem",
+                "overflow-x: auto",
+              ]
+                .filter(Boolean)
+                .join("; ");
             },
             code(node) {
               // Ensure proper styling for the code element
               node.properties.style = [
                 node.properties.style,
-                'display: block',
-                'line-height: 1.5'
-              ].filter(Boolean).join('; ');
-            }
-          }
-        ]
+                "display: block",
+                "line-height: 1.5",
+              ]
+                .filter(Boolean)
+                .join("; ");
+            },
+          },
+        ],
       });
       setHighlightedCode(html);
     }
@@ -92,7 +96,7 @@ const CodeHighlighter = ({
   }
 
   return (
-    <div 
+    <div
       className="overflow-x-auto rounded-md"
       dangerouslySetInnerHTML={{ __html: highlightedCode }}
     />
@@ -105,7 +109,8 @@ const WebhookEvent = ({ event }: { event: any }) => {
   const { isMobile } = useMediaQuery();
   const [isOpen, setIsOpen] = useState(false);
   const { theme, systemTheme } = useTheme();
-  const isDark = theme === "dark" || (theme === "system" && systemTheme === "dark");
+  const isDark =
+    theme === "dark" || (theme === "system" && systemTheme === "dark");
 
   return (
     <>

@@ -46,8 +46,6 @@ export default async function handle(
       return;
     }
 
-
-
     res.status(200).json({ message: "Reaction recorded" });
     return;
   } catch (error) {

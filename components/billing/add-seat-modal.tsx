@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { getPriceIdFromPlan } from "@/lib/ee-stubs/stripe";
-import { getQuantityFromPriceId } from "@/lib/ee-stubs/stripe";
 import { toast } from "sonner";
 
 import { useAnalytics } from "@/lib/analytics";
+import { getPriceIdFromPlan } from "@/lib/ee-stubs/stripe";
+import { getQuantityFromPriceId } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import useLimits from "@/lib/swr/use-limits";
 

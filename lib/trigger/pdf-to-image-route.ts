@@ -26,7 +26,6 @@ export const convertPdfToImageRoute = task({
       NODE_ENV: process.env.NODE_ENV,
     });
 
-
     // 1. get file url from document version
     const documentVersion = await prisma.documentVersion.findUnique({
       where: {

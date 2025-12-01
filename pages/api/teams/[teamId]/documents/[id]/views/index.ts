@@ -146,7 +146,8 @@ async function getDocumentViews(views: ViewWithExtras[], document: Document) {
         totalDuration: 0,
         completionRate: "0",
         versionNumber: relevantDocumentVersion?.versionNumber || 1,
-        versionNumPages: relevantDocumentVersion?.numPages || document.numPages || 0,
+        versionNumPages:
+          relevantDocumentVersion?.numPages || document.numPages || 0,
       };
     });
   }

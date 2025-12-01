@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { InvocationType, InvokeCommand } from "@aws-sdk/client-lambda";
 import { ItemType, ViewType } from "@prisma/client";
 
 import { getLambdaClientForTeam } from "@/lib/files/aws-client";
 import { notifyDocumentDownload } from "@/lib/integrations/slack/events";
 import prisma from "@/lib/prisma";
+import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { getIpAddress } from "@/lib/utils/ip";
 
 export const config = {

@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { getServerSession } from "next-auth/next";
 import slugify from "@sindresorhus/slugify";
 import crypto from "crypto";
+import { getServerSession } from "next-auth/next";
 import path from "node:path";
 
 import { getTeamS3ClientAndConfig } from "@/lib/files/aws-client";
-import { CustomUser } from "@/lib/types";
 import prisma from "@/lib/prisma";
+import { CustomUser } from "@/lib/types";
 
 import { authOptions } from "../auth/[...nextauth]";
 
@@ -76,7 +76,9 @@ export default async function handler(
     });
 
     if (!team) {
-      return res.status(403).json({ error: "Unauthorized to access this team" });
+      return res
+        .status(403)
+        .json({ error: "Unauthorized to access this team" });
     }
 
     // Decode base64 file data
@@ -92,18 +94,19 @@ export default async function handler(
     // Validate content type
     if (!config.allowedContentTypes.includes(contentType)) {
       return res.status(400).json({
-        error: `File type not supported. Allowed types: ${config.allowedContentTypes.join(", ")}`
+        error: `File type not supported. Allowed types: ${config.allowedContentTypes.join(", ")}`,
       });
     }
 
     // Validate file size
     if (buffer.length > config.maximumSizeInBytes) {
       return res.status(400).json({
-        error: `File size too large. Maximum: ${config.maximumSizeInBytes / 1024 / 1024}MB`
+        error: `File size too large. Maximum: ${config.maximumSizeInBytes / 1024 / 1024}MB`,
       });
     }
 
-    const NEXT_PUBLIC_UPLOAD_TRANSPORT = process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
+    const NEXT_PUBLIC_UPLOAD_TRANSPORT =
+      process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
 
     if (NEXT_PUBLIC_UPLOAD_TRANSPORT !== "s3") {
       return res.status(500).json({ error: "S3 storage not configured" });

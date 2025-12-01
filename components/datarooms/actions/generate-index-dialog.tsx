@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import {
   FileJson,
   FileSlidersIcon,
@@ -10,6 +9,7 @@ import {
 import { toast } from "sonner";
 
 import { useAnalytics } from "@/lib/analytics";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import { useDataroomLinks } from "@/lib/swr/use-dataroom";
 import { IndexFileFormat } from "@/lib/types/index-file";

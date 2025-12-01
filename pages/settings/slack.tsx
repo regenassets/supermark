@@ -17,9 +17,9 @@ import { useSlackIntegration } from "@/lib/swr/use-slack-integration";
 import AppLayout from "@/components/layouts/app";
 import { SettingsHeader } from "@/components/settings/settings-header";
 import SlackSettingsSkeleton from "@/components/settings/slack-settings-skeleton";
+import { DiscordIcon } from "@/components/shared/icons/discord-icon";
 import { MattermostIcon } from "@/components/shared/icons/mattermost-icon";
 import { SlackIcon } from "@/components/shared/icons/slack-icon";
-import { DiscordIcon } from "@/components/shared/icons/discord-icon";
 import { CommonAlertDialog } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,8 +34,8 @@ import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select-v2";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { BadgeTooltip } from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BadgeTooltip } from "@/components/ui/tooltip";
 
 type IntegrationProvider = "mattermost" | "slack" | "discord";
 
@@ -46,7 +46,8 @@ export default function IntegrationsSettings() {
   const [connecting, setConnecting] = useState(false);
   const [isChannelPopoverOpen, setIsChannelPopoverOpen] = useState(false);
   const [pendingChannelUpdate, setPendingChannelUpdate] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<IntegrationProvider>("mattermost");
+  const [selectedProvider, setSelectedProvider] =
+    useState<IntegrationProvider>("mattermost");
   const analytics = useAnalytics();
 
   // Use SWR hook for integration data
@@ -79,24 +80,30 @@ export default function IntegrationsSettings() {
         return {
           icon: MattermostIcon,
           name: "Mattermost",
-          description: "Receive notifications in your Mattermost channels when documents are viewed or accessed"
+          description:
+            "Receive notifications in your Mattermost channels when documents are viewed or accessed",
         };
       case "slack":
         return {
           icon: SlackIcon,
           name: "Slack",
-          description: "Receive notifications in your Slack channels when documents are viewed or accessed"
+          description:
+            "Receive notifications in your Slack channels when documents are viewed or accessed",
         };
       case "discord":
         return {
           icon: DiscordIcon,
           name: "Discord",
-          description: "Receive notifications in your Discord channels when documents are viewed or accessed"
+          description:
+            "Receive notifications in your Discord channels when documents are viewed or accessed",
         };
     }
   };
 
-  const providerInfo = useMemo(() => getProviderInfo(selectedProvider), [selectedProvider]);
+  const providerInfo = useMemo(
+    () => getProviderInfo(selectedProvider),
+    [selectedProvider],
+  );
 
   const ChannelIcon = useMemo(
     () => <Hash className="h-4 w-4 text-muted-foreground" />,
@@ -184,9 +191,10 @@ export default function IntegrationsSettings() {
 
     try {
       // Use provider-specific OAuth endpoint
-      const oauthEndpoint = selectedProvider === "mattermost" || selectedProvider === "slack"
-        ? `/api/integrations/slack/oauth/authorize?teamId=${teamId}&provider=${selectedProvider}`
-        : `/api/integrations/${selectedProvider}/oauth/authorize?teamId=${teamId}`;
+      const oauthEndpoint =
+        selectedProvider === "mattermost" || selectedProvider === "slack"
+          ? `/api/integrations/slack/oauth/authorize?teamId=${teamId}&provider=${selectedProvider}`
+          : `/api/integrations/${selectedProvider}/oauth/authorize?teamId=${teamId}`;
 
       const response = await fetch(oauthEndpoint);
       const data = await response.json();
@@ -215,7 +223,9 @@ export default function IntegrationsSettings() {
         mutateIntegration(undefined, false);
       } else {
         const data = await response.json();
-        throw new Error(data.error || `Failed to disconnect ${providerInfo.name}`);
+        throw new Error(
+          data.error || `Failed to disconnect ${providerInfo.name}`,
+        );
       }
     };
 
@@ -424,17 +434,32 @@ export default function IntegrationsSettings() {
                 </div>
 
                 {/* Provider Selection Tabs */}
-                <Tabs value={selectedProvider} onValueChange={(value) => setSelectedProvider(value as IntegrationProvider)} className="w-full">
+                <Tabs
+                  value={selectedProvider}
+                  onValueChange={(value) =>
+                    setSelectedProvider(value as IntegrationProvider)
+                  }
+                  className="w-full"
+                >
                   <TabsList className="grid w-full max-w-md grid-cols-3">
-                    <TabsTrigger value="mattermost" className="flex items-center gap-2">
+                    <TabsTrigger
+                      value="mattermost"
+                      className="flex items-center gap-2"
+                    >
                       <MattermostIcon className="h-4 w-4" />
                       Mattermost
                     </TabsTrigger>
-                    <TabsTrigger value="slack" className="flex items-center gap-2">
+                    <TabsTrigger
+                      value="slack"
+                      className="flex items-center gap-2"
+                    >
                       <SlackIcon className="h-4 w-4" />
                       Slack
                     </TabsTrigger>
-                    <TabsTrigger value="discord" className="flex items-center gap-2">
+                    <TabsTrigger
+                      value="discord"
+                      className="flex items-center gap-2"
+                    >
                       <DiscordIcon className="h-4 w-4" />
                       Discord
                     </TabsTrigger>
@@ -485,8 +510,8 @@ export default function IntegrationsSettings() {
                       Connect {providerInfo.name}
                     </CardTitle>
                     <CardDescription>
-                      Connect your {providerInfo.name} workspace to receive real-time
-                      notifications about document activity.
+                      Connect your {providerInfo.name} workspace to receive
+                      real-time notifications about document activity.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -529,7 +554,8 @@ export default function IntegrationsSettings() {
                               </h4>
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              Receive notifications in your {providerInfo.name} channels
+                              Receive notifications in your {providerInfo.name}{" "}
+                              channels
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
@@ -554,8 +580,8 @@ export default function IntegrationsSettings() {
                               </BadgeTooltip>
                             </Label>
                             <p className="text-sm text-muted-foreground">
-                              Select the {providerInfo.name} channel(s) where you want to
-                              receive notifications.
+                              Select the {providerInfo.name} channel(s) where
+                              you want to receive notifications.
                             </p>
                           </div>
 

@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import React from "react";
 
 import { useTeam } from "@/context/team-context";
-import { getStripe } from "@/lib/ee-stubs/stripe";
-import { Feature, PlanEnum, getPlanFeatures } from "@/lib/ee-stubs/stripe";
-import { PLANS } from "@/lib/ee-stubs/stripe";
 import { CheckIcon, Users2Icon, XIcon } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAnalytics } from "@/lib/analytics";
+import { getStripe } from "@/lib/ee-stubs/stripe";
+import { Feature, PlanEnum, getPlanFeatures } from "@/lib/ee-stubs/stripe";
+import { PLANS } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import { capitalize } from "@/lib/utils";
 

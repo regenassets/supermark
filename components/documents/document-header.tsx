@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { Document, DocumentVersion } from "@prisma/client";
 import {
   ArrowRightIcon,
@@ -26,6 +25,7 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { getFile } from "@/lib/files/get-file";
 import { usePlan } from "@/lib/swr/use-billing";
 import useDatarooms from "@/lib/swr/use-datarooms";
@@ -770,7 +770,9 @@ export default function DocumentHeader({
               <DropdownMenuSeparator />
 
               {/* Export views in CSV */}
-              <DropdownMenuItem onClick={() => exportVisitCounts(prismaDocument)}>
+              <DropdownMenuItem
+                onClick={() => exportVisitCounts(prismaDocument)}
+              >
                 <FileDownIcon className="mr-2 h-4 w-4" />
                 Export views
               </DropdownMenuItem>

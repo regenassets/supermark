@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
-import { isHankoAvailable } from "@/lib/hanko";
-import { isCustomDomainsAvailable } from "@/lib/domains";
-import { isTriggerAvailable } from "@/lib/trigger";
+
 import { isQStashAvailable } from "@/lib/cron";
-import { isRedisAvailable } from "@/lib/redis";
+import { isCustomDomainsAvailable } from "@/lib/domains";
+import { isHankoAvailable } from "@/lib/hanko";
 import { isQueueAvailable } from "@/lib/queue";
-import { isTinybirdAvailable } from "@/lib/tinybird";
+import { isRedisAvailable } from "@/lib/redis";
 import { resend } from "@/lib/resend";
+import { isTinybirdAvailable } from "@/lib/tinybird";
+import { isTriggerAvailable } from "@/lib/trigger";
 
 // AGPL: Service health check endpoint
 // Returns the availability status of all external services
@@ -15,19 +16,18 @@ export async function GET() {
   const services = {
     // Core Storage
     storage: {
-      available: !!(
-        process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3"
-          ? process.env.NEXT_PRIVATE_UPLOAD_BUCKET &&
-            process.env.NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID &&
-            process.env.NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY
-          : process.env.BLOB_READ_WRITE_TOKEN
-      ),
+      available: !!(process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3"
+        ? process.env.NEXT_PRIVATE_UPLOAD_BUCKET &&
+          process.env.NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID &&
+          process.env.NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY
+        : process.env.BLOB_READ_WRITE_TOKEN),
       transport: process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT || "not configured",
       endpoint:
         process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3"
           ? process.env.NEXT_PRIVATE_UPLOAD_ENDPOINT || "default"
           : "vercel blob",
-      distribution: process.env.NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST || "not set",
+      distribution:
+        process.env.NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST || "not set",
       critical: true,
     },
 
@@ -58,7 +58,8 @@ export async function GET() {
       available: isTriggerAvailable(),
       configured: !!process.env.TRIGGER_SECRET_KEY,
       critical: false,
-      notes: "Required for document conversion (Office, CAD), video optimization, and exports",
+      notes:
+        "Required for document conversion (Office, CAD), video optimization, and exports",
     },
 
     // Webhook Delivery
@@ -89,7 +90,8 @@ export async function GET() {
         process.env.UPSTASH_REDIS_REST_TOKEN
       ),
       critical: false,
-      notes: "Optional - rate limiting uses mock implementation if not configured",
+      notes:
+        "Optional - rate limiting uses mock implementation if not configured",
     },
 
     // Authentication
@@ -133,7 +135,7 @@ export async function GET() {
 
   // Calculate overall health
   const criticalServices = Object.entries(services).filter(
-    ([_, config]: [string, any]) => config.critical === true
+    ([_, config]: [string, any]) => config.critical === true,
   );
   const criticalOk = criticalServices.every(([_, config]) => config.available);
 

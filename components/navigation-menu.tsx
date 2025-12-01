@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 
 import * as React from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { CrownIcon } from "lucide-react";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { cn } from "@/lib/utils";
 
 import { Separator } from "@/components/ui/separator";

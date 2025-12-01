@@ -5,12 +5,12 @@ import { copyFileToBucketServer } from "@/lib/files/copy-file-to-bucket-server";
 import notion from "@/lib/notion";
 import { getNotionPageIdFromSlug } from "@/lib/notion/utils";
 import prisma from "@/lib/prisma";
+import { isTriggerAvailable } from "@/lib/trigger";
 import {
   convertCadToPdfTask,
   convertFilesToPdfTask,
   convertKeynoteToPdfTask,
 } from "@/lib/trigger/convert-files";
-import { isTriggerAvailable } from "@/lib/trigger";
 import { processVideo } from "@/lib/trigger/optimize-video-files";
 import { convertPdfToImageRoute } from "@/lib/trigger/pdf-to-image-route";
 import { getExtension } from "@/lib/utils";
@@ -263,7 +263,12 @@ export const processDocument = async ({
     );
     console.log("[DEBUG] Task triggered successfully:", { id: handle.id });
   } else {
-    console.log("[DEBUG] Skipping task trigger - triggerConfigured:", triggerConfigured, "type:", type);
+    console.log(
+      "[DEBUG] Skipping task trigger - triggerConfigured:",
+      triggerConfigured,
+      "type:",
+      type,
+    );
   }
 
   if (type === "sheet" && enableExcelAdvancedMode) {

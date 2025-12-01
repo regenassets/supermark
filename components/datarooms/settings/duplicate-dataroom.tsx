@@ -85,7 +85,10 @@ export default function DuplicateDataroom({
         <CardContent></CardContent>
         <CardFooter className="flex items-center justify-end rounded-b-lg border-t px-6 py-3">
           <div className="shrink-0">
-            <Button onClick={(e) => handleDuplicateDataroom(e)} loading={loading}>
+            <Button
+              onClick={(e) => handleDuplicateDataroom(e)}
+              loading={loading}
+            >
               Duplicate Dataroom
             </Button>
           </div>

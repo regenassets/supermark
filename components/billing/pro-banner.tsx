@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import Cookies from "js-cookie";
 import { usePlausible } from "next-plausible";
+
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 
 import X from "@/components/shared/icons/x";
 import { Button } from "@/components/ui/button";

@@ -3,10 +3,10 @@ import { useEffect, useRef } from "react";
 import { AssistantStatus, type Message } from "ai/react";
 import Textarea from "react-textarea-autosize";
 
-import { Button } from "@/components/ui/button";
-
 import { cn } from "@/lib/utils";
 import { useEnterSubmit } from "@/lib/utils/use-enter-submit";
+
+import { Button } from "@/components/ui/button";
 
 import ArrowUp from "../shared/icons/arrow-up";
 

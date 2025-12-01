@@ -2,10 +2,10 @@
 
 import { ReactNode, useEffect, useState } from "react";
 
+import { useTeam } from "@/context/team-context";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
-import { useTeam } from "@/context/team-context";
 import { convertDataUrlToFile, uploadImage } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -52,7 +52,11 @@ const UploadAvatar = ({
           return;
         }
         const blob = convertDataUrlToFile({ dataUrl: image });
-        const blobUrl = await uploadImage(blob, teamInfo?.currentTeam?.id!, "profile");
+        const blobUrl = await uploadImage(
+          blob,
+          teamInfo?.currentTeam?.id!,
+          "profile",
+        );
         fetch("/api/account", {
           method: "PATCH",
           headers: {

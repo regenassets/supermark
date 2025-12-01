@@ -55,7 +55,7 @@ export const moveDocumentToFolder = async ({
           );
           return updatedFolder;
         }
-        return folder; 
+        return folder;
       },
       { revalidate: false },
     );

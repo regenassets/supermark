@@ -49,12 +49,12 @@ const FolderComponentSelection = memo(
           e.preventDefault();
           e.stopPropagation();
           if (isDisabled) return;
-          path: folder.path,
+          path: (folder.path,
             setSelectedFolder({
               id: folder.id,
               name: folder.name,
               path: folder.path,
-            });
+            }));
         }}
       >
         <FileTree.Folder

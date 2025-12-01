@@ -22,9 +22,9 @@ export function WelcomeMessageSection({
 }) {
   const { welcomeMessage } = data;
   const [enabled, setEnabled] = useState<boolean>(!!welcomeMessage);
-  const [welcomeMessageError, setWelcomeMessageError] = useState<
-    string | null
-  >(null);
+  const [welcomeMessageError, setWelcomeMessageError] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     setEnabled(!!welcomeMessage);
@@ -33,7 +33,7 @@ export function WelcomeMessageSection({
   const handleWelcomeMessageToggle = () => {
     const updatedEnabled = !enabled;
     setEnabled(updatedEnabled);
-    
+
     if (!updatedEnabled) {
       // Clear the welcome message when disabled
       setData({ ...data, welcomeMessage: null });
@@ -110,4 +110,3 @@ export function WelcomeMessageSection({
     </div>
   );
 }
-

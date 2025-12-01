@@ -4,6 +4,9 @@ import { motion } from "motion/react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { z } from "zod";
 
+import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
+import { WatermarkConfig, WatermarkConfigSchema } from "@/lib/types";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -29,9 +32,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-
-import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
-import { WatermarkConfig, WatermarkConfigSchema } from "@/lib/types";
 
 interface WatermarkConfigSheetProps {
   isOpen: boolean;

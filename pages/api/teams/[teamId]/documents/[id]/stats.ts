@@ -140,13 +140,17 @@ export default async function handle(
             getTotalAvgPageDuration({
               documentId: docId,
               excludedLinkIds: "",
-              excludedViewIds: allExcludedViews.map((view) => view.id).join(","),
+              excludedViewIds: allExcludedViews
+                .map((view) => view.id)
+                .join(","),
               since: 0,
             }),
             getTotalDocumentDuration({
               documentId: docId,
               excludedLinkIds: "",
-              excludedViewIds: allExcludedViews.map((view) => view.id).join(","),
+              excludedViewIds: allExcludedViews
+                .map((view) => view.id)
+                .join(","),
               since: 0,
             }),
           ])

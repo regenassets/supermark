@@ -11,7 +11,10 @@ import { getSearchParams } from "@/lib/utils/get-search-params";
 
 const oAuthAuthorizeSchema = z.object({
   teamId: z.string().cuid(),
-  provider: z.enum(["slack", "mattermost", "discord"]).optional().default("mattermost"),
+  provider: z
+    .enum(["slack", "mattermost", "discord"])
+    .optional()
+    .default("mattermost"),
 });
 
 export async function GET(req: Request) {
@@ -21,7 +24,9 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { teamId, provider } = oAuthAuthorizeSchema.parse(getSearchParams(req.url));
+    const { teamId, provider } = oAuthAuthorizeSchema.parse(
+      getSearchParams(req.url),
+    );
     const userId = (session.user as CustomUser).id;
 
     const userTeam = await prisma.userTeam.findUnique({

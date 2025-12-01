@@ -21,7 +21,9 @@ export default async function handle(
       `version:${documentVersionId}`,
     );
     // Return null if Trigger.dev is not configured (AGPL: optional service)
-    return res.status(200).json({ publicAccessToken: publicAccessToken ?? null });
+    return res
+      .status(200)
+      .json({ publicAccessToken: publicAccessToken ?? null });
   } catch (error) {
     console.error("Error generating token:", error);
     return res.status(500).json({ error: "Failed to generate token" });

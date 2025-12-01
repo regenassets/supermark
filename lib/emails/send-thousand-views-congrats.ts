@@ -1,10 +1,12 @@
-import ThousandViewsCongratsEmail from "@/components/emails/thousand-views-congrats";
-
 import { sendEmail } from "@/lib/resend";
+
+import ThousandViewsCongratsEmail from "@/components/emails/thousand-views-congrats";
 
 import { CreateUserEmailProps } from "../types";
 
-export const sendThousandViewsCongratsEmail = async (params: CreateUserEmailProps) => {
+export const sendThousandViewsCongratsEmail = async (
+  params: CreateUserEmailProps,
+) => {
   const { name, email } = params.user;
   const emailTemplate = ThousandViewsCongratsEmail({ name });
   try {

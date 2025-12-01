@@ -61,13 +61,14 @@ export default async function handle(
     return res.status(200).json(brand);
   } else if (req.method === "POST") {
     // POST /api/teams/:teamId/branding
-    const { logo, banner, brandColor, accentColor, welcomeMessage } = req.body as {
-      logo?: string;
-      banner?: string;
-      brandColor?: string;
-      accentColor?: string;
-      welcomeMessage?: string;
-    };
+    const { logo, banner, brandColor, accentColor, welcomeMessage } =
+      req.body as {
+        logo?: string;
+        banner?: string;
+        brandColor?: string;
+        accentColor?: string;
+        welcomeMessage?: string;
+      };
 
     // update team with new branding
     const brand = await prisma.brand.create({
@@ -93,13 +94,14 @@ export default async function handle(
     return res.status(200).json(brand);
   } else if (req.method === "PUT") {
     // PUT /api/teams/:teamId/branding
-    const { logo, banner, brandColor, accentColor, welcomeMessage } = req.body as {
-      logo?: string;
-      banner?: string;
-      brandColor?: string;
-      accentColor?: string;
-      welcomeMessage?: string;
-    };
+    const { logo, banner, brandColor, accentColor, welcomeMessage } =
+      req.body as {
+        logo?: string;
+        banner?: string;
+        brandColor?: string;
+        accentColor?: string;
+        welcomeMessage?: string;
+      };
 
     // Use upsert to handle both create and update cases
     const brand = await prisma.brand.upsert({
@@ -148,7 +150,8 @@ export default async function handle(
     });
 
     if (brand) {
-      const NEXT_PUBLIC_UPLOAD_TRANSPORT = process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
+      const NEXT_PUBLIC_UPLOAD_TRANSPORT =
+        process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
 
       // Delete the logo from storage
       if (brand.logo) {
@@ -158,10 +161,12 @@ export default async function handle(
           if (urlMatch) {
             const key = urlMatch[1];
             const { client, config } = await getTeamS3ClientAndConfig(teamId);
-            await client.send(new DeleteObjectCommand({
-              Bucket: config.bucket,
-              Key: key,
-            }));
+            await client.send(
+              new DeleteObjectCommand({
+                Bucket: config.bucket,
+                Key: key,
+              }),
+            );
           }
         } else {
           // Vercel Blob
@@ -177,10 +182,12 @@ export default async function handle(
           if (urlMatch) {
             const key = urlMatch[1];
             const { client, config } = await getTeamS3ClientAndConfig(teamId);
-            await client.send(new DeleteObjectCommand({
-              Bucket: config.bucket,
-              Key: key,
-            }));
+            await client.send(
+              new DeleteObjectCommand({
+                Bucket: config.bucket,
+                Key: key,
+              }),
+            );
           }
         } else {
           // Vercel Blob

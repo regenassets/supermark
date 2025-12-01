@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 
 import useSWRImmutable from "swr/immutable";
 
-import { Progress } from "@/components/ui/progress";
-
 import { cn, fetcher } from "@/lib/utils";
 import { useDocumentProgressStatus } from "@/lib/utils/use-progress-status";
+
+import { Progress } from "@/components/ui/progress";
 
 const QUEUED_MESSAGES = [
   "Converting document...",
@@ -32,7 +32,10 @@ export default function FileProcessStatusBar({
   );
 
   const { status: progressStatus, error: progressError } =
-    useDocumentProgressStatus(documentVersionId, data?.publicAccessToken ?? undefined);
+    useDocumentProgressStatus(
+      documentVersionId,
+      data?.publicAccessToken ?? undefined,
+    );
 
   // Update processing state whenever status changes
   useEffect(() => {

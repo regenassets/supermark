@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { motion } from "motion/react";
 
+import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,8 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { FADE_IN_ANIMATION_SETTINGS } from "@/lib/constants";
 
 import { DEFAULT_LINK_TYPE } from ".";
 import LinkItem from "./link-item";

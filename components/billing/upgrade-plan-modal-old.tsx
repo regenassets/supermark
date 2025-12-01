@@ -4,17 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 import React from "react";
 
 import { useTeam } from "@/context/team-context";
+import { CheckIcon } from "lucide-react";
+
+import { useAnalytics } from "@/lib/analytics";
 import { getStripe } from "@/lib/ee-stubs/stripe";
 import { PLANS } from "@/lib/ee-stubs/stripe";
-import { CheckIcon } from "lucide-react";
+import { usePlan } from "@/lib/swr/use-billing";
+import { capitalize, cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import { useAnalytics } from "@/lib/analytics";
-import { usePlan } from "@/lib/swr/use-billing";
-import { capitalize, cn } from "@/lib/utils";
 
 import { DataroomTrialModal } from "../datarooms/dataroom-trial-modal";
 import X from "../shared/icons/x";

@@ -1,7 +1,6 @@
 /**
  * SWR limits handler - AGPL implementation
  */
-
 import { DEFAULT_PLAN_LIMITS } from "./constants";
 
 /**

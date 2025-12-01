@@ -2,8 +2,13 @@ import Link from "next/link";
 
 import { useState } from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { CircleHelpIcon, InfoIcon, UsersIcon } from "lucide-react";
+
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
+import { usePlan } from "@/lib/swr/use-billing";
+import { useDataroom } from "@/lib/swr/use-dataroom";
+import useDataroomGroups from "@/lib/swr/use-dataroom-groups";
+import { cn } from "@/lib/utils";
 
 import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import { DataroomHeader } from "@/components/datarooms/dataroom-header";
@@ -15,11 +20,6 @@ import AppLayout from "@/components/layouts/app";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BadgeTooltip } from "@/components/ui/tooltip";
-
-import { usePlan } from "@/lib/swr/use-billing";
-import { useDataroom } from "@/lib/swr/use-dataroom";
-import useDataroomGroups from "@/lib/swr/use-dataroom-groups";
-import { cn } from "@/lib/utils";
 
 export default function DataroomGroupPage() {
   const { dataroom } = useDataroom();

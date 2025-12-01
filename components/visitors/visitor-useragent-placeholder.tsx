@@ -1,5 +1,6 @@
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { CrownIcon } from "lucide-react";
+
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 
 import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import { Button } from "@/components/ui/button";

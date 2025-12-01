@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { Readable } from "node:stream";
+import type Stripe from "stripe";
+
 import { stripeInstance } from "@/lib/ee-stubs/stripe";
 import { checkoutSessionCompleted } from "@/lib/ee-stubs/stripe";
 import { customerSubscriptionDeleted } from "@/lib/ee-stubs/stripe";
 import { customerSubsciptionUpdated } from "@/lib/ee-stubs/stripe";
-import { Readable } from "node:stream";
-import type Stripe from "stripe";
-
 import { log } from "@/lib/utils";
 
 // Stripe requires the raw body to construct the event.

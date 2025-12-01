@@ -14,7 +14,9 @@ export const verifyQstashSignature = async ({
   }
 
   if (!receiver) {
-    console.warn("QStash receiver not configured - skipping signature verification");
+    console.warn(
+      "QStash receiver not configured - skipping signature verification",
+    );
     return;
   }
 

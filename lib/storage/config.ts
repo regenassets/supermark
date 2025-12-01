@@ -29,21 +29,31 @@ export function getStorageConfig(storageRegion?: string): StorageConfig {
 
   const bucket = process.env[`NEXT_PRIVATE_UPLOAD_BUCKET${suffix}`];
   const accessKeyId = process.env[`NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID${suffix}`];
-  const secretAccessKey = process.env[`NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY${suffix}`];
+  const secretAccessKey =
+    process.env[`NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY${suffix}`];
 
   if (!bucket) {
-    throw new Error(`Missing environment variable: NEXT_PRIVATE_UPLOAD_BUCKET${suffix}`);
+    throw new Error(
+      `Missing environment variable: NEXT_PRIVATE_UPLOAD_BUCKET${suffix}`,
+    );
   }
   if (!accessKeyId) {
-    throw new Error(`Missing environment variable: NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID${suffix}`);
+    throw new Error(
+      `Missing environment variable: NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID${suffix}`,
+    );
   }
   if (!secretAccessKey) {
-    throw new Error(`Missing environment variable: NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY${suffix}`);
+    throw new Error(
+      `Missing environment variable: NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY${suffix}`,
+    );
   }
 
-  const region = process.env[`NEXT_PRIVATE_UPLOAD_REGION${suffix}`] || (isUS ? "us-east-2" : "eu-central-1");
+  const region =
+    process.env[`NEXT_PRIVATE_UPLOAD_REGION${suffix}`] ||
+    (isUS ? "us-east-2" : "eu-central-1");
   const endpoint = process.env[`NEXT_PRIVATE_UPLOAD_ENDPOINT${suffix}`];
-  const forcePathStyle = process.env.NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE === "true";
+  const forcePathStyle =
+    process.env.NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE === "true";
 
   return {
     bucket,
@@ -73,11 +83,7 @@ export async function getTeamStorageConfigById(
     // Default to primary region
     return getStorageConfig();
   } catch (error) {
-    console.warn(
-      "Failed to get storage config for team %s:",
-      teamId,
-      error,
-    );
+    console.warn("Failed to get storage config for team %s:", teamId, error);
     // Fallback to default config
     return getStorageConfig();
   }
@@ -90,12 +96,16 @@ export async function getTeamStorageConfigById(
  */
 export class MultiRegionS3Store {
   constructor(config?: any) {}
-  
+
   async upload(file: any, options?: any) {
-    throw new Error("MultiRegionS3Store: Advanced storage features not yet implemented");
+    throw new Error(
+      "MultiRegionS3Store: Advanced storage features not yet implemented",
+    );
   }
-  
+
   async download(key: string) {
-    throw new Error("MultiRegionS3Store: Advanced storage features not yet implemented");
+    throw new Error(
+      "MultiRegionS3Store: Advanced storage features not yet implemented",
+    );
   }
 }

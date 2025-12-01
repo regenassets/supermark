@@ -1,6 +1,6 @@
-import ConfirmEmailChange from "@/components/emails/verification-email-change";
-
 import { sendEmail } from "@/lib/resend";
+
+import ConfirmEmailChange from "@/components/emails/verification-email-change";
 
 export const sendEmailChangeVerificationRequestEmail = async (params: {
   email: string;

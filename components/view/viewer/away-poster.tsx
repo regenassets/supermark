@@ -23,7 +23,7 @@ export function AwayPoster({
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    
+
     if (minutes > 0) {
       return remainingSeconds > 0
         ? `${minutes}min ${remainingSeconds}sec`

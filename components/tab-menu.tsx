@@ -2,10 +2,10 @@ import Link from "next/link";
 
 import * as React from "react";
 
+import { cn } from "@/lib/utils";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-
-import { cn } from "@/lib/utils";
 
 type Props = {
   navigation: {

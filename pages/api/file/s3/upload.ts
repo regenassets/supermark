@@ -2,10 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import slugify from "@sindresorhus/slugify";
-import { getServerSession } from "next-auth";
-import path from "node:path";
 import formidable from "formidable";
 import fs from "fs/promises";
+import { getServerSession } from "next-auth";
+import path from "node:path";
 
 import { getTeamS3ClientAndConfig } from "@/lib/files/aws-client";
 import prisma from "@/lib/prisma";
@@ -64,7 +64,9 @@ export default async function handler(
     });
 
     if (!team) {
-      return res.status(403).json({ error: "Unauthorized to access this team" });
+      return res
+        .status(403)
+        .json({ error: "Unauthorized to access this team" });
     }
 
     // Get the uploaded file

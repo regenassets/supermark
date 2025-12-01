@@ -12,7 +12,8 @@ export const Footer = ({
       <Hr />
       <Section className="text-gray-400">
         <Text className="text-xs">
-          © {new Date().getFullYear()} Regenerative Assets LLC All rights reserved.{" "}
+          © {new Date().getFullYear()} Regenerative Assets LLC All rights
+          reserved.{" "}
           {withAddress && (
             <>
               <br />

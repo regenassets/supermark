@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { Domain } from "@prisma/client";
 import { mutate } from "swr";
 
 import { BLOCKED_PATHNAMES } from "@/lib/constants";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { BasePlan, usePlan } from "@/lib/swr/use-billing";
 import useLimits from "@/lib/swr/use-limits";
 import { cn } from "@/lib/utils";

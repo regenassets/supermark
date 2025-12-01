@@ -41,7 +41,10 @@ export const GET = async (req: Request) => {
     const stateKey = `slack:install:state:${state}`;
 
     if (!redis) {
-      return NextResponse.json({ error: "Redis not configured" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Redis not configured" },
+        { status: 500 },
+      );
     }
 
     const teamId = await redis.get<string>(stateKey);
