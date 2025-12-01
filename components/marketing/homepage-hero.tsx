@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import { ArrowRightIcon, GithubIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
 export default function HomepageHero() {
@@ -8,8 +10,7 @@ export default function HomepageHero() {
       <div className="mx-auto flex max-w-[980px] flex-col items-center gap-4 text-center">
         <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]">
           Open Source Document Sharing
-          <br className="hidden sm:inline" />
-          {" "}Built for Teams
+          <br className="hidden sm:inline" /> Built for Teams
         </h1>
         <p className="max-w-[750px] text-lg text-muted-foreground sm:text-xl">
           Self-host Supermark to share documents securely with custom branding,

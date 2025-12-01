@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import { CheckIcon } from "lucide-react";
+
 import {
   Card,
   CardContent,

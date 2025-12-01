@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { GithubIcon } from "lucide-react";
 
 export default function MarketingLayout({
@@ -22,20 +23,20 @@ export default function MarketingLayout({
                 href="https://github.com/regenassets/supermark"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                className="inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 <GithubIcon className="mr-2 h-4 w-4" />
                 GitHub
               </Link>
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                className="inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
               >
                 Sign In
               </Link>
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2"
+                className="inline-flex h-9 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Get Started
               </Link>

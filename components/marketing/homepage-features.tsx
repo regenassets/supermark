@@ -1,4 +1,5 @@
-import { LockKeyholeIcon, RocketIcon, DollarSignIcon } from "lucide-react";
+import { DollarSignIcon, LockKeyholeIcon, RocketIcon } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -12,23 +13,15 @@ export default function HomepageFeatures() {
     {
       icon: LockKeyholeIcon,
       title: "Open Source & Self-Hosted",
-      description: "Own your infrastructure, control your data, modify the code",
-      benefits: [
-        "AGPL-3.0 licensed",
-        "No vendor lock-in",
-        "Full transparency",
-      ],
+      description:
+        "Own your infrastructure, control your data, modify the code",
+      benefits: ["AGPL-3.0 licensed", "No vendor lock-in", "Full transparency"],
     },
     {
       icon: RocketIcon,
       title: "Enterprise Features Included",
-      description:
-        "Professional document sharing without per-user pricing",
-      benefits: [
-        "Custom branding",
-        "NDA agreements",
-        "Advanced analytics",
-      ],
+      description: "Professional document sharing without per-user pricing",
+      benefits: ["Custom branding", "NDA agreements", "Advanced analytics"],
     },
     {
       icon: DollarSignIcon,

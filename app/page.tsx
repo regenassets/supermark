@@ -1,6 +1,6 @@
 import MarketingLayout from "@/components/layouts/marketing-layout";
-import HomepageHero from "@/components/marketing/homepage-hero";
 import HomepageFeatures from "@/components/marketing/homepage-features";
+import HomepageHero from "@/components/marketing/homepage-hero";
 import HomepageInfo from "@/components/marketing/homepage-info";
 
 export default function Homepage() {
