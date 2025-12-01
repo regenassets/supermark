@@ -96,7 +96,7 @@ export default function HomepagePricing() {
                   </li>
                 ))}
               </ul>
-              <Link href="/register">
+              <Link href="/sponsorship">
                 <Button variant="outline" className="w-full gap-2">
                   Request Sponsorship
                 </Button>
