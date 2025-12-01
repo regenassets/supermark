@@ -89,10 +89,10 @@ export async function POST(
       );
     }
 
-
     const updatedDocumentData = {
       ...documentData,
-      enableExcelAdvancedMode: documentData.supportedFileType === "sheet" &&
+      enableExcelAdvancedMode:
+        documentData.supportedFileType === "sheet" &&
         link.team?.enableExcelAdvancedMode &&
         supportsAdvancedExcelMode(documentData.contentType),
     };
