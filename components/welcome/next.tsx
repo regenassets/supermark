@@ -51,7 +51,7 @@ export default function Next() {
           </p>
         </button>
         <button
-          onClick={() => router.push("/documents")}
+          onClick={() => router.push("/datarooms")}
           className="flex min-h-[200px] flex-col items-center justify-center space-y-5 overflow-hidden p-5 transition-colors hover:bg-gray-200 hover:dark:bg-gray-800 md:p-10"
         >
           <ServerIcon className="pointer-events-none h-auto w-12 sm:w-12" />
