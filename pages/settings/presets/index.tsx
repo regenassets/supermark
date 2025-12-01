@@ -4,12 +4,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { LinkPreset } from "@prisma/client";
 import { format } from "date-fns";
 import { CircleHelpIcon, CrownIcon, PlusIcon } from "lucide-react";
 import useSWR from "swr";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import { fetcher, formatExpirationTime } from "@/lib/utils";
 

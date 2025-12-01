@@ -63,7 +63,7 @@ export function EmptyScreen({
             <div className="flex w-full items-center justify-center rounded-md">
               <p className="text-center text-2xl">
                 Chat with{" "}
-                <span className="text-2xl font-bold tracking-tighter ">
+                <span className="text-2xl font-bold tracking-tighter">
                   Supermark
                 </span>
                 &apos;s pitchdeck

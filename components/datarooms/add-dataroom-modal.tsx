@@ -3,13 +3,13 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { XIcon } from "lucide-react";
 import { toast } from "sonner";
 import { mutate } from "swr";
 import { z } from "zod";
 
 import { useAnalytics } from "@/lib/analytics";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 // Templates feature disabled - removed unused imports
 // import {
 //   Select,
@@ -203,10 +204,7 @@ export function AddDataroomModal({
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col space-y-4"
-            >
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
               <div className="space-y-1">
                 <Label htmlFor="dataroom-name-create">
                   Dataroom Name{" "}

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { ViewerGroup } from "@prisma/client";
 import { BoxesIcon, Layers2Icon, PenIcon } from "lucide-react";
 
+import { cn, nFormatter } from "@/lib/utils";
+
 import BarChart from "@/components/shared/icons/bar-chart";
 import MoreVertical from "@/components/shared/icons/more-vertical";
 import { Button } from "@/components/ui/button";
@@ -13,8 +15,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { cn, nFormatter } from "@/lib/utils";
 
 export default function GroupCard({
   group,

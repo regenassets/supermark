@@ -48,7 +48,9 @@ export default function AgplBillingInfo() {
               members and usage, with the following limits:
             </p>
             <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-              <li>• Storage limits apply based on your hosting infrastructure</li>
+              <li>
+                • Storage limits apply based on your hosting infrastructure
+              </li>
               <li>• No per-user or per-document charges</li>
               <li>• Lifetime access to all features</li>
             </ul>
@@ -104,8 +106,8 @@ export default function AgplBillingInfo() {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            Reach out to discuss pricing, contribute back to the project, or
-            ask questions about deployment:
+            Reach out to discuss pricing, contribute back to the project, or ask
+            questions about deployment:
           </p>
           <div className="mt-4 flex flex-col gap-2">
             <a

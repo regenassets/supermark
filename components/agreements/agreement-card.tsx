@@ -1,7 +1,12 @@
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { DownloadIcon, FileTextIcon, MoreVertical, TrashIcon } from "lucide-react";
+import {
+  DownloadIcon,
+  FileTextIcon,
+  MoreVertical,
+  TrashIcon,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { AgreementWithLinksCount } from "@/lib/swr/use-agreements";
@@ -68,12 +73,14 @@ export default function AgreementCard({
         if (!response.ok) {
           throw new Error("Failed to download agreement");
         }
-        
+
         // Get the filename from the Content-Disposition header or use default
         const contentDisposition = response.headers.get("Content-Disposition");
         const filenameMatch = contentDisposition?.match(/filename="([^"]+)"/);
-        const filename = filenameMatch ? filenameMatch[1] : `${agreement.name}.txt`;
-        
+        const filename = filenameMatch
+          ? filenameMatch[1]
+          : `${agreement.name}.txt`;
+
         // Create a blob and download
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
@@ -82,7 +89,7 @@ export default function AgreementCard({
         link.download = filename;
         document.body.appendChild(link);
         link.click();
-        
+
         // Cleanup
         setTimeout(() => {
           window.URL.revokeObjectURL(url);

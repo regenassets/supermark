@@ -1,9 +1,10 @@
-import { useTeam } from "@/context/team-context";
-import { PLAN_NAME_MAP } from "@/lib/ee-stubs/stripe";
-import { SubscriptionDiscount } from "@/lib/ee-stubs/stripe";
-import useSWR from "swr";
 import { useMemo } from "react";
 
+import { useTeam } from "@/context/team-context";
+import useSWR from "swr";
+
+import { PLAN_NAME_MAP } from "@/lib/ee-stubs/stripe";
+import { SubscriptionDiscount } from "@/lib/ee-stubs/stripe";
 import { fetcher } from "@/lib/utils";
 
 interface BillingProps {
@@ -65,7 +66,7 @@ interface PlanDetails {
 }
 
 function parsePlan(plan: BasePlan | PlanWithTrial | PlanWithOld): PlanDetails {
-  if (!plan || typeof plan !== 'string') {
+  if (!plan || typeof plan !== "string") {
     return { plan: null, trial: null, old: false };
   }
 
@@ -94,7 +95,9 @@ export function usePlan({
     error,
     mutate,
   } = useSWR<PlanResponse>(
-    teamId ? `/api/teams/${teamId}/billing/plan${withDiscount ? "?withDiscount=true" : ""}` : null,
+    teamId
+      ? `/api/teams/${teamId}/billing/plan${withDiscount ? "?withDiscount=true" : ""}`
+      : null,
     fetcher,
   );
 

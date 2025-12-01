@@ -36,7 +36,7 @@ export default function StatsElement({ stat, statIdx }: StatsElementProps) {
             !stat.active
               ? "text-gray-300 dark:text-gray-700"
               : "text-foreground",
-            "text-4xl font-semibold tracking-tight ",
+            "text-4xl font-semibold tracking-tight",
           )}
         >
           {stat.value}

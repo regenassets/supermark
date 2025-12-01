@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth/next";
-
 import { runs } from "@trigger.dev/sdk";
+import { getServerSession } from "next-auth/next";
 
 import { jobStore } from "@/lib/redis-job-store";
 import { CustomUser } from "@/lib/types";
@@ -82,15 +81,14 @@ export default async function handler(
 
       // Check if job can be cancelled
       if (!["PENDING", "PROCESSING"].includes(exportJob.status)) {
-        return res.status(400).json({ 
-          error: "Export job cannot be cancelled in current state" 
+        return res.status(400).json({
+          error: "Export job cannot be cancelled in current state",
         });
       }
 
       // Cancel the trigger run if we have the run ID
       if (exportJob.triggerRunId) {
         try {
-          
           await runs.cancel(exportJob.triggerRunId);
         } catch (error) {
           console.error("Failed to cancel trigger run:", error);
@@ -99,14 +97,14 @@ export default async function handler(
       }
 
       // Update job status to cancelled
-      const updatedJob = await jobStore.updateJob(exportId, { 
+      const updatedJob = await jobStore.updateJob(exportId, {
         status: "FAILED",
-        error: "Export cancelled by user"
+        error: "Export cancelled by user",
       });
 
       return res.status(200).json({
         message: "Export job cancelled successfully",
-        job: updatedJob
+        job: updatedJob,
       });
     } catch (error) {
       console.error("Error cancelling export job:", error);

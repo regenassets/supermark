@@ -1,6 +1,6 @@
-import CustomDomainSetupEmail from "@/components/emails/custom-domain-setup";
-
 import { sendEmail } from "@/lib/resend";
+
+import CustomDomainSetupEmail from "@/components/emails/custom-domain-setup";
 
 export const sendCustomDomainSetupEmail = async (
   email: string,
@@ -8,12 +8,12 @@ export const sendCustomDomainSetupEmail = async (
   currentPlan?: string,
   hasAccess?: boolean,
 ) => {
-  const emailTemplate = CustomDomainSetupEmail({ 
-    name: name || "there", 
+  const emailTemplate = CustomDomainSetupEmail({
+    name: name || "there",
     currentPlan: currentPlan || "Free",
     hasAccess: hasAccess || false,
   });
-  
+
   try {
     await sendEmail({
       to: email,
@@ -24,4 +24,4 @@ export const sendCustomDomainSetupEmail = async (
   } catch (e) {
     console.error(e);
   }
-}; 
+};

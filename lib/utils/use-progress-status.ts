@@ -25,7 +25,9 @@ export function useDocumentProgressStatus(
 
   // Find the most recent active run (PENDING_VERSION, QUEUED, DEQUEUED, EXECUTING, or WAITING)
   const activeRun = runs.find((run) =>
-    ["PENDING_VERSION", "QUEUED", "DEQUEUED", "EXECUTING", "WAITING"].includes(run.status),
+    ["PENDING_VERSION", "QUEUED", "DEQUEUED", "EXECUTING", "WAITING"].includes(
+      run.status,
+    ),
   );
 
   const status: IDocumentProgressStatus = {

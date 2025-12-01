@@ -43,7 +43,13 @@ export const ratelimit = (
   if (!redis) {
     // Return a mock ratelimiter for local development without Redis
     return {
-      limit: async () => ({ success: true, limit: requests, remaining: requests, reset: 0, pending: Promise.resolve() }),
+      limit: async () => ({
+        success: true,
+        limit: requests,
+        remaining: requests,
+        reset: 0,
+        pending: Promise.resolve(),
+      }),
     };
   }
   return new Ratelimit({

@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { useState } from "react";
 
-import DataroomTemplates from "@/lib/ee-stubs/templates";
 import { sendGTMEvent } from "@next/third-parties/google";
 import { ArrowLeft as ArrowLeftIcon } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import { useSession } from "next-auth/react";
 
+import DataroomTemplates from "@/lib/ee-stubs/templates";
 import { CustomUser } from "@/lib/types";
 import { cn } from "@/lib/utils";
 

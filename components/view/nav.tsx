@@ -190,8 +190,8 @@ export default function Nav({
     })();
 
     toast.promise(downloadPromise, {
-      loading: hasWatermark 
-        ? "Preparing download with watermark..." 
+      loading: hasWatermark
+        ? "Preparing download with watermark..."
         : "Preparing download...",
       success: (message) => message,
       error: (err) => err.message || "Failed to download file",

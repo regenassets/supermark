@@ -2,11 +2,11 @@ import Link from "next/link";
 
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { CircleHelpIcon, Tag } from "lucide-react";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import { useTags } from "@/lib/swr/use-tags";
 import { TagProps } from "@/lib/types";

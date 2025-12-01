@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 
 import NotFound from "@/pages/404";
 
+import { useAnalytics } from "@/lib/analytics";
+
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import DataroomView from "@/components/view/dataroom/dataroom-view";
 import DocumentView from "@/components/view/document-view";
-
-import { useAnalytics } from "@/lib/analytics";
 
 import { ViewPageProps } from "./index";
 

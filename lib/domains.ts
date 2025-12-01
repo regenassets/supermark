@@ -16,7 +16,9 @@ export const isCustomDomainsAvailable = () => isVercelApiConfigured;
 
 export const addDomainToVercel = async (domain: string) => {
   if (!isVercelApiConfigured) {
-    throw new Error("Custom domains not configured - Vercel API credentials missing");
+    throw new Error(
+      "Custom domains not configured - Vercel API credentials missing",
+    );
   }
 
   return await fetch(
@@ -36,7 +38,9 @@ export const addDomainToVercel = async (domain: string) => {
 
 export const removeDomainFromVercelProject = async (domain: string) => {
   if (!isVercelApiConfigured) {
-    throw new Error("Custom domains not configured - Vercel API credentials missing");
+    throw new Error(
+      "Custom domains not configured - Vercel API credentials missing",
+    );
   }
 
   return await fetch(
@@ -52,7 +56,9 @@ export const removeDomainFromVercelProject = async (domain: string) => {
 
 export const removeDomainFromVercelTeam = async (domain: string) => {
   if (!isVercelApiConfigured) {
-    throw new Error("Custom domains not configured - Vercel API credentials missing");
+    throw new Error(
+      "Custom domains not configured - Vercel API credentials missing",
+    );
   }
 
   return await fetch(
@@ -86,7 +92,9 @@ export const getDomainResponse = async (
   domain: string,
 ): Promise<DomainResponse & { error: { code: string; message: string } }> => {
   if (!isVercelApiConfigured) {
-    throw new Error("Custom domains not configured - Vercel API credentials missing");
+    throw new Error(
+      "Custom domains not configured - Vercel API credentials missing",
+    );
   }
 
   return await fetch(
@@ -107,7 +115,9 @@ export const getConfigResponse = async (
   domain: string,
 ): Promise<DomainConfigResponse> => {
   if (!isVercelApiConfigured) {
-    throw new Error("Custom domains not configured - Vercel API credentials missing");
+    throw new Error(
+      "Custom domains not configured - Vercel API credentials missing",
+    );
   }
 
   return await fetch(
@@ -126,7 +136,9 @@ export const verifyDomain = async (
   domain: string,
 ): Promise<DomainVerificationResponse> => {
   if (!isVercelApiConfigured) {
-    throw new Error("Custom domains not configured - Vercel API credentials missing");
+    throw new Error(
+      "Custom domains not configured - Vercel API credentials missing",
+    );
   }
 
   return await fetch(

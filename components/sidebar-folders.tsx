@@ -2,10 +2,10 @@ import { useRouter } from "next/router";
 
 import { memo, useMemo } from "react";
 
-import { FileTree } from "@/components/ui/nextra-filetree";
-
 import { FolderWithDocuments, useFolders } from "@/lib/swr/use-documents";
 import { cn } from "@/lib/utils";
+
+import { FileTree } from "@/components/ui/nextra-filetree";
 
 import { TSelectedFolder } from "./documents/move-folder-modal";
 

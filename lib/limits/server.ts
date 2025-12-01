@@ -2,8 +2,8 @@
  * Server-side limits handler - AGPL implementation
  * Returns unlimited limits for all teams
  */
-
 import prisma from "@/lib/prisma";
+
 import { DEFAULT_PLAN_LIMITS } from "./constants";
 
 /**

@@ -77,9 +77,11 @@ export function UploadNotificationDrawer({
                 {upload.progress === 100 && upload.documentId ? (
                   <a
                     href={`/documents/${upload.documentId}`}
-                    className="flex items-center justify-between group"
+                    className="group flex items-center justify-between"
                   >
-                    <span className="w-72 truncate text-sm">{upload.fileName}</span>
+                    <span className="w-72 truncate text-sm">
+                      {upload.fileName}
+                    </span>
                     <CheckIcon
                       className="h-6 w-6 rounded-full bg-emerald-500 p-1 text-background"
                       strokeWidth={3}
@@ -87,7 +89,9 @@ export function UploadNotificationDrawer({
                   </a>
                 ) : (
                   <div className="flex items-center justify-between">
-                    <span className="w-72 truncate text-sm text-gray-500 dark:text-gray-400">{upload.fileName}</span>
+                    <span className="w-72 truncate text-sm text-gray-500 dark:text-gray-400">
+                      {upload.fileName}
+                    </span>
                     <Gauge
                       value={upload.progress}
                       size={"xs"}
@@ -111,4 +115,4 @@ export function UploadNotificationDrawer({
       </Drawer>
     </div>
   );
-};
+}

@@ -18,7 +18,11 @@ export default async function handle(
       return res.status(401).end("Unauthorized");
     }
 
-    const { teamId, id: documentId, versionId } = req.query as {
+    const {
+      teamId,
+      id: documentId,
+      versionId,
+    } = req.query as {
       teamId: string;
       id: string;
       versionId: string;

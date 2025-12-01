@@ -14,10 +14,14 @@ export const FaqOverview = () => null;
 
 // Default export for conversation-section.tsx
 export default LinkOptionConversationSection;
-export const conversationsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
-export const teamConversationsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
-export const teamFaqsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
-export const toggleConversationsRoute = async () => new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
+export const conversationsRoute = async () =>
+  new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
+export const teamConversationsRoute = async () =>
+  new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
+export const teamFaqsRoute = async () =>
+  new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
+export const toggleConversationsRoute = async () =>
+  new Response(JSON.stringify({ error: "Feature disabled" }), { status: 501 });
 export const sendConversationNotification = async () => null;
 export const sendConversationTeamNotification = async () => null;
 export const conversationMessageNotification = async () => null;

@@ -3,8 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { LinkType } from "@prisma/client";
 
 import { getFile } from "@/lib/files/get-file";
-import { notifyDocumentDownload as notifySlackDocumentDownload } from "@/lib/integrations/slack/events";
 import { notifyDocumentDownload as notifyMattermostDocumentDownload } from "@/lib/integrations/mattermost/events";
+import { notifyDocumentDownload as notifySlackDocumentDownload } from "@/lib/integrations/slack/events";
 import prisma from "@/lib/prisma";
 import { getFileNameWithPdfExtension } from "@/lib/utils";
 import { getIpAddress } from "@/lib/utils/ip";

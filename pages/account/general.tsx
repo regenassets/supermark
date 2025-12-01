@@ -3,12 +3,12 @@ import { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 
+import { validateEmail } from "@/lib/utils/validate-email";
+
 import { AccountHeader } from "@/components/account/account-header";
 import UploadAvatar from "@/components/account/upload-avatar";
 import AppLayout from "@/components/layouts/app";
 import { Form } from "@/components/ui/form";
-
-import { validateEmail } from "@/lib/utils/validate-email";
 
 const ProfilePage: NextPage = () => {
   const { data: session, update } = useSession();

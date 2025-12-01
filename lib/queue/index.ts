@@ -1,5 +1,6 @@
-import { Queue, Worker, QueueEvents } from "bullmq";
+import { Queue, QueueEvents, Worker } from "bullmq";
 import IORedis from "ioredis";
+
 import { isRedisAvailable } from "@/lib/redis";
 
 // AGPL: BullMQ-based queue system using existing Redis (replaces QStash for webhooks)
@@ -18,8 +19,13 @@ function getRedisConnection(): IORedis | null {
 
   if (!connection) {
     connection = new IORedis({
-      host: process.env.UPSTASH_REDIS_REST_URL?.replace(/^https?:\/\//, "").split(":")[0],
-      port: parseInt(process.env.UPSTASH_REDIS_REST_URL?.split(":").pop() || "6379"),
+      host: process.env.UPSTASH_REDIS_REST_URL?.replace(
+        /^https?:\/\//,
+        "",
+      ).split(":")[0],
+      port: parseInt(
+        process.env.UPSTASH_REDIS_REST_URL?.split(":").pop() || "6379",
+      ),
       password: process.env.UPSTASH_REDIS_REST_TOKEN,
       maxRetriesPerRequest: null,
     });
@@ -79,18 +85,14 @@ export async function addWebhookJob(data: {
     return null;
   }
 
-  return await queue.add(
-    "send-webhook",
-    data,
-    {
-      jobId: `webhook-${data.webhookId}-${data.eventId}`, // Prevent duplicates
-    }
-  );
+  return await queue.add("send-webhook", data, {
+    jobId: `webhook-${data.webhookId}-${data.eventId}`, // Prevent duplicates
+  });
 }
 
 // Process webhook jobs (this should be called in a worker process)
 export function startWebhookWorker(
-  processor: (job: any) => Promise<void>
+  processor: (job: any) => Promise<void>,
 ): Worker | null {
   const redisConnection = getRedisConnection();
 
@@ -111,7 +113,7 @@ export function startWebhookWorker(
     {
       connection: redisConnection,
       concurrency: 5, // Process up to 5 webhooks concurrently
-    }
+    },
   );
 
   webhookWorker.on("completed", (job) => {

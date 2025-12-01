@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { MultiRegionS3Store } from "@/lib/storage/config";
 import { CopyObjectCommand } from "@aws-sdk/client-s3";
 import slugify from "@sindresorhus/slugify";
 import { Server } from "@tus/server";
@@ -11,6 +10,7 @@ import { getTeamS3ClientAndConfig } from "@/lib/files/aws-client";
 import { RedisLocker } from "@/lib/files/tus-redis-locker";
 import { newId } from "@/lib/id-helper";
 import { lockerRedisClient } from "@/lib/redis";
+import { MultiRegionS3Store } from "@/lib/storage/config";
 import { log } from "@/lib/utils";
 
 import { authOptions } from "../../auth/[...nextauth]";

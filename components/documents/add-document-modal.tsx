@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { DefaultPermissionStrategy } from "@prisma/client";
 import { parsePageId } from "notion-utils";
 import { toast } from "sonner";
@@ -17,6 +16,7 @@ import {
   createDocument,
   createNewDocumentVersion,
 } from "@/lib/documents/create-document";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { putFile } from "@/lib/files/put-file";
 import { useDataroomPermissions } from "@/lib/hooks/use-dataroom-permissions";
 import { getNotionPageIdFromSlug } from "@/lib/notion/utils";

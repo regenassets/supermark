@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
+import { getServerSession } from "next-auth/next";
+
 import getSubscriptionItem, {
   SubscriptionDiscount,
 } from "@/lib/ee-stubs/stripe";
 import { isOldAccount } from "@/lib/ee-stubs/stripe";
-import { getServerSession } from "next-auth/next";
-
 import { errorhandler } from "@/lib/errorHandler";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";

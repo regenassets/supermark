@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { InvocationType, InvokeCommand } from "@aws-sdk/client-lambda";
 import { getServerSession } from "next-auth";
 
 import { getLambdaClientForTeam } from "@/lib/files/aws-client";
 import prisma from "@/lib/prisma";
+import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { CustomUser } from "@/lib/types";
 
 export const config = {

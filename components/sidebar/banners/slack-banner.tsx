@@ -51,7 +51,9 @@ export default function SlackBanner({
         <SlackIcon className="h-5 w-5" />
         <span className="text-sm font-bold">Connect Mattermost</span>
       </div>
-      <p className="my-4 text-sm">Get visit notifications in Mattermost channel.</p>
+      <p className="my-4 text-sm">
+        Get visit notifications in Mattermost channel.
+      </p>
       <div className="flex">
         <Button
           type="button"

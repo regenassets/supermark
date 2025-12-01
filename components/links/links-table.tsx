@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useMemo, useRef, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { DocumentVersion, LinkAudienceType } from "@prisma/client";
 import { isWithinInterval, subMinutes } from "date-fns";
 import {
@@ -21,6 +20,7 @@ import { toast } from "sonner";
 import { mutate } from "swr";
 import z from "zod";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import useLimits from "@/lib/swr/use-limits";
 import { LinkWithViews, WatermarkConfig } from "@/lib/types";

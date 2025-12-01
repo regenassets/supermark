@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { reportDeniedAccessAttempt } from "@/lib/security";
-import { getTeamStorageConfigById } from "@/lib/storage/config";
 // Import authOptions directly from the source
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { ipAddress, waitUntil } from "@vercel/functions";
@@ -14,11 +12,13 @@ import { sendOtpVerificationEmail } from "@/lib/emails/send-email-otp-verificati
 import { getFeatureFlags } from "@/lib/featureFlags";
 import { getFile } from "@/lib/files/get-file";
 import { newId } from "@/lib/id-helper";
-import { notifyDocumentView as notifySlackDocumentView } from "@/lib/integrations/slack/events";
 import { notifyDocumentView as notifyMattermostDocumentView } from "@/lib/integrations/mattermost/events";
+import { notifyDocumentView as notifySlackDocumentView } from "@/lib/integrations/slack/events";
 import prisma from "@/lib/prisma";
 import { ratelimit } from "@/lib/redis";
+import { reportDeniedAccessAttempt } from "@/lib/security";
 import { parseSheet } from "@/lib/sheet";
+import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { recordLinkView } from "@/lib/tracking/record-link-view";
 import { CustomUser, WatermarkConfigSchema } from "@/lib/types";
 import { checkPassword, decryptEncrpytedPassword, log } from "@/lib/utils";

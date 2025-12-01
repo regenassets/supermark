@@ -5,13 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import React from "react";
 
 import { useTeam } from "@/context/team-context";
+import { CheckIcon, CircleHelpIcon, Users2Icon, XIcon } from "lucide-react";
+
+import { useAnalytics } from "@/lib/analytics";
 import { getStripe } from "@/lib/ee-stubs/stripe";
 import { Feature, PlanEnum, getPlanFeatures } from "@/lib/ee-stubs/stripe";
 import { getPriceIdFromPlan } from "@/lib/ee-stubs/stripe";
 import { PLANS } from "@/lib/ee-stubs/stripe";
-import { CheckIcon, CircleHelpIcon, Users2Icon, XIcon } from "lucide-react";
-
-import { useAnalytics } from "@/lib/analytics";
 import { usePlan } from "@/lib/swr/use-billing";
 import { capitalize, cn } from "@/lib/utils";
 

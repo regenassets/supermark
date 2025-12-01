@@ -12,11 +12,11 @@ import { useTeam } from "@/context/team-context";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
+import { useAnalytics } from "@/lib/analytics";
+
 import { Button } from "@/components/ui/button";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Modal } from "@/components/ui/modal";
-
-import { useAnalytics } from "@/lib/analytics";
 
 function RemoveDataroomItemsModal({
   showRemoveDataroomItemsModal,
@@ -60,7 +60,9 @@ function RemoveDataroomItemsModal({
           ).then(async (res) => {
             if (!res.ok) {
               const error = await res.json();
-              throw new Error(error.message || "Failed to remove dataroom document");
+              throw new Error(
+                error.message || "Failed to remove dataroom document",
+              );
             }
             analytics.capture("Dataroom Document Removed", {
               team: teamInfo?.currentTeam?.id,
@@ -76,7 +78,9 @@ function RemoveDataroomItemsModal({
           ).then(async (res) => {
             if (!res.ok) {
               const error = await res.json();
-              throw new Error(error.message || "Failed to remove dataroom folder");
+              throw new Error(
+                error.message || "Failed to remove dataroom folder",
+              );
             }
             analytics.capture("Dataroom folder Removed", {
               team: teamInfo?.currentTeam?.id,

@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { E164Number } from "libphonenumber-js";
 import { motion } from "motion/react";
 import { toast } from "sonner";
@@ -11,6 +10,7 @@ import { mutate } from "swr";
 
 import { useAnalytics } from "@/lib/analytics";
 import { STAGGER_CHILD_VARIANTS } from "@/lib/constants";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";

@@ -27,7 +27,6 @@ export default function General() {
   const handleExcelAdvancedModeChange = async (data: {
     enableExcelAdvancedMode: string;
   }) => {
-
     analytics.capture("Toggle Excel Advanced Mode", {
       teamId,
       enableExcelAdvancedMode: data.enableExcelAdvancedMode === "true",

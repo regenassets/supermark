@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { checkRateLimit, rateLimiters } from "@/lib/security";
-import { stripeInstance } from "@/lib/ee-stubs/stripe";
-import { getPlanFromPriceId, isOldAccount } from "@/lib/ee-stubs/stripe";
 import { waitUntil } from "@vercel/functions";
 import { getServerSession } from "next-auth/next";
 
 import { identifyUser, trackAnalytics } from "@/lib/analytics";
 import { getDubDiscountForExternalUserId } from "@/lib/dub";
+import { stripeInstance } from "@/lib/ee-stubs/stripe";
+import { getPlanFromPriceId, isOldAccount } from "@/lib/ee-stubs/stripe";
 import prisma from "@/lib/prisma";
+import { checkRateLimit, rateLimiters } from "@/lib/security";
 import { CustomUser } from "@/lib/types";
 import { getIpAddress } from "@/lib/utils/ip";
 

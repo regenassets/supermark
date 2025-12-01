@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { useAnalytics } from "@/lib/analytics";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import useLimits from "@/lib/swr/use-limits";
 

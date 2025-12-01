@@ -1,6 +1,6 @@
 import { Webhook } from "@prisma/client";
 
-import { qstash, isQStashAvailable } from "@/lib/cron";
+import { isQStashAvailable, qstash } from "@/lib/cron";
 import { addWebhookJob, isQueueAvailable } from "@/lib/queue";
 
 import { createWebhookSignature } from "./signature";
@@ -92,6 +92,8 @@ const publishWebhookEventToQStash = async ({
   }
 
   // No queue system available
-  console.warn("No queue system configured (QStash or Redis) - webhook will not be sent");
+  console.warn(
+    "No queue system configured (QStash or Redis) - webhook will not be sent",
+  );
   return null;
 };

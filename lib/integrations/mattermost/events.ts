@@ -96,7 +96,10 @@ export const mattermostEventManager = new MattermostEventManager();
 export async function notifyDocumentView(
   data: Omit<MattermostEventData, "eventType">,
 ) {
-  await mattermostEventManager.processEvent({ ...data, eventType: "document_view" });
+  await mattermostEventManager.processEvent({
+    ...data,
+    eventType: "document_view",
+  });
 }
 
 export async function notifyDataroomAccess(

@@ -2,8 +2,8 @@
  * Access notification system - AGPL implementation
  * Reports denied access attempts to team administrators
  */
-
 import { Link } from "@prisma/client";
+
 import prisma from "@/lib/prisma";
 
 /**
@@ -23,7 +23,7 @@ export async function reportDeniedAccessAttempt(
 
   // Log the attempt for monitoring
   console.log(
-    `[Access Denied] Email: ${email}, Link: ${link.id}, Type: ${accessType}`
+    `[Access Denied] Email: ${email}, Link: ${link.id}, Type: ${accessType}`,
   );
 
   // TODO: Implement email notification to team admins
@@ -45,7 +45,7 @@ export async function reportDeniedAccessAttempt(
   if (admins.length > 0) {
     console.log(
       `[Access Denied] Would notify ${admins.length} admin(s):`,
-      admins.map((a) => a.user?.email)
+      admins.map((a) => a.user?.email),
     );
   }
 }

@@ -5,9 +5,9 @@ import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 
 import {
+  MattermostConfiguration,
   MattermostCredential,
   MattermostCredentialPublic,
-  MattermostConfiguration,
 } from "@/lib/integrations/mattermost/types";
 import prisma from "@/lib/prisma";
 import { CustomUser } from "@/lib/types";
@@ -156,7 +156,9 @@ async function handleInstall(
     });
 
     if (!mattermostIntegration) {
-      return res.status(404).json({ error: "Mattermost integration not found" });
+      return res
+        .status(404)
+        .json({ error: "Mattermost integration not found" });
     }
 
     const credentials: MattermostCredential = {
@@ -167,7 +169,11 @@ async function handleInstall(
 
     const configuration: MattermostConfiguration = {
       enabled: true,
-      notificationTypes: ["document_view", "document_download", "dataroom_access"],
+      notificationTypes: [
+        "document_view",
+        "document_download",
+        "dataroom_access",
+      ],
     };
 
     const installation = await prisma.installedIntegration.upsert({
@@ -243,7 +249,9 @@ async function handleUpdate(
     });
 
     if (!mattermostIntegration) {
-      return res.status(404).json({ error: "Mattermost integration not found" });
+      return res
+        .status(404)
+        .json({ error: "Mattermost integration not found" });
     }
 
     const updateData: any = {};
@@ -274,7 +282,8 @@ async function handleUpdate(
       },
     });
 
-    const credentials = updatedIntegrationData.credentials as MattermostCredential;
+    const credentials =
+      updatedIntegrationData.credentials as MattermostCredential;
     const updatedIntegration = {
       ...updatedIntegrationData,
       credentials: {
@@ -307,7 +316,9 @@ async function handleDelete(
     });
 
     if (!mattermostIntegration) {
-      return res.status(404).json({ error: "Mattermost integration not found" });
+      return res
+        .status(404)
+        .json({ error: "Mattermost integration not found" });
     }
 
     await prisma.installedIntegration.delete({

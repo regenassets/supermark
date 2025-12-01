@@ -137,9 +137,7 @@ export default function TokenSettings() {
           <div className="p-5 sm:p-10">
             <div className="flex flex-col space-y-4">
               <div>
-                <Label htmlFor="token-name">
-                  Token Name
-                </Label>
+                <Label htmlFor="token-name">Token Name</Label>
                 <Input
                   id="token-name"
                   placeholder="Enter a name for your token"

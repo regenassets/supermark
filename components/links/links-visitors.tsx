@@ -1,10 +1,10 @@
+import { useLinkVisits } from "@/lib/swr/use-link";
+import { durationFormat, timeAgo } from "@/lib/utils";
+
 import { Gauge } from "@/components/ui/gauge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { VisitorAvatar } from "@/components/visitors/visitor-avatar";
-
-import { useLinkVisits } from "@/lib/swr/use-link";
-import { durationFormat, timeAgo } from "@/lib/utils";
 
 export default function LinksVisitors({
   linkId,

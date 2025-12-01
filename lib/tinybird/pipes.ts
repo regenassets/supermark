@@ -8,7 +8,7 @@ import { WEBHOOK_TRIGGERS } from "../webhook/constants";
 // Use a placeholder token if not configured to prevent initialization errors
 const isTinybirdConfigured = !!process.env.TINYBIRD_TOKEN;
 const tb = new Tinybird({
-  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev"
+  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev",
 });
 
 // Helper to check if Tinybird is available

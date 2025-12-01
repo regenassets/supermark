@@ -21,7 +21,9 @@ export const getSlackEnv = () => {
   if (!parsed.success) {
     // AGPL: Slack/Mattermost integration is optional
     // Return null instead of throwing to allow app to function without it
-    console.warn("Slack/Mattermost integration not configured - integration features disabled");
+    console.warn(
+      "Slack/Mattermost integration not configured - integration features disabled",
+    );
     return null;
   }
 

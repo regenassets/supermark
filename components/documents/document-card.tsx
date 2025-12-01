@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 import { TeamContextType } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import {
   BetweenHorizontalStartIcon,
   ChevronRight,
@@ -20,6 +19,7 @@ import { useTheme } from "next-themes";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import useDatarooms from "@/lib/swr/use-datarooms";
 import useLimits from "@/lib/swr/use-limits";
 import { DocumentWithLinksAndLinkCountAndViewCount } from "@/lib/types";

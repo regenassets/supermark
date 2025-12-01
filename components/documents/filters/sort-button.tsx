@@ -13,6 +13,8 @@ import {
   XCircleIcon,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -21,8 +23,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { cn } from "@/lib/utils";
 
 export default function SortButton() {
   const router = useRouter();

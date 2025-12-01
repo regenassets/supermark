@@ -7,7 +7,7 @@ import { WEBHOOK_TRIGGERS } from "../webhook/constants";
 // AGPL: Make Tinybird optional for local development
 // Use a placeholder token if not configured to prevent initialization errors
 const tb = new Tinybird({
-  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev"
+  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev",
 });
 
 export const publishPageView = tb.buildIngestEndpoint({

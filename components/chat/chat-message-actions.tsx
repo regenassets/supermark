@@ -2,10 +2,10 @@
 
 import { type Message } from "ai";
 
-import { Button } from "@/components/ui/button";
-
 import { cn } from "@/lib/utils";
 import { useCopyToClipboard } from "@/lib/utils/use-copy-to-clipboard";
+
+import { Button } from "@/components/ui/button";
 
 import Check from "../shared/icons/check";
 import Copy from "../shared/icons/copy";

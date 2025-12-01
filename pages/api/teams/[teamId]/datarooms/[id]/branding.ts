@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { del } from "@vercel/blob";
 import { getServerSession } from "next-auth";
 
@@ -72,13 +72,14 @@ export default async function handle(
     return res.status(200).json(brand);
   } else if (req.method === "POST") {
     // POST /api/teams/:teamId/datarooms/:id/branding
-    const { logo, banner, brandColor, accentColor, welcomeMessage } = req.body as {
-      logo?: string;
-      banner?: string;
-      brandColor?: string;
-      accentColor?: string;
-      welcomeMessage?: string;
-    };
+    const { logo, banner, brandColor, accentColor, welcomeMessage } =
+      req.body as {
+        logo?: string;
+        banner?: string;
+        brandColor?: string;
+        accentColor?: string;
+        welcomeMessage?: string;
+      };
 
     // update team with new branding
     const brand = await prisma.dataroomBrand.create({
@@ -95,13 +96,14 @@ export default async function handle(
     return res.status(200).json(brand);
   } else if (req.method === "PUT") {
     // PUT /api/teams/:teamId/datarooms/:id/branding
-    const { logo, banner, brandColor, accentColor, welcomeMessage } = req.body as {
-      logo?: string;
-      banner?: string;
-      brandColor?: string;
-      accentColor?: string;
-      welcomeMessage?: string;
-    };
+    const { logo, banner, brandColor, accentColor, welcomeMessage } =
+      req.body as {
+        logo?: string;
+        banner?: string;
+        brandColor?: string;
+        accentColor?: string;
+        welcomeMessage?: string;
+      };
 
     const brand = await prisma.dataroomBrand.update({
       where: {
@@ -126,7 +128,8 @@ export default async function handle(
       select: { id: true, logo: true, banner: true },
     });
 
-    const NEXT_PUBLIC_UPLOAD_TRANSPORT = process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
+    const NEXT_PUBLIC_UPLOAD_TRANSPORT =
+      process.env.NEXT_PUBLIC_UPLOAD_TRANSPORT;
 
     if (brand && brand.logo) {
       if (NEXT_PUBLIC_UPLOAD_TRANSPORT === "s3") {
@@ -135,10 +138,12 @@ export default async function handle(
         if (urlMatch) {
           const key = urlMatch[1];
           const { client, config } = await getTeamS3ClientAndConfig(teamId);
-          await client.send(new DeleteObjectCommand({
-            Bucket: config.bucket,
-            Key: key,
-          }));
+          await client.send(
+            new DeleteObjectCommand({
+              Bucket: config.bucket,
+              Key: key,
+            }),
+          );
         }
       } else {
         // Vercel Blob
@@ -153,10 +158,12 @@ export default async function handle(
         if (urlMatch) {
           const key = urlMatch[1];
           const { client, config } = await getTeamS3ClientAndConfig(teamId);
-          await client.send(new DeleteObjectCommand({
-            Bucket: config.bucket,
-            Key: key,
-          }));
+          await client.send(
+            new DeleteObjectCommand({
+              Bucket: config.bucket,
+              Key: key,
+            }),
+          );
         }
       } else {
         // Vercel Blob

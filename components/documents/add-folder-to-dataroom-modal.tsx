@@ -6,6 +6,8 @@ import { useTeam } from "@/context/team-context";
 import { toast } from "sonner";
 import { mutate } from "swr";
 
+import useDatarooms from "@/lib/swr/use-datarooms";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,8 +17,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-import useDatarooms from "@/lib/swr/use-datarooms";
 
 import {
   Select,
@@ -114,7 +114,7 @@ export function AddFolderToDataroomModal({
           <DialogDescription>Add your folder to a dataroom.</DialogDescription>
         </DialogHeader>
         <Select onValueChange={(value) => setSelectedDataroom(value)}>
-          <SelectTrigger className="w-[380px] max-w-full [&>span]:truncate [&>span]:max-w-full [&>span]:overflow-hidden [&>span]:text-ellipsis [&>span]:whitespace-nowrap">
+          <SelectTrigger className="w-[380px] max-w-full [&>span]:max-w-full [&>span]:overflow-hidden [&>span]:truncate [&>span]:text-ellipsis [&>span]:whitespace-nowrap">
             <SelectValue placeholder="Select a dataroom" />
           </SelectTrigger>
           <SelectContent className="w-[380px] max-w-[90vw]">
@@ -125,7 +125,7 @@ export function AddFolderToDataroomModal({
                 disabled={dataroom.id === dataroomId}
                 className="break-words"
               >
-                <span className="break-words line-clamp-1">
+                <span className="line-clamp-1 break-words">
                   {dataroom.name}
                   {dataroom.id === dataroomId ? " (current)" : ""}
                 </span>
@@ -146,9 +146,9 @@ export function AddFolderToDataroomModal({
               {!selectedDataroom ? (
                 "Select a dataroom"
               ) : (
-                <span className="flex items-center justify-center w-full max-w-[350px] truncate">
+                <span className="flex w-full max-w-[350px] items-center justify-center truncate">
                   Add to
-                  <span className="font-medium truncate line-clamp-1 ml-1">
+                  <span className="ml-1 line-clamp-1 truncate font-medium">
                     {
                       datarooms?.filter((d) => d.id === selectedDataroom)[0]
                         .name

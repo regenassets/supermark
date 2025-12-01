@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { ChevronRight, CrownIcon, type LucideIcon } from "lucide-react";
 
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { cn } from "@/lib/utils";
 
 import {

@@ -66,10 +66,7 @@ export default function LinkItem({
           </ButtonTooltip>
         )}
       </div>
-      <Switch
-        checked={enabled}
-        onCheckedChange={action}
-      />
+      <Switch checked={enabled} onCheckedChange={action} />
     </div>
   );
 }

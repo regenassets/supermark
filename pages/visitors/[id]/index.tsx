@@ -83,7 +83,8 @@ export default function VisitorDetailPage() {
                 Visitor Not Found
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                This visitor could not be found or you don't have permission to view it.
+                This visitor could not be found or you don't have permission to
+                view it.
               </p>
               <Link
                 href="/visitors"

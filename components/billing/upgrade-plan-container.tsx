@@ -3,8 +3,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { CancellationModal } from "@/lib/ee-stubs/billing";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import {
   CirclePauseIcon,
   CreditCardIcon,
@@ -15,6 +13,8 @@ import { toast } from "sonner";
 import { mutate } from "swr";
 
 import { useAnalytics } from "@/lib/analytics";
+import { CancellationModal } from "@/lib/ee-stubs/billing";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 
 import { Button } from "@/components/ui/button";

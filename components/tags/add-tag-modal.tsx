@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEventHandler, useMemo, useRef } from "react";
 
 import { PlanEnum } from "@/lib/ee-stubs/stripe";
-
 import { usePlan } from "@/lib/swr/use-billing";
 import { TagColorProps } from "@/lib/types";
 import { cn } from "@/lib/utils";

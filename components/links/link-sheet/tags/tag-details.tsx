@@ -1,16 +1,14 @@
 import { useSearchParams } from "next/navigation";
 
 import { PropsWithChildren, useMemo, useRef } from "react";
+
 import { useQueryState } from "nuqs";
 
 import { LinkWithViews, TagColorProps, TagProps } from "@/lib/types";
 
-
-
 import { BadgeTooltip } from "@/components/ui/tooltip";
 
 import TagBadge from "./tag-badge";
-
 
 function useOrganizedTags(tags: LinkWithViews["tags"]) {
   const searchParams = useSearchParams();

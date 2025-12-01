@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { LinkAudienceType, LinkPreset, LinkType } from "@prisma/client";
 import { RefreshCwIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -12,6 +11,7 @@ import { mutate } from "swr";
 import useSWR from "swr";
 
 import { useAnalytics } from "@/lib/analytics";
+import { PlanEnum } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 import useDataroomGroups from "@/lib/swr/use-dataroom-groups";
 import { useDomains } from "@/lib/swr/use-domains";
@@ -296,7 +296,10 @@ export default function LinkSheet({
         : data.metaFavicon;
     if (data.metaFavicon && data.metaFavicon.startsWith("data:")) {
       const blobFavicon = convertDataUrlToFile({ dataUrl: data.metaFavicon });
-      blobUrlFavicon = await uploadImage(blobFavicon, teamInfo?.currentTeam?.id!);
+      blobUrlFavicon = await uploadImage(
+        blobFavicon,
+        teamInfo?.currentTeam?.id!,
+      );
       setData({
         ...data,
         metaFavicon: blobUrlFavicon,

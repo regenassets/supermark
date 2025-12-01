@@ -1,8 +1,8 @@
 import ErrorPage from "next/error";
 
-import BarChartComponent from "@/components/charts/bar-chart";
-
 import { useVisitorStats } from "@/lib/swr/use-stats";
+
+import BarChartComponent from "@/components/charts/bar-chart";
 
 import StatsChartSkeleton from "../documents/stats-chart-skeleton";
 

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { reportDeniedAccessAttempt } from "@/lib/security";
-import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { ItemType, LinkAudienceType } from "@prisma/client";
 import { ipAddress, waitUntil } from "@vercel/functions";
@@ -18,16 +16,18 @@ import { sendOtpVerificationEmail } from "@/lib/emails/send-email-otp-verificati
 import { getFile } from "@/lib/files/get-file";
 import { newId } from "@/lib/id-helper";
 import {
-  notifyDataroomAccess as notifySlackDataroomAccess,
-  notifyDocumentView as notifySlackDocumentView,
-} from "@/lib/integrations/slack/events";
-import {
   notifyDataroomAccess as notifyMattermostDataroomAccess,
   notifyDocumentView as notifyMattermostDocumentView,
 } from "@/lib/integrations/mattermost/events";
+import {
+  notifyDataroomAccess as notifySlackDataroomAccess,
+  notifyDocumentView as notifySlackDocumentView,
+} from "@/lib/integrations/slack/events";
 import prisma from "@/lib/prisma";
 import { ratelimit } from "@/lib/redis";
+import { reportDeniedAccessAttempt } from "@/lib/security";
 import { parseSheet } from "@/lib/sheet";
+import { getTeamStorageConfigById } from "@/lib/storage/config";
 import { recordLinkView } from "@/lib/tracking/record-link-view";
 import { CustomUser, WatermarkConfigSchema } from "@/lib/types";
 import { checkPassword, decryptEncrpytedPassword, log } from "@/lib/utils";
@@ -701,7 +701,10 @@ export async function POST(request: NextRequest) {
                     viewerId: viewer?.id,
                   });
                 } catch (error) {
-                  console.error("Error sending Mattermost notification:", error);
+                  console.error(
+                    "Error sending Mattermost notification:",
+                    error,
+                  );
                 }
               })(),
             );

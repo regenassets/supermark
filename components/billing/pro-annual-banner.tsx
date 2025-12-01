@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { useTeam } from "@/context/team-context";
-import { getPriceIdFromPlan } from "@/lib/ee-stubs/stripe";
 import Cookies from "js-cookie";
 import { usePlausible } from "next-plausible";
 import { toast } from "sonner";
 
+import { getPriceIdFromPlan } from "@/lib/ee-stubs/stripe";
 import { usePlan } from "@/lib/swr/use-billing";
 
 import X from "@/components/shared/icons/x";

@@ -6,6 +6,10 @@ import { useTeam } from "@/context/team-context";
 import { toast } from "sonner";
 import useSWR, { mutate } from "swr";
 
+import { usePlan } from "@/lib/swr/use-billing";
+import { useDocument } from "@/lib/swr/use-document";
+import { cn, fetcher } from "@/lib/utils";
+
 import { UpgradePlanModal } from "@/components/billing/upgrade-plan-modal";
 import DocumentHeader from "@/components/documents/document-header";
 import AppLayout from "@/components/layouts/app";
@@ -29,10 +33,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { usePlan } from "@/lib/swr/use-billing";
-import { useDocument } from "@/lib/swr/use-document";
-import { cn, fetcher } from "@/lib/utils";
 
 type Feedback = {
   id: string;
