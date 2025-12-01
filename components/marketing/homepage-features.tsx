@@ -26,11 +26,11 @@ export default function HomepageFeatures() {
     {
       icon: DollarSignIcon,
       title: "Transparent Pricing Model",
-      description: "One-time flat fee, unlimited users and documents",
+      description: "One-time fee per company, for the lifetime of your company",
       benefits: [
+        "Unlimited users and documents",
+        "Space restrictions apply for hosted version",
         "Value-based contributions",
-        "Sustainable development",
-        "No hidden costs",
       ],
     },
   ];
