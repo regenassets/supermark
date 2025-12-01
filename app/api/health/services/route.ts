@@ -137,7 +137,7 @@ export async function GET() {
   const criticalServices = Object.entries(services).filter(
     ([_, config]: [string, any]) => config.critical === true && "available" in config,
   );
-  const criticalOk = criticalServices.every(([_, config]) => config.available);
+  const criticalOk = criticalServices.every(([_, config]) => (config as any).available);
 
   const status = criticalOk ? "healthy" : "degraded";
 
