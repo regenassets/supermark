@@ -17,6 +17,15 @@ export const convertPdfToImageRoute = task({
     const { documentVersionId, teamId, documentId, versionNumber } = payload;
 
     updateStatus({ progress: 0, text: "Initializing..." });
+    // DEBUG: Log environment variables at task start
+    logger.info("[DEBUG] Task started - checking environment variables", {
+      hasPOSTGRES_PRISMA_URL: !!process.env.POSTGRES_PRISMA_URL,
+      POSTGRES_PRISMA_URL_length: process.env.POSTGRES_PRISMA_URL?.length || 0,
+      hasNEXT_PUBLIC_BASE_URL: !!process.env.NEXT_PUBLIC_BASE_URL,
+      hasINTERNAL_API_KEY: !!process.env.INTERNAL_API_KEY,
+      NODE_ENV: process.env.NODE_ENV,
+    });
+
 
     // 1. get file url from document version
     const documentVersion = await prisma.documentVersion.findUnique({
