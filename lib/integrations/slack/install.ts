@@ -10,6 +10,10 @@ export const getSlackInstallationUrl = async (
 ): Promise<string> => {
   const env = getSlackEnv();
 
+  if (!env) {
+    throw new Error("Slack integration not configured");
+  }
+
   if (!redis) {
     throw new Error("Redis not configured - Slack integration requires Redis");
   }
