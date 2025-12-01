@@ -29,7 +29,11 @@ export default function HomepageHero() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button variant="outline" size="lg" className="w-full gap-2 sm:w-auto">
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full gap-2 sm:w-auto"
+          >
             <GithubIcon className="h-4 w-4" />
             View on GitHub
           </Button>
