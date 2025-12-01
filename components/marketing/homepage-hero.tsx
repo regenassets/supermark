@@ -18,17 +18,18 @@ export default function HomepageHero() {
         </p>
       </div>
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Button asChild size="lg" className="gap-2">
-          <Link href="/register">
+        <Button asChild size="lg">
+          <Link href="/register" className="gap-2">
             Get Started Free
             <ArrowRightIcon className="h-4 w-4" />
           </Link>
         </Button>
-        <Button asChild variant="outline" size="lg" className="gap-2">
+        <Button asChild variant="outline" size="lg">
           <Link
             href="https://github.com/regenassets/supermark"
             target="_blank"
             rel="noopener noreferrer"
+            className="gap-2"
           >
             <GithubIcon className="h-4 w-4" />
             View on GitHub
