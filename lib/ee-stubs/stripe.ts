@@ -1,14 +1,14 @@
 // Stripe stubs - billing features removed (commercial license)
 export const stripeInstance = null;
-export const getSubscriptionItem = () => null;
-export const getPriceIdFromPlan = () => null;
+export const getSubscriptionItem = (...args: any[]) => null;
+export const getPriceIdFromPlan = (...args: any[]) => null;
 export const getDisplayNameFromPlan = (plan: string) => plan;
-export const getQuantityFromPlan = () => 1;
-export const getQuantityFromPriceId = () => 1;
-export const getCouponFromPlan = () => null;
-export const getPlanFromPriceId = () => "free";
-export const isOldAccount = () => false;
-export const cancelSubscription = async () => ({ success: true });
+export const getQuantityFromPlan = (...args: any[]) => 1;
+export const getQuantityFromPriceId = (...args: any[]) => 1;
+export const getCouponFromPlan = (...args: any[]) => null;
+export const getPlanFromPriceId = (...args: any[]) => "free";
+export const isOldAccount = (...args: any[]) => false;
+export const cancelSubscription = async (...args: any[]) => ({ success: true });
 export const STRIPE_PLAN_IDS = {};
 export const STRIPE_PRICES = {};
 
@@ -69,4 +69,4 @@ export const PLANS = [
 ];
 
 // Stripe instance stub
-export const getStripe = () => null;
+export const getStripe = (...args: any[]) => null;
