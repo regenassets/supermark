@@ -135,7 +135,7 @@ export async function GET() {
 
   // Calculate overall health
   const criticalServices = Object.entries(services).filter(
-    ([_, config]: [string, any]) => config.critical === true,
+    ([_, config]: [string, any]) => config.critical === true && "available" in config,
   );
   const criticalOk = criticalServices.every(([_, config]) => config.available);
 
