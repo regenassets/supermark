@@ -29,37 +29,47 @@ export default function HomepageFeatures() {
     },
     {
       icon: DollarSignIcon,
-      title: "Transparent Pricing Model",
-      description: "One-time fee per company, for the lifetime of your company",
+      title: "Value-Based Pricing",
+      description: "Pay what makes sense for your organization",
       benefits: [
         "Unlimited users and documents",
-        "Space restrictions apply for hosted version",
-        "Value-based contributions",
+        "Sliding scale based on organization type",
+        "Free for self-hosted deployments",
       ],
     },
   ];
 
   return (
     <section className="container py-8 md:py-12 lg:py-16">
-      <div className="mx-auto grid justify-center gap-6 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-        {features.map((feature, index) => (
-          <Card key={index} className="bg-transparent">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <feature.icon className="h-5 w-5" />
-                {feature.title}
-              </CardTitle>
-              <CardDescription>{feature.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                {feature.benefits.map((benefit, idx) => (
-                  <li key={idx}>• {benefit}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="mx-auto max-w-[64rem]">
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+            Why Supermark?
+          </h2>
+          <p className="mt-3 text-lg text-muted-foreground">
+            Everything you need for professional document sharing and signing.
+          </p>
+        </div>
+        <div className="grid justify-center gap-6 sm:grid-cols-2 md:grid-cols-3">
+          {features.map((feature, index) => (
+            <Card key={index} className="bg-transparent">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <feature.icon className="h-5 w-5" />
+                  {feature.title}
+                </CardTitle>
+                <CardDescription>{feature.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {feature.benefits.map((benefit, idx) => (
+                    <li key={idx}>• {benefit}</li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );

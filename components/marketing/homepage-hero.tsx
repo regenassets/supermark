@@ -13,7 +13,7 @@ export default function HomepageHero() {
           <br className="hidden sm:inline" /> Signing, and Tracking
         </h1>
         <p className="max-w-[750px] text-lg text-muted-foreground sm:text-xl">
-          Supermark enables you to share and sign documents securely with
+          Supermark enables you to share documents and datarooms securely with
           custom branding, advanced analytics, and full data ownership. Fully
           AGPL-3.0 licensed.
         </p>

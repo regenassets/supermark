@@ -39,7 +39,7 @@ export default function HomepagePricing() {
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* Self-Hosted Option */}
-          <Card className="bg-transparent">
+          <Card className="flex flex-col bg-transparent">
             <CardHeader>
               <CardTitle>Self-Hosted</CardTitle>
               <CardDescription>
@@ -49,8 +49,8 @@ export default function HomepagePricing() {
                 <span className="text-4xl font-bold">Free</span>
               </div>
             </CardHeader>
-            <CardContent>
-              <ul className="mb-6 space-y-2">
+            <CardContent className="flex flex-1 flex-col">
+              <ul className="mb-6 flex-1 space-y-2">
                 {selfHostedFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -74,7 +74,7 @@ export default function HomepagePricing() {
           </Card>
 
           {/* Sponsored Option */}
-          <Card className="bg-transparent">
+          <Card className="flex flex-col bg-transparent">
             <CardHeader>
               <CardTitle>Sponsored</CardTitle>
               <CardDescription>
@@ -85,8 +85,8 @@ export default function HomepagePricing() {
                 <span className="text-muted-foreground"> / lifetime</span>
               </div>
             </CardHeader>
-            <CardContent>
-              <ul className="mb-6 space-y-2">
+            <CardContent className="flex flex-1 flex-col">
+              <ul className="mb-6 flex-1 space-y-2">
                 {hostedFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -105,7 +105,7 @@ export default function HomepagePricing() {
           </Card>
 
           {/* Startup Option */}
-          <Card className="border-primary bg-transparent">
+          <Card className="flex flex-col border-primary bg-transparent">
             <CardHeader>
               <CardTitle>Startup</CardTitle>
               <CardDescription>For early-stage teams</CardDescription>
@@ -114,8 +114,8 @@ export default function HomepagePricing() {
                 <span className="text-muted-foreground"> / lifetime</span>
               </div>
             </CardHeader>
-            <CardContent>
-              <ul className="mb-6 space-y-2">
+            <CardContent className="flex flex-1 flex-col">
+              <ul className="mb-6 flex-1 space-y-2">
                 {hostedFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -132,7 +132,7 @@ export default function HomepagePricing() {
           </Card>
 
           {/* Enterprise Option */}
-          <Card className="bg-transparent">
+          <Card className="flex flex-col bg-transparent">
             <CardHeader>
               <CardTitle>Enterprise</CardTitle>
               <CardDescription>For established companies</CardDescription>
@@ -141,8 +141,8 @@ export default function HomepagePricing() {
                 <span className="text-muted-foreground"> / lifetime</span>
               </div>
             </CardHeader>
-            <CardContent>
-              <ul className="mb-6 space-y-2">
+            <CardContent className="flex flex-1 flex-col">
+              <ul className="mb-6 flex-1 space-y-2">
                 {hostedFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
