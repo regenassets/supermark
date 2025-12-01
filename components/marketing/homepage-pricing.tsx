@@ -19,11 +19,29 @@ export default function HomepagePricing() {
     "Complete control of your data",
   ];
 
-  const hostedFeatures = [
+  const sponsoredFeatures = [
     "Unlimited users and documents",
     "All features included",
     "Managed infrastructure",
     "99.9% uptime SLA",
+  ];
+
+  const startupFeatures = [
+    "Unlimited users and documents",
+    "All features included",
+    "Managed infrastructure",
+    "99.9% uptime SLA",
+    "Storage limits apply",
+    "BYO AI Provider",
+  ];
+
+  const enterpriseFeatures = [
+    "Unlimited users and documents",
+    "All features included",
+    "Managed infrastructure",
+    "99.9% uptime SLA",
+    "Storage limits apply",
+    "BYO AI Provider",
   ];
 
   return (
@@ -87,7 +105,7 @@ export default function HomepagePricing() {
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">
               <ul className="mb-6 flex-1 space-y-2">
-                {hostedFeatures.map((feature, index) => (
+                {sponsoredFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     <span className="text-sm text-muted-foreground">
@@ -116,7 +134,7 @@ export default function HomepagePricing() {
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">
               <ul className="mb-6 flex-1 space-y-2">
-                {hostedFeatures.map((feature, index) => (
+                {startupFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     <span className="text-sm text-muted-foreground">
@@ -143,7 +161,7 @@ export default function HomepagePricing() {
             </CardHeader>
             <CardContent className="flex flex-1 flex-col">
               <ul className="mb-6 flex-1 space-y-2">
-                {hostedFeatures.map((feature, index) => (
+                {enterpriseFeatures.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                     <span className="text-sm text-muted-foreground">
