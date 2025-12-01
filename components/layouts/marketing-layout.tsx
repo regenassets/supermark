@@ -52,7 +52,25 @@ export default function MarketingLayout({
       <footer className="mt-auto border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built with Supermark. Open source under AGPL-3.0 license.
+            Built with ❤️ by{" "}
+            <Link
+              href="https://regenerativeassets.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium hover:underline"
+            >
+              Regenerative Assets LLC
+            </Link>
+            . Built on{" "}
+            <Link
+              href="https://www.papermark.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium hover:underline"
+            >
+              Papermark
+            </Link>
+            . Open source under AGPL-3.0 license.
           </p>
           <div className="flex items-center space-x-4">
             <Link
