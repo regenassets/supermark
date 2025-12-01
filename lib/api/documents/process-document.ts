@@ -234,8 +234,17 @@ export const processDocument = async ({
   }
 
   // skip triggering convert-pdf-to-image job for "notion" / "excel" documents
+  console.log("[DEBUG] PDF upload detected:", {
+    type,
+    triggerConfigured,
+    hasTriggerSecretKey: !!process.env.TRIGGER_SECRET_KEY,
+    documentId: document.id,
+    documentVersionId: document.versions[0].id,
+  });
+
   if (triggerConfigured && type === "pdf") {
-    await convertPdfToImageRoute.trigger(
+    console.log("[DEBUG] Triggering PDF conversion task...");
+    const handle = await convertPdfToImageRoute.trigger(
       {
         documentId: document.id,
         documentVersionId: document.versions[0].id,
@@ -252,6 +261,9 @@ export const processDocument = async ({
         concurrencyKey: teamId,
       },
     );
+    console.log("[DEBUG] Task triggered successfully:", { id: handle.id });
+  } else {
+    console.log("[DEBUG] Skipping task trigger - triggerConfigured:", triggerConfigured, "type:", type);
   }
 
   if (type === "sheet" && enableExcelAdvancedMode) {
