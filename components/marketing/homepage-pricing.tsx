@@ -37,7 +37,7 @@ export default function HomepagePricing() {
             One-time fee per company, for the lifetime of your company.
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* Self-Hosted Option */}
           <Card className="bg-transparent">
             <CardHeader>
@@ -73,13 +73,71 @@ export default function HomepagePricing() {
             </CardContent>
           </Card>
 
-          {/* Hosted Option */}
+          {/* Sponsored Option */}
+          <Card className="bg-transparent">
+            <CardHeader>
+              <CardTitle>Sponsored</CardTitle>
+              <CardDescription>
+                For non-profits, charities, and commons builders
+              </CardDescription>
+              <div className="mt-4">
+                <span className="text-4xl font-bold">Free</span>
+                <span className="text-muted-foreground"> / lifetime</span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="mb-6 space-y-2">
+                {hostedFeatures.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <span className="text-sm text-muted-foreground">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/register">
+                <Button variant="outline" className="w-full gap-2">
+                  Request Sponsorship
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Startup Option */}
           <Card className="border-primary bg-transparent">
             <CardHeader>
-              <CardTitle>Hosted</CardTitle>
-              <CardDescription>We handle the infrastructure</CardDescription>
+              <CardTitle>Startup</CardTitle>
+              <CardDescription>For early-stage teams</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">$499</span>
+                <span className="text-muted-foreground"> / lifetime</span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="mb-6 space-y-2">
+                {hostedFeatures.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <CheckIcon className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <span className="text-sm text-muted-foreground">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/register">
+                <Button className="w-full gap-2">Get Started</Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Enterprise Option */}
+          <Card className="bg-transparent">
+            <CardHeader>
+              <CardTitle>Enterprise</CardTitle>
+              <CardDescription>For established companies</CardDescription>
+              <div className="mt-4">
+                <span className="text-4xl font-bold">$2,499</span>
                 <span className="text-muted-foreground"> / lifetime</span>
               </div>
             </CardHeader>
