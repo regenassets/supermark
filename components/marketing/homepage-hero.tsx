@@ -13,8 +13,9 @@ export default function HomepageHero() {
           <br className="hidden sm:inline" /> Signing, and Tracking
         </h1>
         <p className="max-w-[750px] text-lg text-muted-foreground sm:text-xl">
-          Self-host Supermark to share documents securely with custom branding,
-          advanced analytics, and full data ownership. AGPL-3.0 licensed.
+          Supermark enables you to share and sign documents securely with
+          custom branding, advanced analytics, and full data ownership. Fully
+          AGPL-3.0 licensed.
         </p>
       </div>
       <div className="flex flex-col gap-3 sm:flex-row">
