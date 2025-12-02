@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 
-import { AssistantStatus, type Message } from "ai/react";
+import type { Message } from "ai/react";
+
+type AssistantStatus = "in_progress" | "awaiting_message";
 import Textarea from "react-textarea-autosize";
 
 import { cn } from "@/lib/utils";

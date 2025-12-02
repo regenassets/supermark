@@ -25,3 +25,22 @@ export function getRemaining(limitType: string, current: number): number {
 }
 
 export { DEFAULT_PLAN_LIMITS as PLAN_LIMITS };
+
+/**
+ * Default handler for limits API endpoint
+ */
+const handler = async (req: any, res: any) => {
+  // Return unlimited for self-hosted AGPL version
+  return res.status(200).json({
+    users: null,
+    links: null,
+    documents: null,
+    domains: null,
+    datarooms: null,
+    customDomainOnPro: true,
+    customDomainInDataroom: true,
+    advancedLinkControlsOnPro: true,
+  });
+};
+
+export default handler;

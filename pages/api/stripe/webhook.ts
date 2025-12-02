@@ -46,7 +46,10 @@ export default async function webhookHandler(
     let event: Stripe.Event;
     try {
       if (!sig || !webhookSecret) return;
-      const stripe = stripeInstance();
+      if (!stripeInstance) {
+        return res.status(500).json({ error: "Stripe not configured" });
+      }
+      const stripe = (stripeInstance as any)();
       if (!stripe) {
         return res.status(500).json({ error: "Stripe not configured" });
       }

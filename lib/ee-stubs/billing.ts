@@ -1,11 +1,11 @@
 // Billing stubs - all billing features removed
 export const CANCELLATION_REASONS = [];
 export const PAUSE_DURATIONS = [];
-export const CancellationModal = () => null;
-export const PauseSubscriptionModal = () => null;
-export const FeedbackModal = () => null;
-export const RetentionOfferModal = () => null;
-export const ConfirmCancellationModal = () => null;
+export const CancellationModal = (_props: any) => null;
+export const PauseSubscriptionModal = (_props: any) => null;
+export const FeedbackModal = (_props: any) => null;
+export const RetentionOfferModal = (_props: any) => null;
+export const ConfirmCancellationModal = (_props: any) => null;
 export const handleCancellation = async () => ({
   success: false,
   message: "Billing disabled",

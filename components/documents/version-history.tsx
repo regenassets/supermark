@@ -153,17 +153,17 @@ export default function VersionHistory({ documentId }: { documentId: string }) {
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-muted-foreground">
-                    {formatFileSize(version.fileSize)}
+                    {formatFileSize(version.fileSize ? BigInt(version.fileSize) : null)}
                   </span>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-muted-foreground">
-                    {timeAgo(version.createdAt)}
+                    {timeAgo(new Date(version.createdAt))}
                   </span>
                 </TableCell>
                 <TableCell>
                   <span className="text-sm text-muted-foreground">
-                    {timeAgo(version.updatedAt)}
+                    {timeAgo(new Date(version.updatedAt))}
                   </span>
                 </TableCell>
                 <TableCell className="text-right">

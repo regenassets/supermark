@@ -34,7 +34,7 @@ const tusServer = new Server({
   maxSize: 1024 * 1024 * 1024 * 2, // 2 GiB
   respectForwardedHeaders: true,
   locker,
-  datastore: new MultiRegionS3Store(),
+  datastore: new MultiRegionS3Store() as any,
   namingFunction(req, metadata) {
     const { teamId, fileName } = metadata as {
       teamId: string;

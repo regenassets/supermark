@@ -163,6 +163,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/fluent-ffmpeg": "^2.1.27",
+    "@types/formidable": "^3.4.6",
     "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mime-types": "^3.0.1",

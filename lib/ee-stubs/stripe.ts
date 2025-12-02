@@ -1,12 +1,20 @@
 // Stripe stubs - billing features removed (commercial license)
 export const stripeInstance = null;
-export const getSubscriptionItem = (...args: any[]) => null;
+export const getSubscriptionItem = (...args: any[]) => ({
+  id: null,
+  currentPeriodStart: null,
+  currentPeriodEnd: null,
+  discount: null,
+});
 export const getPriceIdFromPlan = (...args: any[]) => null;
 export const getDisplayNameFromPlan = (plan: string) => plan;
 export const getQuantityFromPlan = (...args: any[]) => 1;
 export const getQuantityFromPriceId = (...args: any[]) => 1;
 export const getCouponFromPlan = (...args: any[]) => null;
-export const getPlanFromPriceId = (...args: any[]) => "free";
+export const getPlanFromPriceId = (...args: any[]) => ({
+  name: "free",
+  minQuantity: 1,
+});
 export const isOldAccount = (...args: any[]) => false;
 export const cancelSubscription = async (...args: any[]) => ({ success: true });
 export const STRIPE_PLAN_IDS = {};
@@ -67,13 +75,46 @@ export const getPlanFeatures = (plan: PlanEnum, options?: any) => {
   };
 };
 
-// Plans configuration - AGPL version (no paid plans)
+// Plans configuration - AGPL version (all plans are free, no paid tiers)
 export const PLANS = [
   {
     name: PlanEnum.Free,
     price: {
-      monthly: { amount: 0, priceIds: {} },
-      annually: { amount: 0, priceIds: {} },
+      monthly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      annually: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      yearly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+    },
+  },
+  {
+    name: PlanEnum.Pro,
+    price: {
+      monthly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      annually: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      yearly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+    },
+  },
+  {
+    name: PlanEnum.Business,
+    price: {
+      monthly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      annually: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      yearly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+    },
+  },
+  {
+    name: PlanEnum.DataRooms,
+    price: {
+      monthly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      annually: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      yearly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+    },
+  },
+  {
+    name: PlanEnum.DataRoomsPlus,
+    price: {
+      monthly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      annually: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
+      yearly: { amount: 0, priceIds: { production: { old: "", new: "" }, test: { old: "", new: "" } } },
     },
   },
 ];

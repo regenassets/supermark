@@ -16,6 +16,7 @@ export interface StorageConfig {
   advancedBucket?: string;
   distributionKeyId?: string;
   distributionKeyContents?: string;
+  lambdaFunctionName?: string;
 }
 
 export type StorageRegion = "eu-central-1" | "us-east-1" | "us-east-2";

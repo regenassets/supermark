@@ -21,6 +21,14 @@ export type TPlanLimits = {
     users: number;
   } | null;
   dataroomUpload?: boolean | null;
+  fileSizeLimits?: {
+    video?: number;
+    document?: number;
+    image?: number;
+    excel?: number;
+    maxFiles?: number;
+    maxPages?: number;
+  };
 };
 
 // Self-hosted version: Everything is unlimited

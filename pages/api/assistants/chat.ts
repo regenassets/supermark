@@ -109,7 +109,7 @@ export default async function POST(req: Request) {
       threadId,
       messageId: createdMessage.id,
     },
-    async ({ threadId, sendMessage }) => {
+    async ({ threadId, sendMessage }: any) => {
       // Run the assistant on the thread
       const run = await openai.beta.threads.runs.create(threadId, {
         assistant_id: assistantId!,

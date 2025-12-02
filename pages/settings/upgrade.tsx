@@ -246,7 +246,7 @@ export default function UpgradePage() {
                           const data = await res.json();
                           const { id: sessionId } = data;
                           const stripe = await getStripe(isOldAccount);
-                          stripe?.redirectToCheckout({ sessionId });
+                          (stripe as any)?.redirectToCheckout?.({ sessionId });
                         })
                         .catch((err) => {
                           alert(err);
