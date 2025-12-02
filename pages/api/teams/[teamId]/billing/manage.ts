@@ -111,13 +111,20 @@ export default async function handle(
 
       const minQuantity = getQuantityFromPriceId(priceId);
 
-      const stripe = stripeInstance(isOldAccount(team.plan));
+      if (!stripeInstance) {
+        return res.status(500).json({ error: "Stripe not configured" });
+      }
+      const stripe = (stripeInstance as any)(isOldAccount(team.plan));
+      if (!stripe) {
+        return res.status(500).json({ error: "Stripe not configured" });
+      }
       const { url } = await stripe.billingPortal.sessions.create({
         customer: team.stripeId,
         return_url: `${process.env.NEXTAUTH_URL}/settings/billing?cancel=true`,
         ...(type === "manage" &&
           (upgradePlan || addSeat) &&
-          subscriptionItemId && {
+          subscriptionItemId
+          ? {
             flow_data: {
               type: "subscription_update_confirm",
               subscription_update_confirm: {
@@ -141,7 +148,8 @@ export default async function handle(
                 },
               },
             },
-          }),
+          }
+          : {}),
         ...(type === "subscription_update" && {
           flow_data: {
             type: "subscription_update",

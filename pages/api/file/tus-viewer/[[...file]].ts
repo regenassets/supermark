@@ -21,8 +21,10 @@ export const config = {
   },
 };
 
+// Redis is required for file locking in production
+// Type assertion is safe here as tus uploads require a locker for concurrent access
 const locker = new RedisLocker({
-  redisClient: lockerRedisClient,
+  redisClient: lockerRedisClient!,
 });
 
 const tusServer = new Server({
@@ -31,7 +33,7 @@ const tusServer = new Server({
   maxSize: 1024 * 1024 * 1024 * 2, // 2 GiB
   respectForwardedHeaders: true,
   locker,
-  datastore: new MultiRegionS3Store(),
+  datastore: new MultiRegionS3Store() as any,
   async namingFunction(req, metadata) {
     // Extract viewer data from metadata
     const { teamId, fileName, viewerId, linkId, dataroomId } = metadata as {

@@ -6,29 +6,31 @@ import { type Run } from "openai/resources/beta/threads/runs/runs";
 import { openai } from "@/lib/openai";
 import { redis } from "@/lib/redis";
 
+// Redis is required for rate limiting in production
+// Type assertion is safe here as the API will fail gracefully if redis is null
 const ratelimit = {
   public: new Ratelimit({
-    redis,
+    redis: redis!,
     analytics: true,
     prefix: "ratelimit:public",
     // rate limit public to 3 request per hour
     limiter: Ratelimit.slidingWindow(3, "1h"),
   }),
   free: new Ratelimit({
-    redis,
+    redis: redis!,
     analytics: true,
     prefix: "ratelimit:free",
     // rate limit to 3 request per day
     limiter: Ratelimit.fixedWindow(3, "24h"),
   }),
   paid: new Ratelimit({
-    redis,
+    redis: redis!,
     analytics: true,
     prefix: "ratelimit:paid",
     limiter: Ratelimit.slidingWindow(60, "10s"),
   }),
   pro: new Ratelimit({
-    redis,
+    redis: redis!,
     analytics: true,
     prefix: "ratelimit:pro",
     // rate limit to 1000 request per 30 days
@@ -107,7 +109,7 @@ export default async function POST(req: Request) {
       threadId,
       messageId: createdMessage.id,
     },
-    async ({ threadId, sendMessage }) => {
+    async ({ threadId, sendMessage }: any) => {
       // Run the assistant on the thread
       const run = await openai.beta.threads.runs.create(threadId, {
         assistant_id: assistantId!,

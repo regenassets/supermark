@@ -15,6 +15,20 @@ export type TPlanLimits = {
   watermarkOnBusiness?: boolean | null;
   agreementOnBusiness?: boolean | null;
   conversationsInDataroom?: boolean | null;
+  usage?: {
+    documents: number;
+    links: number;
+    users: number;
+  } | null;
+  dataroomUpload?: boolean | null;
+  fileSizeLimits?: {
+    video?: number;
+    document?: number;
+    image?: number;
+    excel?: number;
+    maxFiles?: number;
+    maxPages?: number;
+  };
 };
 
 // Self-hosted version: Everything is unlimited

@@ -101,7 +101,7 @@ export default function UploadZone({
   const { data: session } = useSession();
   const { limits, canAddDocuments } = useLimits();
   const remainingDocuments = limits?.documents
-    ? limits?.documents - limits?.usage?.documents
+    ? limits?.documents - (limits?.usage?.documents ?? 0)
     : 0;
 
   // Fetch team settings with proper revalidation - ensures settings stay fresh across tabs

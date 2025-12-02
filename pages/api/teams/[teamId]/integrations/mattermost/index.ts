@@ -111,7 +111,7 @@ async function handleGet(
       });
     }
 
-    const credentials = integrationFullData.credentials as MattermostCredential;
+    const credentials = integrationFullData.credentials as unknown as MattermostCredential;
     const integration = {
       ...integrationFullData,
       credentials: {
@@ -187,13 +187,13 @@ async function handleInstall(
         teamId,
         userId,
         integrationId: mattermostIntegration.id,
-        credentials,
-        configuration,
+        credentials: credentials as any,
+        configuration: configuration as any,
         enabled: true,
       },
       update: {
-        credentials,
-        configuration,
+        credentials: credentials as any,
+        configuration: configuration as any,
         enabled: true,
       },
       select: {
@@ -283,7 +283,7 @@ async function handleUpdate(
     });
 
     const credentials =
-      updatedIntegrationData.credentials as MattermostCredential;
+      updatedIntegrationData.credentials as unknown as MattermostCredential;
     const updatedIntegration = {
       ...updatedIntegrationData,
       credentials: {

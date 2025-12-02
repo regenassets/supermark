@@ -1,5 +1,5 @@
 // Templates stubs - feature removed
-export const DataroomTemplates = () => null;
+export const DataroomTemplates = (_props: any) => null;
 export const DATAROOM_TEMPLATES = [];
 export const applyTemplate = async () => ({
   success: false,

@@ -227,7 +227,7 @@ export default async function handle(
             },
           }),
         // delete team branding from redis
-        redis.del(`brand:logo:${teamId}`),
+        redis && redis.del(`brand:logo:${teamId}`),
 
         // delete team
         prisma.team.delete({
