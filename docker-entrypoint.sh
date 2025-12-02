@@ -10,7 +10,7 @@ sleep 10
 
 # Run database migrations
 echo "Running database migrations..."
-npx prisma migrate deploy || {
+npx prisma migrate deploy --schema=./prisma/schema/schema.prisma || {
   echo "Migration failed, but continuing... (this is expected on first run)"
 }
 
