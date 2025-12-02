@@ -21,6 +21,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 ENV DOCKER_BUILD=true
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Generate Prisma Client
 RUN npx prisma generate
