@@ -56,7 +56,19 @@ export default function VerifyPage({
   const isValidVerificationUrl = (url: string, checksum: string): boolean => {
     try {
       const urlObj = new URL(url);
-      if (urlObj.origin !== process.env.NEXTAUTH_URL) return false;
+      const nextAuthUrlObj = new URL(process.env.NEXTAUTH_URL!);
+
+      // Protocol-tolerant validation: allows HTTP→HTTPS migration (REG-47)
+      // Hostname and port must match for security, but protocol can differ
+      // to support old email links after HTTPS upgrade
+      const hostnameMatch = urlObj.hostname === nextAuthUrlObj.hostname;
+      const portMatch = urlObj.port === nextAuthUrlObj.port;
+
+      if (!hostnameMatch || !portMatch) {
+        return false;
+      }
+
+      // Primary security: HMAC checksum validates full URL integrity
       const expectedChecksum = generateChecksum(url);
       return checksum === expectedChecksum;
     } catch {
