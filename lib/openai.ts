@@ -1,6 +1,7 @@
-import OpenAI from "openai";
+// Temporarily disabled - causing build to hang and not currently in use
+// import OpenAI from "openai";
 
 // Create an OpenAI API client (that's edge friendly!)
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || "",
-});
+// export const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY || "",
+// });
