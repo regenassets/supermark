@@ -203,7 +203,7 @@ export const authOptions: NextAuthOptions = {
       };
 
       console.log('[Session Callback] Returning session with user:', {
-        userId: session.user?.id,
+        userId: (session.user as CustomUser)?.id,
         userEmail: session.user?.email,
       });
 
