@@ -140,17 +140,29 @@ export const authOptions: NextAuthOptions = {
     jwt: async (params) => {
       const { token, user, trigger } = params;
 
+      console.log('[JWT Callback] Called with:', {
+        hasToken: !!token,
+        tokenEmail: token?.email,
+        hasUser: !!user,
+        userEmail: user?.email,
+        userId: user?.id,
+        trigger,
+      });
+
       // Fix for email login: populate token.email from user.email on first sign-in
       // Without this, email provider authentication fails because token.email is undefined
       // on the initial JWT creation, causing the empty object return below to break session creation
       if (user?.email && !token.email) {
+        console.log('[JWT Callback] Populating token.email from user.email:', user.email);
         token.email = user.email;
       }
 
       if (!token.email) {
+        console.log('[JWT Callback] ERROR: No token.email - returning empty object');
         return {};
       }
       if (user) {
+        console.log('[JWT Callback] Setting token.user from user');
         token.user = user;
       }
       // refresh the user data
@@ -177,14 +189,28 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     session: async ({ session, token }) => {
+      console.log('[Session Callback] Called with:', {
+        hasSession: !!session,
+        hasToken: !!token,
+        tokenSub: token?.sub,
+        tokenEmail: token?.email,
+      });
+
       (session.user as CustomUser) = {
         id: token.sub,
         // @ts-ignore
         ...(token || session).user,
       };
+
+      console.log('[Session Callback] Returning session with user:', {
+        userId: session.user.id,
+        userEmail: session.user.email,
+      });
+
       return session;
     },
   },
+  debug: true, // Enable NextAuth debug logs
   events: {
     async createUser(message) {
       const params: CreateUserEmailProps = {
