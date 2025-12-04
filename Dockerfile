@@ -7,15 +7,14 @@ WORKDIR /app
 # Copy package files and prisma schema (needed for postinstall)
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma
-RUN npm ci
+
+# Use cache mount for npm to speed up installs
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --prefer-offline --no-audit
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
 WORKDIR /app
-
-# Copy dependencies from deps stage
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
 
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -23,7 +22,28 @@ ENV NODE_ENV=production
 ENV DOCKER_BUILD=true
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Generate Prisma Client
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/prisma ./prisma
+
+# Copy only necessary files for build (see .dockerignore for exclusions)
+COPY package.json package-lock.json* ./
+COPY next.config.mjs ./
+COPY tsconfig.json ./
+COPY postcss.config.js ./
+COPY tailwind.config.js ./
+COPY components.json ./
+COPY middleware.ts ./
+COPY trigger.config.ts ./
+COPY public ./public
+COPY app ./app
+COPY components ./components
+COPY context ./context
+COPY lib ./lib
+COPY pages ./pages
+COPY styles ./styles
+
+# Generate Prisma Client (already done in postinstall, but ensure it's there)
 RUN npx prisma generate
 
 # Build Next.js application
