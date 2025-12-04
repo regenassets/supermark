@@ -60,6 +60,7 @@ curl -fsSL https://raw.githubusercontent.com/regenassets/supermark/main/docker/d
 - 📘 [DigitalOcean Deployment Guide](./DIGITALOCEAN-DEPLOYMENT.md) - Complete step-by-step guide
 - ⚡ [Quick Deploy Reference](./QUICK-DEPLOY.md) - TL;DR version
 - 🔧 [Tinybird/Trigger.dev Workarounds](./TINYBIRD-TRIGGERDEV-WORKAROUNDS.md) - Service configuration
+- 🚀 [Trigger.dev Deployment Guide](./TRIGGER-DEPLOYMENT.md) - Fix "waiting for worker" issue
 
 **What's included:**
 - PostgreSQL database (persistent storage)
