@@ -139,6 +139,14 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async (params) => {
       const { token, user, trigger } = params;
+
+      // Fix for email login: populate token.email from user.email on first sign-in
+      // Without this, email provider authentication fails because token.email is undefined
+      // on the initial JWT creation, causing the empty object return below to break session creation
+      if (user?.email && !token.email) {
+        token.email = user.email;
+      }
+
       if (!token.email) {
         return {};
       }
