@@ -87,6 +87,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:3000}
+        NEXT_PUBLIC_APP_BASE_HOST: ${NEXT_PUBLIC_APP_BASE_HOST:-localhost}
+        NEXT_PUBLIC_UPLOAD_TRANSPORT: s3
+        NEXT_PUBLIC_HANKO_TENANT_ID: ${NEXT_PUBLIC_HANKO_TENANT_ID:-}
     container_name: supermark-app
     restart: unless-stopped
     ulimits:
