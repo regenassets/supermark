@@ -52,6 +52,7 @@ if [ -f "$PROJECT_ROOT/.env" ]; then
         "NEXTAUTH_SECRET"
         "NEXTAUTH_URL"
         "DOCUMENT_PASSWORD_KEY"
+        "VERIFICATION_SECRET"
         "POSTGRES_PASSWORD"
     )
 
