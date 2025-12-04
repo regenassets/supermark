@@ -125,6 +125,9 @@ services:
       # Document encryption
       NEXT_PRIVATE_DOCUMENT_PASSWORD_KEY: ${DOCUMENT_PASSWORD_KEY}
 
+      # Email verification secret
+      NEXT_PRIVATE_VERIFICATION_SECRET: ${VERIFICATION_SECRET}
+
       # Optional: Redis (Upstash) - For rate limiting
       # Note: Requires Upstash cloud service, standard Redis won't work
       UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}

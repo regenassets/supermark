@@ -97,6 +97,7 @@ cp .env.docker .env
 # Generate secrets
 NEXTAUTH_SECRET=$(openssl rand -base64 32)
 DOCUMENT_PASSWORD_KEY=$(openssl rand -base64 32)
+VERIFICATION_SECRET=$(openssl rand -base64 32)
 POSTGRES_PASSWORD=$(openssl rand -base64 16)
 MINIO_ROOT_PASSWORD=$(openssl rand -base64 16)
 REDIS_PASSWORD=$(openssl rand -base64 16)
@@ -104,6 +105,7 @@ REDIS_PASSWORD=$(openssl rand -base64 16)
 # Update .env manually or with sed
 sed -i "s|NEXTAUTH_SECRET=.*|NEXTAUTH_SECRET=$NEXTAUTH_SECRET|" .env
 sed -i "s|DOCUMENT_PASSWORD_KEY=.*|DOCUMENT_PASSWORD_KEY=$DOCUMENT_PASSWORD_KEY|" .env
+sed -i "s|VERIFICATION_SECRET=.*|VERIFICATION_SECRET=$VERIFICATION_SECRET|" .env
 sed -i "s|POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=$POSTGRES_PASSWORD|" .env
 sed -i "s|MINIO_ROOT_PASSWORD=.*|MINIO_ROOT_PASSWORD=$MINIO_ROOT_PASSWORD|" .env
 sed -i "s|REDIS_PASSWORD=.*|REDIS_PASSWORD=$REDIS_PASSWORD|" .env
