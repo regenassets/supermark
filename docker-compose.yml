@@ -21,7 +21,9 @@ services:
     networks:
       - supermark-network
 
-  # MinIO S3-Compatible Storage
+  # MinIO S3-Compatible Storage (OPTIONAL - for local development only)
+  # To use MinIO: docker-compose --profile with-minio up -d
+  # For production, use Cloudflare R2 instead (see R2_MIGRATION.md)
   minio:
     image: docker.io/minio/minio:latest
     container_name: supermark-minio
@@ -42,8 +44,11 @@ services:
       retries: 5
     networks:
       - supermark-network
+    profiles:
+      - with-minio
 
   # MinIO Client - Create buckets on startup
+  # Only runs when with-minio profile is active
   minio-setup:
     image: docker.io/minio/mc:latest
     container_name: supermark-minio-setup
@@ -61,28 +66,10 @@ services:
       "
     networks:
       - supermark-network
+    profiles:
+      - with-minio
 
-  # Redis - OPTIONAL: Standard Redis does not work with Upstash SDK
-  # For rate limiting and caching, use Upstash cloud service instead
-  # Uncomment and configure UPSTASH_REDIS_* variables in .env if needed
-  # redis:
-  #   image: docker.io/library/redis:7-alpine
-  #   container_name: supermark-redis
-  #   restart: unless-stopped
-  #   command: redis-server --requirepass ${REDIS_PASSWORD:-changeme}
-  #   volumes:
-  #     - redis_data:/data
-  #   ports:
-  #     - "6379:6379"
-  #   healthcheck:
-  #     test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  #   networks:
-  #     - supermark-network
-
-  # Papermark Application
+  # Supermark Application
   supermark:
     build:
       context: .
@@ -102,8 +89,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      minio:
-        condition: service_healthy
+      # MinIO dependency removed - now optional via profile
     environment:
       # Database
       POSTGRES_PRISMA_URL: postgresql://supermark:${POSTGRES_PASSWORD:-changeme}@postgres:5432/supermark?schema=public&pgbouncer=true&connection_limit=10
@@ -118,16 +104,19 @@ services:
       NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-http://localhost:3000}
       NEXT_PUBLIC_APP_BASE_HOST: ${NEXT_PUBLIC_APP_BASE_HOST:-localhost}
 
-      # Storage - MinIO S3
+      # Storage Configuration (supports MinIO, R2, or S3)
+      # See .env.docker for configuration options
       NEXT_PUBLIC_UPLOAD_TRANSPORT: s3
-#      # CloudFront distribution host - only for AWS CloudFront (requires keys)
-      # NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST: ${MINIO_ENDPOINT:-localhost:9000}
-      NEXT_PRIVATE_UPLOAD_ENDPOINT: http://minio:9000
-      NEXT_PRIVATE_UPLOAD_REGION: us-east-1
-      NEXT_PRIVATE_UPLOAD_BUCKET: supermark-documents
-      NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-supermark}
-      NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-changeme123}
-      NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE: true
+      
+      # For MinIO (when using --profile with-minio):
+      # These come from .env.docker when MinIO is enabled
+      NEXT_PRIVATE_UPLOAD_ENDPOINT: ${NEXT_PRIVATE_UPLOAD_ENDPOINT:-http://minio:9000}
+      NEXT_PRIVATE_UPLOAD_REGION: ${NEXT_PRIVATE_UPLOAD_REGION:-us-east-1}
+      NEXT_PRIVATE_UPLOAD_BUCKET: ${NEXT_PRIVATE_UPLOAD_BUCKET:-supermark-documents}
+      NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID: ${NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID:-${MINIO_ROOT_USER:-supermark}}
+      NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY: ${NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY:-${MINIO_ROOT_PASSWORD:-changeme123}}
+      NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST: ${NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST:-${MINIO_ENDPOINT:-localhost:9000}}
+      NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE: ${NEXT_PRIVATE_UPLOAD_FORCE_PATH_STYLE:-true}
 
       # Document encryption
       NEXT_PRIVATE_DOCUMENT_PASSWORD_KEY: ${DOCUMENT_PASSWORD_KEY}
@@ -136,7 +125,6 @@ services:
       NEXT_PRIVATE_VERIFICATION_SECRET: ${VERIFICATION_SECRET}
 
       # Optional: Redis (Upstash) - For rate limiting
-      # Note: Requires Upstash cloud service, standard Redis won't work
       UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
       UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
       UPSTASH_REDIS_REST_LOCKER_URL: ${UPSTASH_REDIS_REST_LOCKER_URL:-}
@@ -174,18 +162,13 @@ services:
 
       # Cache revalidation secret (REQUIRED for Trigger.dev job completion)
       REVALIDATE_TOKEN: ${REVALIDATE_TOKEN}
+      
       # Node environment
       NODE_ENV: production
     ports:
       - "3000:3000"
     networks:
       - supermark-network
-    #     healthcheck:
-    #       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
-    #       interval: 30s
-    #       timeout: 10s
-    #       retries: 3
-    #       start_period: 40s
 
   # Nginx Reverse Proxy (optional, for SSL termination)
   nginx:
@@ -225,8 +208,6 @@ volumes:
     driver: local
   minio_data:
     driver: local
-  # redis_data:  # Uncomment if using local Redis
-  #   driver: local
 
 networks:
   supermark-network:

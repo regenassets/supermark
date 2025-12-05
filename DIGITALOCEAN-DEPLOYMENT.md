@@ -476,25 +476,92 @@ Visit `https://supermark.yourdomain.com` - you should see a secure connection!
 5. Restart: `docker compose --env-file .env.production restart supermark`
 
 ### Cloudflare R2 (Optional - Alternative to MinIO)
+### Cloudflare R2 (Recommended - Alternative to MinIO)
 
-If you want to use Cloudflare R2 instead of MinIO:
+**Why R2 over MinIO?**
+- No egress fees (downloads are free)
+- No server resources needed
+- Better global performance
+- Automatic redundancy and backups
+- Lower total cost for most use cases
 
-1. Sign up at https://cloudflare.com
-2. Create R2 bucket: `supermark-documents`
-3. Create API token with R2 permissions
-4. Update `.env.production`:
+For complete R2 setup instructions, see [R2_MIGRATION.md](./R2_MIGRATION.md)
+
+#### Quick R2 Setup
+
+1. **Create R2 Bucket**
+   - Log into Cloudflare Dashboard
+   - Navigate to R2
+   - Click "Create bucket"
+   - Name: `supermark-documents`
+   - Location: Choose nearest region
+   - Enable public access via R2.dev subdomain
+
+2. **Generate API Credentials**
+   - In R2, click "Manage R2 API Tokens"
+   - Create new token with Object Read & Write
+   - Save Access Key ID and Secret Access Key
+
+3. **Update Environment Variables**
+   
+   Edit `/opt/supermark/.env.production` (or your env file):
    ```bash
+   # Storage - Cloudflare R2
    NEXT_PUBLIC_UPLOAD_TRANSPORT=s3
    NEXT_PRIVATE_UPLOAD_ENDPOINT=https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com
    NEXT_PRIVATE_UPLOAD_REGION=auto
    NEXT_PRIVATE_UPLOAD_BUCKET=supermark-documents
-   NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID=your_access_key
-   NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY=your_secret_key
+   NEXT_PRIVATE_UPLOAD_ACCESS_KEY_ID=your_r2_access_key_id
+   NEXT_PRIVATE_UPLOAD_SECRET_ACCESS_KEY=your_r2_secret_access_key
    NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST=supermark-documents.r2.dev
    ```
-5. Restart services
 
-### Tinybird and Trigger.dev (Optional)
+4. **Remove MinIO from docker-compose** (optional)
+   
+   Since you're using R2, you can remove MinIO services:
+   ```bash
+   cd /opt/supermark
+   # MinIO is now optional via profile - you can skip starting it
+   docker compose --env-file .env.production up -d
+   ```
+
+5. **Migrate Existing Data** (if you have files in MinIO)
+   ```bash
+   # Set environment variables for migration
+   export MINIO_ENDPOINT="http://localhost:9000"
+   export MINIO_ACCESS_KEY="supermark"
+   export MINIO_SECRET_KEY="your_minio_password"
+   export MINIO_BUCKET="supermark-documents"
+   
+   export R2_ENDPOINT="https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com"
+   export R2_ACCESS_KEY="your_r2_access_key_id"
+   export R2_SECRET_KEY="your_r2_secret_access_key"
+   export R2_BUCKET="supermark-documents"
+   
+   # Run migration script
+   node scripts/migrate-minio-to-r2.js
+   ```
+
+6. **Test and Restart**
+   ```bash
+   docker compose --env-file .env.production restart supermark
+   docker compose --env-file .env.production logs -f supermark
+   
+   # Test upload/download through the UI
+   ```
+
+#### R2 Troubleshooting
+
+**Downloads not working?**
+- Verify `NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST` is set to your R2.dev subdomain or custom domain
+- Check R2 bucket has public access enabled
+- Configure CORS in R2 bucket settings if needed
+
+**Uploads failing?**
+- Verify R2 API credentials are correct
+- Check API token has Object Read & Write permissions
+- Ensure bucket name matches `NEXT_PRIVATE_UPLOAD_BUCKET`
+
 
 **Note**: There have been issues with these services. Leave them disabled unless you specifically need them.
 
