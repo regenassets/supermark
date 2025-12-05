@@ -169,6 +169,11 @@ services:
       TRIGGER_SECRET_KEY: ${TRIGGER_SECRET_KEY:-}
       TRIGGER_API_URL: ${TRIGGER_API_URL:-https://api.trigger.dev}
 
+      # Internal API authentication (REQUIRED for downloads and Trigger.dev callbacks)
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY}
+
+      # Cache revalidation secret (REQUIRED for Trigger.dev job completion)
+      REVALIDATE_TOKEN: ${REVALIDATE_TOKEN}
       # Node environment
       NODE_ENV: production
     ports:

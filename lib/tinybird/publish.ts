@@ -5,12 +5,40 @@ import { VIDEO_EVENT_TYPES } from "../constants";
 import { WEBHOOK_TRIGGERS } from "../webhook/constants";
 
 // AGPL: Make Tinybird optional for local development
-// Use a placeholder token if not configured to prevent initialization errors
-const tb = new Tinybird({
-  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev",
-});
+// Check if Tinybird is properly configured (not placeholder token)
+const isTinybirdConfigured = 
+  !!process.env.TINYBIRD_TOKEN && 
+  process.env.TINYBIRD_TOKEN !== "placeholder-token-for-local-dev";
 
-export const publishPageView = tb.buildIngestEndpoint({
+// Only initialize Tinybird if properly configured
+const tb = isTinybirdConfigured
+  ? new Tinybird({
+      token: process.env.TINYBIRD_TOKEN!,
+    })
+  : null;
+
+// Helper to check if Tinybird is available
+export const isTinybirdAvailable = () => isTinybirdConfigured;
+
+// Wrapper function that returns no-op if Tinybird is not configured
+const createIngestEndpoint = <T extends z.ZodType>(config: {
+  datasource: string;
+  event: T;
+}) => {
+  if (!tb) {
+    // Return a no-op function that logs and resolves
+    return async (data: z.infer<T>) => {
+      console.log(
+        `[Analytics] Tinybird not configured, skipping ${config.datasource} ingest:`,
+        { datasource: config.datasource, eventId: (data as any).id || (data as any).event_id }
+      );
+      return Promise.resolve();
+    };
+  }
+  return tb.buildIngestEndpoint(config);
+};
+
+export const publishPageView = createIngestEndpoint({
   datasource: "page_views",
   event: z.object({
     id: z.string(),
@@ -44,7 +72,7 @@ export const publishPageView = tb.buildIngestEndpoint({
   }),
 });
 
-export const recordWebhookEvent = tb.buildIngestEndpoint({
+export const recordWebhookEvent = createIngestEndpoint({
   datasource: "webhook_events",
   event: z.object({
     event_id: z.string(),
@@ -58,7 +86,7 @@ export const recordWebhookEvent = tb.buildIngestEndpoint({
   }),
 });
 
-export const recordVideoView = tb.buildIngestEndpoint({
+export const recordVideoView = createIngestEndpoint({
   datasource: "video_views",
   event: z.object({
     timestamp: z.string(),
@@ -100,7 +128,7 @@ export const recordVideoView = tb.buildIngestEndpoint({
 });
 
 // Click event tracking when user clicks a link within a document
-export const recordClickEvent = tb.buildIngestEndpoint({
+export const recordClickEvent = createIngestEndpoint({
   datasource: "click_events",
   event: z.object({
     timestamp: z.string(),
@@ -117,7 +145,7 @@ export const recordClickEvent = tb.buildIngestEndpoint({
 });
 
 // Event track when a visitor opens a link
-export const recordLinkViewTB = tb.buildIngestEndpoint({
+export const recordLinkViewTB = createIngestEndpoint({
   datasource: "pm_click_events",
   event: z.object({
     timestamp: z.string(),

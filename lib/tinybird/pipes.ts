@@ -5,16 +5,41 @@ import { VIDEO_EVENT_TYPES } from "../constants";
 import { WEBHOOK_TRIGGERS } from "../webhook/constants";
 
 // AGPL: Make Tinybird optional for local development
-// Use a placeholder token if not configured to prevent initialization errors
-const isTinybirdConfigured = !!process.env.TINYBIRD_TOKEN;
-const tb = new Tinybird({
-  token: process.env.TINYBIRD_TOKEN || "placeholder-token-for-local-dev",
-});
+// Check if Tinybird is properly configured (not placeholder token)
+const isTinybirdConfigured = 
+  !!process.env.TINYBIRD_TOKEN && 
+  process.env.TINYBIRD_TOKEN !== "placeholder-token-for-local-dev";
+
+// Only initialize Tinybird if properly configured
+const tb = isTinybirdConfigured
+  ? new Tinybird({
+      token: process.env.TINYBIRD_TOKEN!,
+    })
+  : null;
 
 // Helper to check if Tinybird is available
 export const isTinybirdAvailable = () => isTinybirdConfigured;
 
-export const getTotalAvgPageDuration = tb.buildPipe({
+// Wrapper function that returns no-op pipe if Tinybird is not configured
+const createPipe = <TParams extends z.ZodType, TData extends z.ZodType>(config: {
+  pipe: string;
+  parameters: TParams;
+  data: TData;
+}) => {
+  if (!tb) {
+    // Return a no-op function that logs and returns empty data
+    return async (params: z.infer<TParams>) => {
+      console.log(
+        `[Analytics] Tinybird not configured, skipping ${config.pipe} query`,
+        params
+      );
+      return { data: [] };
+    };
+  }
+  return tb.buildPipe(config);
+};
+
+export const getTotalAvgPageDuration = createPipe({
   pipe: "get_total_average_page_duration",
   parameters: z.object({
     documentId: z.string(),
@@ -29,7 +54,7 @@ export const getTotalAvgPageDuration = tb.buildPipe({
   }),
 });
 
-export const getViewPageDuration = tb.buildPipe({
+export const getViewPageDuration = createPipe({
   pipe: "get_page_duration_per_view",
   parameters: z.object({
     documentId: z.string(),
@@ -43,7 +68,7 @@ export const getViewPageDuration = tb.buildPipe({
   }),
 });
 
-export const getTotalDocumentDuration = tb.buildPipe({
+export const getTotalDocumentDuration = createPipe({
   pipe: "get_total_document_duration",
   parameters: z.object({
     documentId: z.string(),
@@ -57,7 +82,7 @@ export const getTotalDocumentDuration = tb.buildPipe({
   }),
 });
 
-export const getTotalLinkDuration = tb.buildPipe({
+export const getTotalLinkDuration = createPipe({
   pipe: "get_total_link_duration",
   parameters: z.object({
     linkId: z.string(),
@@ -72,7 +97,7 @@ export const getTotalLinkDuration = tb.buildPipe({
   }),
 });
 
-export const getTotalViewerDuration = tb.buildPipe({
+export const getTotalViewerDuration = createPipe({
   pipe: "get_total_viewer_duration",
   parameters: z.object({
     viewIds: z.string().describe("Comma separated viewIds"),
@@ -84,7 +109,7 @@ export const getTotalViewerDuration = tb.buildPipe({
   }),
 });
 
-export const getViewUserAgent_v2 = tb.buildPipe({
+export const getViewUserAgent_v2 = createPipe({
   pipe: "get_useragent_per_view",
   parameters: z.object({
     documentId: z.string(),
@@ -100,7 +125,7 @@ export const getViewUserAgent_v2 = tb.buildPipe({
   }),
 });
 
-export const getViewUserAgent = tb.buildPipe({
+export const getViewUserAgent = createPipe({
   pipe: "get_useragent_per_view",
   parameters: z.object({
     viewId: z.string(),
@@ -114,7 +139,7 @@ export const getViewUserAgent = tb.buildPipe({
   }),
 });
 
-export const getTotalDataroomDuration = tb.buildPipe({
+export const getTotalDataroomDuration = createPipe({
   pipe: "get_total_dataroom_duration",
   parameters: z.object({
     dataroomId: z.string(),
@@ -128,7 +153,7 @@ export const getTotalDataroomDuration = tb.buildPipe({
   }),
 });
 
-export const getDocumentDurationPerViewer = tb.buildPipe({
+export const getDocumentDurationPerViewer = createPipe({
   pipe: "get_document_duration_per_viewer",
   parameters: z.object({
     documentId: z.string(),
@@ -139,7 +164,7 @@ export const getDocumentDurationPerViewer = tb.buildPipe({
   }),
 });
 
-export const getWebhookEvents = tb.buildPipe({
+export const getWebhookEvents = createPipe({
   pipe: "get_webhook_events",
   parameters: z.object({
     webhookId: z.string(),
@@ -157,7 +182,7 @@ export const getWebhookEvents = tb.buildPipe({
   }),
 });
 
-export const getVideoEventsByDocument = tb.buildPipe({
+export const getVideoEventsByDocument = createPipe({
   pipe: "get_video_events_by_document",
   parameters: z.object({
     document_id: z.string(),
@@ -176,7 +201,7 @@ export const getVideoEventsByDocument = tb.buildPipe({
   }),
 });
 
-export const getVideoEventsByView = tb.buildPipe({
+export const getVideoEventsByView = createPipe({
   pipe: "get_video_events_by_view",
   parameters: z.object({
     document_id: z.string(),
@@ -190,7 +215,7 @@ export const getVideoEventsByView = tb.buildPipe({
   }),
 });
 
-export const getClickEventsByView = tb.buildPipe({
+export const getClickEventsByView = createPipe({
   pipe: "get_click_events_by_view",
   parameters: z.object({
     document_id: z.string(),
