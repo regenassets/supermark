@@ -21,7 +21,7 @@ After updating your `.env` file with the correct Trigger.dev production API key,
    ```bash
    # What's in .env file:
    $ grep TRIGGER_SECRET_KEY .env
-   TRIGGER_SECRET_KEY=tr_prod_OJZJ6HA89pZpYgTpBQwM
+   TRIGGER_SECRET_KEY=tr_prod_YOUR_KEY_HERE
 
    # What the Docker container sees:
    $ docker compose exec supermark env | grep TRIGGER_SECRET_KEY
@@ -73,7 +73,7 @@ docker compose exec supermark env | grep TRIGGER_SECRET_KEY
 
 Expected output:
 ```
-TRIGGER_SECRET_KEY=tr_prod_OJZJ6HA89pZpYgTpBQwM  # Should match .env
+TRIGGER_SECRET_KEY=tr_prod_YOUR_KEY_HERE  # Should match .env
 ```
 
 If it still shows the old value:
