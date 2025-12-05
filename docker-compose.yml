@@ -120,7 +120,8 @@ services:
 
       # Storage - MinIO S3
       NEXT_PUBLIC_UPLOAD_TRANSPORT: s3
-      NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST: ${MINIO_ENDPOINT:-localhost:9000}
+#      # CloudFront distribution host - only for AWS CloudFront (requires keys)
+      # NEXT_PRIVATE_UPLOAD_DISTRIBUTION_HOST: ${MINIO_ENDPOINT:-localhost:9000}
       NEXT_PRIVATE_UPLOAD_ENDPOINT: http://minio:9000
       NEXT_PRIVATE_UPLOAD_REGION: us-east-1
       NEXT_PRIVATE_UPLOAD_BUCKET: supermark-documents
