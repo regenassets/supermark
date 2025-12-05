@@ -61,6 +61,7 @@ curl -fsSL https://raw.githubusercontent.com/regenassets/supermark/main/docker/d
 - ⚡ [Quick Deploy Reference](./QUICK-DEPLOY.md) - TL;DR version
 - 🔧 [Tinybird/Trigger.dev Workarounds](./TINYBIRD-TRIGGERDEV-WORKAROUNDS.md) - Service configuration
 - 🚀 [Trigger.dev Deployment Guide](./TRIGGER-DEPLOYMENT.md) - Fix "waiting for worker" issue
+- 🐳 [Docker Environment Fix](./TRIGGER-DOCKER-ENV-FIX.md) - Fix "Invalid API Key" errors
 
 **What's included:**
 - PostgreSQL database (persistent storage)
