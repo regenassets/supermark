@@ -1,0 +1,45 @@
+{
+  "name": "cyrus-mcp-services",
+  "version": "1.0.0",
+  "description": "Extensible MCP server for Cyrus with DigitalOcean, Namecheap, and Cloudflare integration",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "cyrus-mcp-services": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x dist/index.js",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "digitalocean",
+    "namecheap",
+    "cloudflare",
+    "infrastructure",
+    "devops"
+  ],
+  "author": "Cyrus",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "node-ssh": "^13.2.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "eslint": "^9.17.0",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
