@@ -40,9 +40,9 @@ export default function HomepageFeatures() {
   ];
 
   return (
-    <section className="container py-8 md:py-12 lg:py-16">
+    <section className="container py-12 md:py-24 bg-muted/30">
       <div className="mx-auto max-w-[64rem]">
-        <div className="mb-8 text-center">
+        <div className="mb-12 text-center">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
             Why Supermark?
           </h2>
@@ -52,10 +52,10 @@ export default function HomepageFeatures() {
         </div>
         <div className="grid justify-center gap-6 sm:grid-cols-2 md:grid-cols-3">
           {features.map((feature, index) => (
-            <Card key={index} className="bg-transparent">
+            <Card key={index} className="bg-card border-border hover:border-muted-foreground/50 transition-all">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <feature.icon className="h-5 w-5" />
+                  <feature.icon className="h-5 w-5 text-[#0066FF] dark:text-[#3D8BFF]" />
                   {feature.title}
                 </CardTitle>
                 <CardDescription>{feature.description}</CardDescription>

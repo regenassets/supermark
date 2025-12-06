@@ -143,7 +143,7 @@ const isValidUrl = (url: string) => {
   }
 };
 
-export const getDomainWithoutWWW = (url: string) => {
+export const getDomainWithoutWWW = (url: string): string => {
   if (isValidUrl(url)) {
     return new URL(url).hostname.replace(/^www\./, "");
   }
@@ -154,6 +154,7 @@ export const getDomainWithoutWWW = (url: string) => {
   } catch (e) {
     return "(direct)"; // Not a valid URL, but cannot return null
   }
+  return "(direct)"; // Fallback for invalid URLs
 };
 
 export function capitalize(str: string) {

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { VIDEO_EVENT_TYPES } from "../constants";
 import { WEBHOOK_TRIGGERS } from "../webhook/constants";
 
+import { isTinybirdAvailable } from "./pipes";
 // AGPL: Make Tinybird optional for local development
 // Check if Tinybird is properly configured (not placeholder token)
 const isTinybirdConfigured = 
@@ -18,7 +19,6 @@ const tb = isTinybirdConfigured
   : null;
 
 // Helper to check if Tinybird is available
-export const isTinybirdAvailable = () => isTinybirdConfigured;
 
 // Wrapper function that returns no-op if Tinybird is not configured
 const createIngestEndpoint = <T extends z.ZodType>(config: {

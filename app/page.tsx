@@ -4,6 +4,7 @@ import HomepageHero from "@/components/marketing/homepage-hero";
 import HomepageInfo from "@/components/marketing/homepage-info";
 import HomepagePricing from "@/components/marketing/homepage-pricing";
 import HomepageSecurity from "@/components/marketing/homepage-security";
+import HomepageEcosystem from "@/components/marketing/homepage-ecosystem";
 
 export default function Homepage() {
   return (
@@ -12,6 +13,7 @@ export default function Homepage() {
         <HomepageHero />
         <HomepagePricing />
         <HomepageFeatures />
+        <HomepageEcosystem />
         <HomepageSecurity />
         <HomepageInfo />
       </main>
