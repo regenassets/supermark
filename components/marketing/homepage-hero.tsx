@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { ArrowRightIcon, GithubIcon } from "lucide-react";
+import { ArrowRightIcon, GithubIcon, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -8,6 +8,15 @@ export default function HomepageHero() {
   return (
     <section className="container flex flex-col items-center gap-6 pb-8 pt-6 md:py-12 lg:py-24">
       <div className="mx-auto flex max-w-[980px] flex-col items-center gap-4 text-center">
+        {/* Super Family Badge */}
+        <a 
+          href="https://super.software"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/30 px-4 py-1.5 text-sm text-muted-foreground hover:bg-muted/50 transition-colors"
+        >
+          <Sparkles className="h-3.5 w-3.5" />
+          Part of the Super Family ecosystem
+        </a>
+
         <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]">
           Open Source Document Sharing,
           <br className="hidden sm:inline" /> Signing, and Tracking

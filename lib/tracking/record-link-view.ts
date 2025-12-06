@@ -58,6 +58,7 @@ export async function recordLinkView({
 
   const referer = req.headers.get("referer");
   const refererDomain = referer ? getDomainWithoutWWW(referer) : "(direct)";
+  const refererUrl = referer || "(direct)";
 
   const clickData = {
     timestamp: new Date(Date.now()).toISOString(),
@@ -85,7 +86,7 @@ export async function recordLinkView({
     ua: ua.ua || "Unknown",
     bot: ua.isBot,
     referer: refererDomain,
-    referer_url: referer || "(direct)",
+    referer_url: refererUrl,
     ip_address:
       // only record IP if it's a valid IP and not from a EU country
       typeof ip === "string" && ip.trim().length > 0 && !isEuCountry
